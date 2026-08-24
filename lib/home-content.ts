@@ -53,18 +53,18 @@ export const introCards: IntroCard[] = [
     title: "단체 목적",
     caption: "Mission",
     body: "사람을 수단이 아닌 출발점으로 두는 연구. 우리가 왜 이 일을 하는지 밝힙니다.",
-    href: "/mission",
+    href: "/about/purpose",
   },
   {
     title: "연구 분야",
     caption: "Research",
     body: "노동, 돌봄, 지역 공동체. 세 개의 축으로 한국 사회의 변화를 추적합니다.",
-    href: "/research",
+    href: "/about/research",
   },
   {
     title: "연혁",
     caption: "History",
     body: "작은 독서모임에서 독립 연구기관까지, 지금까지 걸어온 길을 기록했습니다.",
-    href: "/history",
+    href: "/about/history",
   },
 ]

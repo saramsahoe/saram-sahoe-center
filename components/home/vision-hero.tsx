@@ -48,13 +48,13 @@ export function VisionHero() {
               className="bg-accent text-accent-foreground hover:bg-accent/90"
               asChild
             >
-              <Link href="/research">
+              <Link href="/about/research">
                 연구 분야 살펴보기
                 <ArrowRight data-icon="inline-end" />
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/mission">단체 목적</Link>
+              <Link href="/about/purpose">단체 목적</Link>
             </Button>
           </div>
         </div>
