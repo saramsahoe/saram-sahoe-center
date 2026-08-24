@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 
+import { getPosts } from "@/app/actions/board"
 import { BoardView } from "@/components/board/board-view"
+import { mockPosts } from "@/lib/board-content"
 import { siteConfig } from "@/lib/navigation"
 
 export const metadata: Metadata = {
@@ -8,7 +10,9 @@ export const metadata: Metadata = {
   description: `${siteConfig.name} 공지사항, 보도자료, 연구소식, 세미나 게시판입니다.`,
 }
 
-export default function BoardPage() {
+export default async function BoardPage() {
+  const posts = await getPosts()
+
   return (
     <>
       <section className="border-b border-border">
@@ -26,7 +30,7 @@ export default function BoardPage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <BoardView />
+        <BoardView initialPosts={posts ?? mockPosts} />
       </section>
     </>
   )

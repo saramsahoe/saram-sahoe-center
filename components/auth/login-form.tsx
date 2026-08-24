@@ -4,6 +4,8 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { Eye, EyeOff } from "lucide-react"
 
+import { signIn } from "@/app/actions/auth"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -29,13 +31,23 @@ export function LoginForm({
   onSwitchTab: (tab: AuthTab) => void
 }) {
   const [showPassword, setShowPassword] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const form = useForm<LoginValues>({
     defaultValues: { email: "", password: "", remember: false },
   })
 
-  function handleSubmit(values: LoginValues) {
-    // placeholder — wire up to Supabase auth (supabase.auth.signInWithPassword)
-    console.log(values)
+  async function handleSubmit(values: LoginValues) {
+    setSubmitting(true)
+    setError(null)
+    const result = await signIn({
+      email: values.email,
+      password: values.password,
+    })
+    setSubmitting(false)
+    if (result?.error) {
+      setError(result.error)
+    }
   }
 
   return (
@@ -119,12 +131,19 @@ export function LoginForm({
           )}
         />
 
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         <Button
           type="submit"
           size="lg"
+          disabled={submitting}
           className="bg-accent text-accent-foreground hover:bg-accent/90"
         >
-          로그인 (Login)
+          {submitting ? "로그인 중..." : "로그인 (Login)"}
         </Button>
 
         <div className="flex items-center justify-center gap-3 text-xs text-muted-foreground">

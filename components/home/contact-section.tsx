@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react"
 import { CheckCircle2, Send } from "lucide-react"
 
+import { submitInquiry } from "@/app/actions/contact"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,16 +19,30 @@ export function ContactSection() {
   const [status, setStatus] = useState<"idle" | "submitting" | "submitted">(
     "idle"
   )
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
+    const formData = new FormData(form)
     setStatus("submitting")
+    setError(null)
 
-    window.setTimeout(() => {
-      setStatus("submitted")
-      form.reset()
-    }, 600)
+    const result = await submitInquiry({
+      name: String(formData.get("name") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      organization: String(formData.get("organization") ?? ""),
+      message: String(formData.get("message") ?? ""),
+    })
+
+    if (result.error) {
+      setStatus("idle")
+      setError(result.error)
+      return
+    }
+
+    setStatus("submitted")
+    form.reset()
   }
 
   return (
@@ -109,6 +124,12 @@ export function ContactSection() {
                   <AlertDescription>
                     빠른 시일 내에 입력하신 이메일로 답변드리겠습니다.
                   </AlertDescription>
+                </Alert>
+              )}
+
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 

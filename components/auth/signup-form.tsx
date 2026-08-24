@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import { useForm, useWatch } from "react-hook-form"
-import { Eye, EyeOff } from "lucide-react"
+import { CheckCircle2, Eye, EyeOff } from "lucide-react"
 
+import { signUp } from "@/app/actions/auth"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -30,6 +32,9 @@ type SignupValues = {
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const form = useForm<SignupValues>({
     defaultValues: {
       name: "",
@@ -46,9 +51,25 @@ export function SignupForm() {
   const agreePrivacy = useWatch({ control: form.control, name: "agreePrivacy" })
   const allAgreed = agreeTerms && agreePrivacy
 
-  function handleSubmit(values: SignupValues) {
-    // placeholder — wire up to Supabase auth (supabase.auth.signUp)
-    console.log(values)
+  async function handleSubmit(values: SignupValues) {
+    setSubmitting(true)
+    setError(null)
+    setSuccessMessage(null)
+    const result = await signUp({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      affiliation: values.affiliation,
+    })
+    setSubmitting(false)
+    if (result?.error) {
+      setError(result.error)
+      return
+    }
+    if (result?.message) {
+      setSuccessMessage(result.message)
+      form.reset()
+    }
   }
 
   function toggleAll(checked: boolean) {
@@ -259,12 +280,27 @@ export function SignupForm() {
           />
         </div>
 
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {successMessage && (
+          <Alert variant="success">
+            <CheckCircle2 />
+            <AlertTitle>가입 신청이 완료되었습니다</AlertTitle>
+            <AlertDescription>{successMessage}</AlertDescription>
+          </Alert>
+        )}
+
         <Button
           type="submit"
           size="lg"
+          disabled={submitting}
           className="bg-accent text-accent-foreground hover:bg-accent/90"
         >
-          가입 완료 (Create Account)
+          {submitting ? "가입 처리 중..." : "가입 완료 (Create Account)"}
         </Button>
       </form>
     </Form>

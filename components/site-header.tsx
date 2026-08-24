@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { Button } from "@/components/ui/button"
+import { UserNav } from "@/components/auth/user-nav"
 import { MobileNav } from "@/components/mobile-nav"
 import { SiteLogo } from "@/components/site-logo"
 import { cn } from "@/lib/utils"
@@ -51,21 +51,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
-          <Button
-            variant="ghost"
-            size="lg"
-            className="hidden text-muted-foreground hover:text-foreground sm:inline-flex"
-            asChild
-          >
-            <Link href="/login">로그인</Link>
-          </Button>
-          <Button
-            size="lg"
-            className="hidden bg-accent text-accent-foreground hover:bg-accent/90 sm:inline-flex"
-            asChild
-          >
-            <Link href="/signup">회원가입</Link>
-          </Button>
+          <UserNav />
           <MobileNav />
         </div>
       </div>

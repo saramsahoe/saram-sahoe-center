@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react"
 import { PenSquare, Search } from "lucide-react"
 
+import { createPost, updatePost } from "@/app/actions/board"
 import { Pagination } from "@/components/board/pagination"
 import { PostDetailDialog } from "@/components/board/post-detail-dialog"
 import {
@@ -13,17 +14,12 @@ import { PostList } from "@/components/board/post-list"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import {
-  categoryFilters,
-  mockPosts,
-  type Post,
-  type PostCategory,
-} from "@/lib/board-content"
+import { categoryFilters, type Post, type PostCategory } from "@/lib/board-content"
 
 const PAGE_SIZE = 8
 
-export function BoardView() {
-  const [posts, setPosts] = useState<Post[]>(mockPosts)
+export function BoardView({ initialPosts }: { initialPosts: Post[] }) {
+  const [posts, setPosts] = useState<Post[]>(initialPosts)
   const [category, setCategory] = useState<PostCategory | "all">("all")
   const [query, setQuery] = useState("")
   const [page, setPage] = useState(1)
@@ -31,6 +27,8 @@ export function BoardView() {
   const [formOpen, setFormOpen] = useState(false)
   const [editingPost, setEditingPost] = useState<Post | null>(null)
   const [formKey, setFormKey] = useState(0)
+  const [formError, setFormError] = useState<string | null>(null)
+  const [formSubmitting, setFormSubmitting] = useState(false)
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -70,6 +68,7 @@ export function BoardView() {
 
   function openWriteDialog() {
     setEditingPost(null)
+    setFormError(null)
     setFormOpen(true)
     setFormKey((key) => key + 1)
   }
@@ -77,39 +76,35 @@ export function BoardView() {
   function openEditDialog(post: Post) {
     setEditingPost(post)
     setSelectedPost(null)
+    setFormError(null)
     setFormOpen(true)
     setFormKey((key) => key + 1)
   }
 
-  function handleSubmit(values: PostFormValues) {
+  async function handleSubmit(values: PostFormValues) {
+    setFormSubmitting(true)
+    setFormError(null)
+
+    const result = editingPost
+      ? await updatePost({ id: editingPost.id, ...values })
+      : await createPost(values)
+
+    setFormSubmitting(false)
+
+    if (result.error || !result.post) {
+      setFormError(result.error ?? "게시글을 저장하지 못했습니다.")
+      return
+    }
+
     if (editingPost) {
       setPosts((prev) =>
-        prev.map((post) =>
-          post.id === editingPost.id
-            ? {
-                ...post,
-                ...values,
-                excerpt: values.content.slice(0, 60),
-              }
-            : post
-        )
+        prev.map((post) => (post.id === editingPost.id ? result.post! : post))
       )
     } else {
-      const newPost: Post = {
-        id: `post-${Date.now()}`,
-        category: values.category,
-        title: values.title,
-        author: "익명",
-        date: new Date().toISOString().slice(0, 10).replaceAll("-", "."),
-        views: 0,
-        pinned: false,
-        attachments: [],
-        excerpt: values.content.slice(0, 60),
-        content: values.content,
-      }
-      setPosts((prev) => [newPost, ...prev])
+      setPosts((prev) => [result.post!, ...prev])
       setPage(1)
     }
+
     setFormOpen(false)
     setEditingPost(null)
   }
@@ -188,10 +183,15 @@ export function BoardView() {
         open={formOpen}
         onOpenChange={(open) => {
           setFormOpen(open)
-          if (!open) setEditingPost(null)
+          if (!open) {
+            setEditingPost(null)
+            setFormError(null)
+          }
         }}
         editingPost={editingPost}
         onSubmit={handleSubmit}
+        error={formError}
+        submitting={formSubmitting}
       />
     </div>
   )

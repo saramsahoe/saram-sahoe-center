@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react"
 
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -59,11 +60,15 @@ export function PostFormDialog({
   onOpenChange,
   editingPost,
   onSubmit,
+  error,
+  submitting,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   editingPost?: Post | null
-  onSubmit: (values: PostFormValues) => void
+  onSubmit: (values: PostFormValues) => void | Promise<void>
+  error?: string | null
+  submitting?: boolean
 }) {
   const [title, setTitle] = useState(editingPost?.title ?? "")
   const [category, setCategory] = useState<PostCategory>(
@@ -163,6 +168,12 @@ export function PostFormDialog({
               />
             </Field>
 
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
             <Field>
               <FieldLabel>첨부파일</FieldLabel>
               <div
@@ -250,9 +261,10 @@ export function PostFormDialog({
               </Button>
               <Button
                 type="submit"
+                disabled={submitting}
                 className="bg-accent text-accent-foreground hover:bg-accent/90"
               >
-                등록하기
+                {submitting ? "등록 중..." : "등록하기"}
               </Button>
             </div>
           </FieldGroup>
