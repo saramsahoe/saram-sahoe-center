@@ -4,7 +4,11 @@ import { useState } from "react"
 import { useForm, useWatch } from "react-hook-form"
 import { CheckCircle2, Eye, EyeOff } from "lucide-react"
 
-import { signUp } from "@/app/actions/auth"
+import {
+  sendSignupVerificationCode,
+  signUp,
+  verifySignupVerificationCode,
+} from "@/app/actions/auth"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -35,6 +39,16 @@ export function SignupForm() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+
+  const [otpCode, setOtpCode] = useState("")
+  const [otpSent, setOtpSent] = useState(false)
+  const [otpVerified, setOtpVerified] = useState(false)
+  const [otpSending, setOtpSending] = useState(false)
+  const [otpVerifying, setOtpVerifying] = useState(false)
+  const [otpError, setOtpError] = useState<string | null>(null)
+  const [otpMessage, setOtpMessage] = useState<string | null>(null)
+  const [verifiedEmail, setVerifiedEmail] = useState<string | null>(null)
+
   const form = useForm<SignupValues>({
     defaultValues: {
       name: "",
@@ -50,8 +64,53 @@ export function SignupForm() {
   const agreeTerms = useWatch({ control: form.control, name: "agreeTerms" })
   const agreePrivacy = useWatch({ control: form.control, name: "agreePrivacy" })
   const allAgreed = agreeTerms && agreePrivacy
+  const email = useWatch({ control: form.control, name: "email" })
+  const emailVerified = otpVerified && email === verifiedEmail
+
+  async function handleSendCode() {
+    const valid = await form.trigger("email")
+    if (!valid) return
+
+    setOtpSending(true)
+    setOtpError(null)
+    setOtpMessage(null)
+    const result = await sendSignupVerificationCode(email)
+    setOtpSending(false)
+
+    if (result.error) {
+      setOtpError(result.error)
+      return
+    }
+    setOtpSent(true)
+    setOtpMessage(result.message ?? "인증번호를 보냈습니다.")
+  }
+
+  async function handleVerifyCode() {
+    if (!otpCode.trim()) {
+      setOtpError("인증번호를 입력해 주세요.")
+      return
+    }
+
+    setOtpVerifying(true)
+    setOtpError(null)
+    const result = await verifySignupVerificationCode(email, otpCode)
+    setOtpVerifying(false)
+
+    if (result.error) {
+      setOtpError(result.error)
+      return
+    }
+    setOtpVerified(true)
+    setVerifiedEmail(email)
+    setOtpMessage("이메일 인증이 완료되었습니다.")
+  }
 
   async function handleSubmit(values: SignupValues) {
+    if (!emailVerified) {
+      setError("이메일 인증을 먼저 완료해 주세요.")
+      return
+    }
+
     setSubmitting(true)
     setError(null)
     setSuccessMessage(null)
@@ -117,17 +176,63 @@ export function SignupForm() {
                     type="email"
                     autoComplete="email"
                     placeholder="you@example.com"
+                    disabled={emailVerified}
                     {...field}
                   />
                 </FormControl>
-                <Button type="button" variant="outline" className="shrink-0">
-                  인증
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="shrink-0"
+                  disabled={otpSending || emailVerified}
+                  onClick={handleSendCode}
+                >
+                  {emailVerified
+                    ? "인증완료"
+                    : otpSending
+                      ? "발송 중..."
+                      : otpSent
+                        ? "재발송"
+                        : "인증"}
                 </Button>
               </div>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        {otpSent && !emailVerified && (
+          <div className="flex gap-2">
+            <Input
+              value={otpCode}
+              onChange={(e) => setOtpCode(e.target.value)}
+              placeholder="인증번호 6자리"
+              inputMode="numeric"
+              maxLength={6}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              className="shrink-0"
+              disabled={otpVerifying}
+              onClick={handleVerifyCode}
+            >
+              {otpVerifying ? "확인 중..." : "확인"}
+            </Button>
+          </div>
+        )}
+
+        {otpError && (
+          <Alert variant="destructive">
+            <AlertDescription>{otpError}</AlertDescription>
+          </Alert>
+        )}
+
+        {otpMessage && !otpError && (
+          <Alert variant="success">
+            <AlertDescription>{otpMessage}</AlertDescription>
+          </Alert>
+        )}
 
         <div className="grid gap-5 sm:grid-cols-2">
           <FormField
@@ -297,10 +402,14 @@ export function SignupForm() {
         <Button
           type="submit"
           size="lg"
-          disabled={submitting}
+          disabled={submitting || !emailVerified}
           className="bg-accent text-accent-foreground hover:bg-accent/90"
         >
-          {submitting ? "가입 처리 중..." : "가입 완료 (Create Account)"}
+          {submitting
+            ? "가입 처리 중..."
+            : emailVerified
+              ? "가입 완료 (Create Account)"
+              : "이메일 인증을 완료해 주세요"}
         </Button>
       </form>
     </Form>

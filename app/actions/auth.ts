@@ -4,11 +4,75 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { sendEmail } from "@/lib/resend";
 
 export type AuthResult = {
   error: string | null;
   message?: string;
 };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export async function sendSignupVerificationCode(
+  email: string
+): Promise<AuthResult> {
+  const trimmed = email.trim();
+  if (!EMAIL_RE.test(trimmed)) {
+    return { error: "올바른 이메일 형식이 아닙니다." };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { data: code, error } = await supabase.rpc("request_email_otp", {
+    p_email: trimmed,
+    p_purpose: "signup_verify",
+  });
+
+  if (error || !code) {
+    return { error: error?.message ?? "인증번호 발급에 실패했습니다." };
+  }
+
+  const { error: emailError } = await sendEmail({
+    to: trimmed,
+    subject: "[연구센터 사람과 사회] 이메일 인증번호",
+    html: `
+      <p>회원가입을 위한 인증번호입니다.</p>
+      <p style="font-size: 24px; font-weight: bold; letter-spacing: 4px;">${code}</p>
+      <p>인증번호는 10분간 유효합니다.</p>
+    `,
+  });
+
+  if (emailError) {
+    return { error: "인증 메일 발송에 실패했습니다. 잠시 후 다시 시도해 주세요." };
+  }
+
+  return { error: null, message: "인증번호를 보냈습니다. 메일함을 확인해 주세요." };
+}
+
+export async function verifySignupVerificationCode(
+  email: string,
+  code: string
+): Promise<AuthResult> {
+  const trimmed = email.trim();
+  if (!trimmed || !code.trim()) {
+    return { error: "이메일과 인증번호를 입력해 주세요." };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { data: verified, error } = await supabase.rpc("verify_email_otp", {
+    p_email: trimmed,
+    p_purpose: "signup_verify",
+    p_code: code.trim(),
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+  if (!verified) {
+    return { error: "인증번호가 올바르지 않거나 만료되었습니다." };
+  }
+
+  return { error: null, message: "이메일 인증이 완료되었습니다." };
+}
 
 export async function signUp(input: {
   name: string;
@@ -29,6 +93,16 @@ export async function signUp(input: {
   }
 
   const supabase = await createServerSupabaseClient();
+
+  const { data: verified } = await supabase.rpc("has_verified_email", {
+    p_email: email,
+    p_purpose: "signup_verify",
+  });
+
+  if (!verified) {
+    return { error: "이메일 인증을 먼저 완료해 주세요." };
+  }
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -90,4 +164,76 @@ export async function getCurrentUser() {
     data: { user },
   } = await supabase.auth.getUser();
   return user;
+}
+
+/** 이름으로 계정을 찾아 등록된 이메일(=로그인 아이디)을 그 이메일로 보내준다. */
+export async function findAccountId(name: string): Promise<AuthResult> {
+  const trimmed = name.trim();
+  if (!trimmed) {
+    return { error: "이름을 입력해 주세요." };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { data: matches } = await supabase
+    .from("profiles")
+    .select("email, full_name")
+    .eq("full_name", trimmed)
+    .limit(5);
+
+  if (matches && matches.length > 0) {
+    await Promise.all(
+      matches.map((profile) =>
+        sendEmail({
+          to: profile.email,
+          subject: "[연구센터 사람과 사회] 아이디(이메일) 안내",
+          html: `
+            <p>${escapeHtml(profile.full_name)}님, 요청하신 계정 정보입니다.</p>
+            <p>가입하신 이메일(로그인 아이디)은 아래와 같습니다.</p>
+            <p style="font-size: 18px; font-weight: bold;">${escapeHtml(profile.email)}</p>
+          `,
+        })
+      )
+    );
+  }
+
+  // 계정 존재 여부가 노출되지 않도록 항상 동일한 메시지를 반환한다.
+  return {
+    error: null,
+    message:
+      "입력하신 정보와 일치하는 계정이 있는 경우, 등록된 이메일로 아이디 안내를 보내드렸습니다.",
+  };
+}
+
+export async function requestPasswordReset(email: string): Promise<AuthResult> {
+  const trimmed = email.trim();
+  if (!EMAIL_RE.test(trimmed)) {
+    return { error: "올바른 이메일 형식이 아닙니다." };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+  // 실제 메일 발송은 Supabase Auth가 담당한다 (Supabase 대시보드의
+  // Authentication > Emails 설정에 따른 발신자/템플릿 사용).
+  const { error } = await supabase.auth.resetPasswordForEmail(trimmed, {
+    redirectTo: `${siteUrl}/reset-password`,
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+
+  return {
+    error: null,
+    message: "입력하신 이메일로 비밀번호 재설정 안내를 보내드렸습니다.",
+  };
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
