@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Nanum_Myeongjo } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -12,6 +12,14 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+})
+
+/** Korean serif reserved for the calligraphy-style vision statement */
+const fontSerif = Nanum_Myeongjo({
+  subsets: ["korean", "latin"],
+  weight: ["400", "700", "800"],
+  variable: "--font-serif",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -50,6 +58,7 @@ export default function RootLayout({
       className={cn(
         "bg-background antialiased",
         fontMono.variable,
+        fontSerif.variable,
         "font-sans",
         geist.variable
       )}
