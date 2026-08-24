@@ -18,7 +18,7 @@ export const siteConfig = {
   name: "연구센터 사람과 사회",
   nameEn: "Research Center: People & Society",
   representative: "홍길동",
-  address: "서울특별시 종로구 세종대로 000, 0층 (03000)",
+  address: "서울특별시 중구 청구로4길 39 (신당동 청운빌딩) 청운빌딩",
   email: "contact@saramsahoe.org",
   phone: "02-0000-0000",
 }
