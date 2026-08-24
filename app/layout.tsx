@@ -16,7 +16,7 @@ const fontMono = Geist_Mono({
 
 /** Korean serif reserved for the calligraphy-style vision statement */
 const fontSerif = Nanum_Myeongjo({
-  subsets: ["korean", "latin"],
+  subsets: ["latin"],
   weight: ["400", "700", "800"],
   variable: "--font-serif",
   display: "swap",
