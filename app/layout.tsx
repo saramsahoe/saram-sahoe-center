@@ -33,9 +33,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: "연구센터 사람과 사회",
     description: "사람과 사회의 관계를 연구하는 독립 연구센터",
+    url: 'https://saramsahoe.org',
+    siteName: '연구센터사람과사회',
     locale: "ko_KR",
     type: "website",
   },
+    verification: {
+      google: 'gKxUB0heHyFKYlcGvDLupjej1yVns0Y037zui5PCB88',
+      other: {
+          'naver-site-verification': '83ddd2aac39604ef4dffec7225d0b28b2234a73b',
+      }
+    }
 }
 
 export const viewport: Viewport = {
