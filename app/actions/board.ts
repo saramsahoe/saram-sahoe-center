@@ -7,7 +7,7 @@ import type { Post, PostCategory } from "@/lib/board-content";
 
 type PostRow = {
   id: string;
-  category: PostCategory;
+  category: string;
   title: string;
   content: string;
   author_name: string;
@@ -19,10 +19,25 @@ type PostRow = {
 const POST_COLUMNS =
   "id, category, title, content, author_name, view_count, is_pinned, created_at";
 
+// DB의 `posts.category` 체크 제약은 한글 라벨만 허용하므로, 앱 내부의 영문 카테고리 값과 서로 변환한다.
+const CATEGORY_TO_DB: Record<PostCategory, string> = {
+  notice: "공지사항",
+  press: "보도자료",
+  research: "연구소식",
+  seminar: "세미나/행사",
+};
+
+const CATEGORY_FROM_DB: Record<string, PostCategory> = {
+  공지사항: "notice",
+  보도자료: "press",
+  연구소식: "research",
+  "세미나/행사": "seminar",
+};
+
 function mapRow(row: PostRow): Post {
   return {
     id: row.id,
-    category: row.category,
+    category: CATEGORY_FROM_DB[row.category] ?? "notice",
     title: row.title,
     author: row.author_name,
     date: row.created_at.slice(0, 10).replaceAll("-", "."),
@@ -84,7 +99,7 @@ export async function createPost(input: {
     .from("posts")
     .insert({
       title,
-      category: input.category,
+      category: CATEGORY_TO_DB[input.category],
       content,
       author_id: user.id,
       author_name: authorName,
@@ -124,7 +139,7 @@ export async function updatePost(input: {
 
   const { data, error } = await supabase
     .from("posts")
-    .update({ title, category: input.category, content })
+    .update({ title, category: CATEGORY_TO_DB[input.category], content })
     .eq("id", input.id)
     .eq("author_id", user.id)
     .select(POST_COLUMNS)
