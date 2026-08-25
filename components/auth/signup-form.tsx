@@ -359,7 +359,16 @@ export function SignupForm() {
                   />
                 </FormControl>
                 <FormLabel className="text-sm font-normal text-muted-foreground">
-                  [필수] 이용약관 동의
+                  [필수]{" "}
+                  <a
+                    href="/terms"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline-offset-4 hover:text-foreground hover:underline"
+                  >
+                    이용약관
+                  </a>{" "}
+                  동의
                 </FormLabel>
               </FormItem>
             )}
@@ -378,7 +387,16 @@ export function SignupForm() {
                   />
                 </FormControl>
                 <FormLabel className="text-sm font-normal text-muted-foreground">
-                  [필수] 개인정보처리방침 동의
+                  [필수]{" "}
+                  <a
+                    href="/privacy"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline-offset-4 hover:text-foreground hover:underline"
+                  >
+                    개인정보처리방침
+                  </a>{" "}
+                  동의
                 </FormLabel>
               </FormItem>
             )}

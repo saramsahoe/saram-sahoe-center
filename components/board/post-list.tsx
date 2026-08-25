@@ -1,6 +1,6 @@
 "use client"
 
-import { Paperclip, Pin } from "lucide-react"
+import { Lock, Paperclip, Pin } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { categoryMeta, type Post } from "@/lib/board-content"
@@ -92,8 +92,16 @@ export function PostList({
                   </Badge>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="font-heading text-[0.9375rem] font-semibold text-foreground">
-                    {post.title}
+                  <span className="inline-flex items-center gap-1.5">
+                    {!post.isPublic && (
+                      <Lock
+                        className="size-3 shrink-0 text-muted-foreground"
+                        aria-label="회원 전용"
+                      />
+                    )}
+                    <span className="font-heading text-[0.9375rem] font-semibold text-foreground">
+                      {post.title}
+                    </span>
                   </span>
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">
@@ -131,8 +139,16 @@ export function PostList({
                   </Badge>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="font-heading text-[0.9375rem] text-foreground">
-                    {post.title}
+                  <span className="inline-flex items-center gap-1.5">
+                    {!post.isPublic && (
+                      <Lock
+                        className="size-3 shrink-0 text-muted-foreground"
+                        aria-label="회원 전용"
+                      />
+                    )}
+                    <span className="font-heading text-[0.9375rem] text-foreground">
+                      {post.title}
+                    </span>
                   </span>
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">
@@ -179,6 +195,12 @@ export function PostList({
                 </Badge>
                 {post.attachments.length > 0 && (
                   <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
+                )}
+                {!post.isPublic && (
+                  <Lock
+                    className="size-3.5 shrink-0 text-muted-foreground"
+                    aria-label="회원 전용"
+                  />
                 )}
               </div>
               <p className="font-heading text-[0.9375rem] font-medium text-pretty text-foreground">

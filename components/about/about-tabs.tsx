@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation"
 
 import { HistoryView } from "@/components/about/history-view"
-import { PurposeView } from "@/components/about/purpose-view"
+import { MissionView } from "@/components/about/mission-view"
 import { ResearchView } from "@/components/about/research-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-export type AboutTab = "purpose" | "research" | "history"
+export type AboutTab = "mission" | "research" | "history"
 
 export function AboutTabs({ activeTab }: { activeTab: AboutTab }) {
   const router = useRouter()
@@ -18,13 +18,13 @@ export function AboutTabs({ activeTab }: { activeTab: AboutTab }) {
       onValueChange={(value) => router.push(`/about/${value}`)}
     >
       <TabsList>
-        <TabsTrigger value="purpose">단체 목적 (Purpose)</TabsTrigger>
-        <TabsTrigger value="research">연구 분야 (Research Areas)</TabsTrigger>
+        <TabsTrigger value="mission">단체 목적 (Mission)</TabsTrigger>
+        <TabsTrigger value="research">사업 및 활동분야 (Programs)</TabsTrigger>
         <TabsTrigger value="history">연혁 (History)</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="purpose">
-        <PurposeView />
+      <TabsContent value="mission">
+        <MissionView />
       </TabsContent>
       <TabsContent value="research">
         <ResearchView />

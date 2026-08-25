@@ -166,42 +166,42 @@ export async function getCurrentUser() {
   return user;
 }
 
-/** 이름으로 계정을 찾아 등록된 이메일(=로그인 아이디)을 그 이메일로 보내준다. */
-export async function findAccountId(name: string): Promise<AuthResult> {
+export type FindAccountResult = {
+  error: string | null;
+  matches: string[];
+};
+
+/** 이름으로 계정을 찾아 등록된 이메일(=로그인 아이디)을 마스킹해서 화면에 바로 보여준다. */
+export async function findAccountId(name: string): Promise<FindAccountResult> {
   const trimmed = name.trim();
   if (!trimmed) {
-    return { error: "이름을 입력해 주세요." };
+    return { error: "이름을 입력해 주세요.", matches: [] };
   }
 
   const supabase = await createServerSupabaseClient();
-  const { data: matches } = await supabase
+  const { data: matches, error } = await supabase
     .from("profiles")
-    .select("email, full_name")
+    .select("email")
     .eq("full_name", trimmed)
     .limit(5);
 
-  if (matches && matches.length > 0) {
-    await Promise.all(
-      matches.map((profile) =>
-        sendEmail({
-          to: profile.email,
-          subject: "[연구센터 사람과 사회] 아이디(이메일) 안내",
-          html: `
-            <p>${escapeHtml(profile.full_name)}님, 요청하신 계정 정보입니다.</p>
-            <p>가입하신 이메일(로그인 아이디)은 아래와 같습니다.</p>
-            <p style="font-size: 18px; font-weight: bold;">${escapeHtml(profile.email)}</p>
-          `,
-        })
-      )
-    );
+  if (error) {
+    return { error: error.message, matches: [] };
   }
 
-  // 계정 존재 여부가 노출되지 않도록 항상 동일한 메시지를 반환한다.
   return {
     error: null,
-    message:
-      "입력하신 정보와 일치하는 계정이 있는 경우, 등록된 이메일로 아이디 안내를 보내드렸습니다.",
+    matches: (matches ?? []).map((profile) => maskEmail(profile.email)),
   };
+}
+
+function maskEmail(email: string) {
+  const [local, domain] = email.split("@");
+  if (!domain) return email;
+  const visibleLength = Math.min(2, local.length);
+  const visible = local.slice(0, visibleLength);
+  const masked = "*".repeat(Math.max(local.length - visibleLength, 2));
+  return `${visible}${masked}@${domain}`;
 }
 
 export async function requestPasswordReset(email: string): Promise<AuthResult> {
@@ -229,11 +229,3 @@ export async function requestPasswordReset(email: string): Promise<AuthResult> {
   };
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}

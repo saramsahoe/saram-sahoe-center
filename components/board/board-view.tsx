@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react"
 import { PenSquare, Search } from "lucide-react"
 
-import { createPost, updatePost } from "@/app/actions/board"
+import { createPost, incrementPostView, updatePost } from "@/app/actions/board"
 import { Pagination } from "@/components/board/pagination"
 import { PostDetailDialog } from "@/components/board/post-detail-dialog"
 import {
@@ -64,6 +64,20 @@ export function BoardView({ initialPosts }: { initialPosts: Post[] }) {
   function handleSearch(value: string) {
     setQuery(value)
     setPage(1)
+  }
+
+  async function handleSelectPost(post: Post) {
+    setSelectedPost(post)
+
+    const views = await incrementPostView(post.id)
+    if (views === null) return
+
+    setPosts((prev) =>
+      prev.map((p) => (p.id === post.id ? { ...p, views } : p))
+    )
+    setSelectedPost((prev) =>
+      prev && prev.id === post.id ? { ...prev, views } : prev
+    )
   }
 
   function openWriteDialog() {
@@ -160,7 +174,7 @@ export function BoardView({ initialPosts }: { initialPosts: Post[] }) {
           pinnedPosts={currentPage === 1 ? pinnedPosts : []}
           posts={pagePosts}
           startNo={startIndex + 1}
-          onSelect={setSelectedPost}
+          onSelect={handleSelectPost}
         />
       </div>
 

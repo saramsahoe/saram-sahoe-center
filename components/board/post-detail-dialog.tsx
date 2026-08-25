@@ -1,6 +1,7 @@
 "use client"
 
-import { Download, Eye, PenSquare, UserRound } from "lucide-react"
+import ReactMarkdown from "react-markdown"
+import { Download, Eye, Lock, PenSquare, UserRound } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -12,6 +13,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { categoryMeta, type Post } from "@/lib/board-content"
+import { formatFileSize } from "@/lib/utils"
 
 export function PostDetailDialog({
   post,
@@ -28,12 +30,20 @@ export function PostDetailDialog({
         {post && (
           <>
             <DialogHeader>
-              <Badge
-                variant={categoryMeta[post.category].badgeVariant}
-                className="w-fit"
-              >
-                {categoryMeta[post.category].label}
-              </Badge>
+              <div className="flex items-center gap-2">
+                <Badge
+                  variant={categoryMeta[post.category].badgeVariant}
+                  className="w-fit"
+                >
+                  {categoryMeta[post.category].label}
+                </Badge>
+                {!post.isPublic && (
+                  <Badge variant="outline" className="w-fit gap-1">
+                    <Lock className="size-3" strokeWidth={1.75} />
+                    회원 전용
+                  </Badge>
+                )}
+              </div>
               <DialogTitle className="text-xl">{post.title}</DialogTitle>
               <DialogDescription className="sr-only">
                 {post.excerpt}
@@ -74,8 +84,18 @@ export function PostDetailDialog({
               </div>
             </div>
 
-            <div className="whitespace-pre-line text-[0.9375rem] leading-relaxed text-pretty text-foreground">
-              {post.content}
+            <div
+              className={[
+                "text-[0.9375rem] leading-relaxed text-pretty text-foreground",
+                "[&_p]:mb-3 [&_p:last-child]:mb-0",
+                "[&_strong]:font-semibold [&_em]:italic",
+                "[&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4",
+                "[&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-5",
+                "[&_ol]:mb-3 [&_ol]:list-decimal [&_ol]:pl-5",
+                "[&_img]:my-3 [&_img]:max-w-full [&_img]:rounded-lg",
+              ].join(" ")}
+            >
+              <ReactMarkdown>{post.content}</ReactMarkdown>
             </div>
 
             {post.attachments.length > 0 && (
@@ -85,17 +105,19 @@ export function PostDetailDialog({
                 </h3>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {post.attachments.map((file) => (
-                    <button
-                      key={file.name}
-                      type="button"
+                    <a
+                      key={file.url}
+                      href={file.url}
+                      target="_blank"
+                      rel="noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-accent hover:text-accent"
                     >
                       <Download className="size-3.5" strokeWidth={1.5} />
                       {file.name}
                       <span className="text-muted-foreground/70">
-                        {file.size}
+                        {formatFileSize(file.size)}
                       </span>
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>

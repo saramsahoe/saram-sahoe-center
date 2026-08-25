@@ -4,13 +4,13 @@ import { notFound } from "next/navigation"
 import { AboutTabs, type AboutTab } from "@/components/about/about-tabs"
 
 const tabCopy: Record<AboutTab, { label: string; description: string }> = {
-  purpose: {
+  mission: {
     label: "단체 목적",
     description: "연구센터 사람과 사회가 이 일을 하는 이유를 소개합니다.",
   },
   research: {
-    label: "연구 분야",
-    description: "노동, 돌봄, 지역 공동체를 축으로 한 연구 주제를 소개합니다.",
+    label: "사업 및 활동분야",
+    description: "노동, 돌봄, 지역 공동체를 축으로 한 사업 및 활동분야를 소개합니다.",
   },
   history: {
     label: "연혁",

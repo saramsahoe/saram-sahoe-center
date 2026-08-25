@@ -29,8 +29,84 @@ export const categoryFilters: { value: PostCategory | "all"; label: string }[] =
 
 export type Attachment = {
   name: string
-  size: string
+  url: string
+  /** bytes */
+  size: number
 }
+
+export const MAX_ATTACHMENTS_BYTES_PER_POST = 10 * 1024 * 1024 // 10MB
+export const MAX_TOTAL_ATTACHMENTS_BYTES = 1024 * 1024 * 1024 // 1GB
+export const MAX_INLINE_IMAGE_BYTES = 5 * 1024 * 1024 // 5MB
+
+// image/svg+xml은 제외했다: SVG는 <script>/이벤트 핸들러를 담을 수 있어 공개 버킷에
+// 그대로 올리면 첨부파일 URL을 직접 열었을 때 저장형 XSS로 이어질 수 있다.
+export const ALLOWED_ATTACHMENT_MIME_TYPES = [
+  // 이미지 / 미디어
+  "image/jpeg",
+  "image/webp",
+  "image/png",
+  "image/gif",
+  "audio/mpeg",
+  "video/mp4",
+  // PDF & 텍스트
+  "application/pdf",
+  "text/plain",
+  "text/csv",
+  // 한글 (HWP / HWPX)
+  "application/x-hwp",
+  "application/haansofthwp",
+  "application/vnd.hancom.hwp",
+  "application/vnd.hancom.hwpx",
+  "application/haansofthwpx",
+  "application/hwp+zip",
+  // MS 오피스
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "application/vnd.ms-powerpoint",
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  // 압축
+  "application/zip",
+  "application/x-zip-compressed",
+]
+
+export const ALLOWED_ATTACHMENT_EXTENSIONS = [
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+  ".gif",
+  ".pdf",
+  ".hwp",
+  ".hwpx",
+  ".doc",
+  ".docx",
+  ".xls",
+  ".xlsx",
+  ".ppt",
+  ".pptx",
+  ".txt",
+  ".csv",
+  ".zip",
+  ".mp3",
+  ".mp4",
+]
+
+export function isAllowedAttachmentExtension(fileName: string): boolean {
+  const dot = fileName.lastIndexOf(".")
+  if (dot === -1) return false
+  const ext = fileName.slice(dot).toLowerCase()
+  return ALLOWED_ATTACHMENT_EXTENSIONS.includes(ext)
+}
+
+// 본문 삽입 이미지는 <img>로만 렌더링되지만, 동일한 이유로 SVG는 제외한다.
+export const ALLOWED_INLINE_IMAGE_MIME_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+]
 
 export type Post = {
   id: string
@@ -40,9 +116,17 @@ export type Post = {
   date: string
   views: number
   pinned: boolean
+  isPublic: boolean
   attachments: Attachment[]
   excerpt: string
   content: string
+}
+
+/** attachments 버킷이 비공개라 DB에는 고정 URL 대신 스토리지 경로를 저장한다. */
+export type AttachmentRecord = {
+  name: string
+  path: string
+  size: number
 }
 
 export const mockPosts: Post[] = [
@@ -54,7 +138,8 @@ export const mockPosts: Post[] = [
     date: "2026.03.01",
     views: 482,
     pinned: true,
-    attachments: [{ name: "2026년_상반기_세미나_일정표.pdf", size: "312KB" }],
+    isPublic: true,
+    attachments: [{ name: "2026년_상반기_세미나_일정표.pdf", url: "#", size: 319488 }],
     excerpt:
       "2026년 상반기 정기 세미나 일정을 안내드립니다. 매월 둘째 주 목요일 오후 2시에 진행되며...",
     content:
@@ -68,6 +153,7 @@ export const mockPosts: Post[] = [
     date: "2026.02.15",
     views: 356,
     pinned: true,
+    isPublic: true,
     attachments: [],
     excerpt:
       "연구센터 사람과 사회 홈페이지가 새롭게 개편되었습니다. 게시판을 통해 공지사항과 연구 소식을...",
@@ -82,7 +168,8 @@ export const mockPosts: Post[] = [
     date: "2026.03.14",
     views: 214,
     pinned: false,
-    attachments: [{ name: "세미나_발표자료.pdf", size: "1.4MB" }],
+    isPublic: true,
+    attachments: [{ name: "세미나_발표자료.pdf", url: "#", size: 1468006 }],
     excerpt:
       "돌봄 노동을 통계로 옮기는 과정에서 무엇이 지워지는지, 연구진과 현장 활동가가 함께 짚었습니다...",
     content:
@@ -96,6 +183,7 @@ export const mockPosts: Post[] = [
     date: "2026.02.27",
     views: 189,
     pinned: false,
+    isPublic: true,
     attachments: [],
     excerpt:
       "서울 서북권 3개 동을 대상으로 고령 1인 가구의 일상과 관계망을 기록하는 장기 조사를 시작했습니다...",
@@ -110,7 +198,8 @@ export const mockPosts: Post[] = [
     date: "2026.01.30",
     views: 301,
     pinned: false,
-    attachments: [{ name: "포럼_자료집.pdf", size: "2.1MB" }],
+    isPublic: true,
+    attachments: [{ name: "포럼_자료집.pdf", url: "#", size: 2202010 }],
     excerpt:
       "인구가 줄어드는 지역에서 남은 이들이 서로를 지탱하는 방식을 주민과 연구자가 함께 논의했습니다...",
     content:
@@ -124,7 +213,8 @@ export const mockPosts: Post[] = [
     date: "2026.01.22",
     views: 527,
     pinned: false,
-    attachments: [{ name: "보도자료_노동실태조사.hwp", size: "540KB" }],
+    isPublic: true,
+    attachments: [{ name: "보도자료_노동실태조사.hwp", url: "#", size: 552960 }],
     excerpt:
       "연구센터 사람과 사회가 불안정 노동 실태 조사 결과를 발표했습니다. 조사에는 수도권 거주 노동자...",
     content:
@@ -138,6 +228,7 @@ export const mockPosts: Post[] = [
     date: "2026.01.10",
     views: 143,
     pinned: false,
+    isPublic: true,
     attachments: [],
     excerpt:
       "대규모 노동 패널 데이터를 활용한 불안정 고용 확산 패턴 분석의 중간 결과를 공유합니다...",
@@ -152,6 +243,7 @@ export const mockPosts: Post[] = [
     date: "2025.12.18",
     views: 398,
     pinned: false,
+    isPublic: true,
     attachments: [],
     excerpt:
       "연구센터 사람과 사회가 2026년 신년 연구 계획을 발표했습니다. 노동, 돌봄, 지역 공동체 세 축을...",
@@ -166,7 +258,8 @@ export const mockPosts: Post[] = [
     date: "2025.12.05",
     views: 176,
     pinned: false,
-    attachments: [{ name: "세미나_요약노트.pdf", size: "820KB" }],
+    isPublic: true,
+    attachments: [{ name: "세미나_요약노트.pdf", url: "#", size: 839680 }],
     excerpt:
       "청년 세대가 마주한 노동과 주거, 관계의 불안정성을 주제로 진행된 세미나 요약입니다...",
     content:
@@ -180,6 +273,7 @@ export const mockPosts: Post[] = [
     date: "2025.11.20",
     views: 267,
     pinned: false,
+    isPublic: true,
     attachments: [],
     excerpt:
       "리모델링 공사로 인해 12월 한 달간 사무공간이 임시 이전됩니다. 방문 전 참고 부탁드립니다...",
@@ -194,6 +288,7 @@ export const mockPosts: Post[] = [
     date: "2025.11.08",
     views: 205,
     pinned: false,
+    isPublic: true,
     attachments: [],
     excerpt:
       "가족 안에서 돌봄을 전담해 온 이들의 목소리를 담은 인터뷰 시리즈 첫 번째 편을 공개합니다...",
@@ -208,7 +303,8 @@ export const mockPosts: Post[] = [
     date: "2025.10.22",
     views: 312,
     pinned: false,
-    attachments: [{ name: "토론회_보도자료.hwp", size: "410KB" }],
+    isPublic: true,
+    attachments: [{ name: "토론회_보도자료.hwp", url: "#", size: 419840 }],
     excerpt:
       "지역 소멸에 대응하는 정책 토론회가 다음 달 개최될 예정입니다. 관계 부처와 지역 주민이 함께...",
     content:
@@ -222,6 +318,7 @@ export const mockPosts: Post[] = [
     date: "2025.10.05",
     views: 158,
     pinned: false,
+    isPublic: true,
     attachments: [],
     excerpt:
       "자동화 도입 이후 현장의 변화를 추적하는 참여 관찰 연구가 시작되었습니다...",
@@ -236,7 +333,8 @@ export const mockPosts: Post[] = [
     date: "2025.09.18",
     views: 192,
     pinned: false,
-    attachments: [{ name: "세미나_발표자료.pdf", size: "1.1MB" }],
+    isPublic: true,
+    attachments: [{ name: "세미나_발표자료.pdf", url: "#", size: 1153434 }],
     excerpt:
       "노동 통계가 포착하지 못하는 비공식 노동의 영역을 주제로 진행된 세미나입니다...",
     content:

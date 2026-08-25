@@ -49,12 +49,12 @@ export function VisionHero() {
               asChild
             >
               <Link href="/about/research">
-                연구 분야 살펴보기
+                사업 및 활동분야 살펴보기
                 <ArrowRight data-icon="inline-end" />
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/about/purpose">단체 목적</Link>
+              <Link href="/about/mission">단체 목적</Link>
             </Button>
           </div>
         </div>

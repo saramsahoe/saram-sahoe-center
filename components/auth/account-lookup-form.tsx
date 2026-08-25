@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle2, SearchX } from "lucide-react"
 
 import { findAccountId, requestPasswordReset } from "@/app/actions/auth"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -27,20 +27,28 @@ export function AccountLookupForm({
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
+  const [foundEmails, setFoundEmails] = useState<string[] | null>(null)
   const form = useForm<LookupValues>({ defaultValues: { identifier: "" } })
 
   async function handleSubmit(values: LookupValues) {
     setSubmitting(true)
     setError(null)
     setMessage(null)
+    setFoundEmails(null)
 
-    const result =
-      mode === "find-id"
-        ? await findAccountId(values.identifier)
-        : await requestPasswordReset(values.identifier)
+    if (mode === "find-id") {
+      const result = await findAccountId(values.identifier)
+      setSubmitting(false)
+      if (result.error) {
+        setError(result.error)
+        return
+      }
+      setFoundEmails(result.matches)
+      return
+    }
 
+    const result = await requestPasswordReset(values.identifier)
     setSubmitting(false)
-
     if (result.error) {
       setError(result.error)
       return
@@ -57,7 +65,7 @@ export function AccountLookupForm({
       >
         <p className="text-sm leading-relaxed text-pretty text-muted-foreground">
           {mode === "find-id"
-            ? "가입 시 등록한 이름을 입력하시면 해당 계정의 이메일(아이디)로 안내 메일을 보내드립니다."
+            ? "가입 시 등록한 이름을 입력하시면 일치하는 계정의 이메일(아이디)을 바로 확인할 수 있습니다."
             : "가입 시 등록한 이메일 주소를 입력하시면 비밀번호 재설정 메일을 보내드립니다."}
         </p>
 
@@ -115,15 +123,41 @@ export function AccountLookupForm({
           className="bg-accent text-accent-foreground hover:bg-accent/90"
         >
           {submitting
-            ? "전송 중..."
+            ? "확인 중..."
             : mode === "find-id"
-              ? "아이디 안내 메일 전송"
+              ? "아이디 조회"
               : "비밀번호 재설정 메일 전송"}
         </Button>
 
         {error && (
           <Alert variant="destructive">
             <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        {foundEmails && foundEmails.length > 0 && (
+          <Alert variant="success">
+            <CheckCircle2 />
+            <AlertTitle>계정을 찾았습니다</AlertTitle>
+            <AlertDescription>
+              <ul className="mt-1 flex flex-col gap-1">
+                {foundEmails.map((email) => (
+                  <li key={email} className="font-mono">
+                    {email}
+                  </li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {foundEmails && foundEmails.length === 0 && (
+          <Alert variant="destructive">
+            <SearchX />
+            <AlertTitle>일치하는 계정이 없습니다</AlertTitle>
+            <AlertDescription>
+              입력하신 이름으로 등록된 계정을 찾을 수 없습니다.
+            </AlertDescription>
           </Alert>
         )}
 

@@ -3,7 +3,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { purposeSections } from "@/lib/about-content"
 
-export function PurposeView() {
+export function MissionView() {
   return (
     <div className="flex flex-col gap-12 lg:gap-16">
       {purposeSections.map((section, index) => {

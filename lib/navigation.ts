@@ -7,8 +7,8 @@ export type NavItem = {
 }
 
 export const mainNav: NavItem[] = [
-  { title: "단체 목적", caption: "Mission", href: "/about/purpose" },
-  { title: "연구 분야", caption: "Research", href: "/about/research" },
+  { title: "단체 목적", caption: "Mission", href: "/about/mission" },
+  { title: "사업 및 활동분야", caption: "Programs", href: "/about/research" },
   { title: "연혁", caption: "History", href: "/about/history" },
   { title: "게시판", caption: "Board", href: "/board" },
   { title: "사람들", caption: "People", href: "/people" },
