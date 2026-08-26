@@ -168,8 +168,13 @@ export async function createPost(input: {
     return { error: "글쓰기는 로그인 후 이용할 수 있습니다." };
   }
 
-  const authorName =
-    (user.user_metadata?.name as string | undefined) ?? user.email ?? "익명";
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name")
+    .eq("id", user.id)
+    .single();
+
+  const authorName = profile?.full_name ?? user.email ?? "익명";
 
   const { data, error } = await supabase
     .from("posts")
@@ -223,6 +228,8 @@ export async function updatePost(input: {
     return { error: "로그인이 필요합니다." };
   }
 
+  // author_id로 다시 필터링하지 않는다: 본인 글 수정 / 관리자의 임의 글 수정 여부는
+  // posts RLS(posts_author_delete와 별개인 update 정책들)가 판단한다.
   const { data, error } = await supabase
     .from("posts")
     .update({
@@ -233,16 +240,41 @@ export async function updatePost(input: {
       attachments,
     })
     .eq("id", input.id)
-    .eq("author_id", user.id)
     .select(POST_COLUMNS)
     .single();
 
   if (error) {
-    return { error: "본인이 작성한 글만 수정할 수 있습니다." };
+    return { error: "본인이 작성했거나 관리자 권한이 있는 글만 수정할 수 있습니다." };
   }
 
   revalidatePath("/board");
   return { error: null, post: await mapRow(supabase, data as PostRow) };
+}
+
+export async function deletePost(postId: string): Promise<{ error: string | null }> {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "로그인이 필요합니다." };
+  }
+
+  const { error, count } = await supabase
+    .from("posts")
+    .delete({ count: "exact" })
+    .eq("id", postId);
+
+  if (error) {
+    return { error: error.message };
+  }
+  if (!count) {
+    return { error: "본인이 작성했거나 관리자 권한이 있는 글만 삭제할 수 있습니다." };
+  }
+
+  revalidatePath("/board");
+  return { error: null };
 }
 
 export type AttachmentsUsage = {

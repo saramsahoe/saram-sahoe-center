@@ -4,26 +4,40 @@ import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
 import type { User } from "@supabase/supabase-js"
 
+import { getMyProfile } from "@/app/actions/profile"
 import { signOut } from "@/app/actions/auth"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
 
 export function UserNav() {
   const [user, setUser] = useState<User | null>(null)
+  const [displayName, setDisplayName] = useState<string | null>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [loaded, setLoaded] = useState(false)
   const [pending, startTransition] = useTransition()
 
   useEffect(() => {
     const supabase = createClient()
 
+    async function syncUser(nextUser: User | null) {
+      setUser(nextUser)
+      if (!nextUser) {
+        setDisplayName(null)
+        setIsAdmin(false)
+        return
+      }
+      const profile = await getMyProfile()
+      setDisplayName(profile?.fullName ?? nextUser.email ?? null)
+      setIsAdmin(profile?.role === "admin")
+    }
+
     supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user)
-      setLoaded(true)
+      syncUser(data.user).finally(() => setLoaded(true))
     })
 
     const { data: subscription } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setUser(session?.user ?? null)
+        syncUser(session?.user ?? null)
       }
     )
 
@@ -56,11 +70,22 @@ export function UserNav() {
     )
   }
 
-  const name = (user.user_metadata?.name as string | undefined) ?? user.email
-
   return (
     <div className="hidden items-center gap-3 sm:flex">
-      <span className="text-sm text-muted-foreground">{name} 님</span>
+      {isAdmin && (
+        <Link
+          href="/admin/members"
+          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        >
+          관리자
+        </Link>
+      )}
+      <Link
+        href="/mypage"
+        className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+      >
+        {displayName} 님
+      </Link>
       <Button
         variant="outline"
         size="lg"
