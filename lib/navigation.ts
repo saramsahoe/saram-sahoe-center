@@ -16,9 +16,10 @@ export const mainNav: NavItem[] = [
 
 export const siteConfig = {
   name: "연구센터 사람과 사회",
-  nameEn: "Research Center: People & Society",
-  representative: "홍길동",
-  address: "서울특별시 중구 청구로4길 39 (신당동 청운빌딩) 청운빌딩",
+  nameEn: "Research & Education Center for Humane & Society",
+  representative: "이화영",
+  address: "서울시 강남구 논현로 146길 42",
   email: "contact@saramsahoe.org",
-  phone: "02-0000-0000",
+  phone: "070-4225-6225",
+  foundedAt: "2014년 8월 28일",
 }

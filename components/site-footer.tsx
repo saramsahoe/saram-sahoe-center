@@ -33,6 +33,17 @@ export function SiteFooter() {
                 <dd className="text-pretty">{siteConfig.address}</dd>
               </div>
               <div className="flex gap-2">
+                <dt className="w-14 shrink-0 text-foreground/70">전화</dt>
+                <dd>
+                  <a
+                    href={`tel:${siteConfig.phone}`}
+                    className="underline-offset-4 transition-colors hover:text-accent hover:underline"
+                  >
+                    {siteConfig.phone}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex gap-2">
                 <dt className="w-14 shrink-0 text-foreground/70">문의</dt>
                 <dd>
                   <a

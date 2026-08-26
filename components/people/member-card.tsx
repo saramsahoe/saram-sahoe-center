@@ -38,7 +38,11 @@ export function MemberCard({ member }: { member: Member }) {
                 <CardTitle className="text-base">{member.name}</CardTitle>
                 <Badge
                   variant={
-                    member.category === "faculty" ? "accent-soft" : "outline"
+                    member.category === "leadership"
+                      ? "accent"
+                      : member.category === "faculty"
+                        ? "accent-soft"
+                        : "outline"
                   }
                 >
                   {member.role}
@@ -60,35 +64,41 @@ export function MemberCard({ member }: { member: Member }) {
           </div>
         </DialogTrigger>
 
-        <CardFooter className="justify-start gap-2">
-          <a
-            href={member.scholarUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${member.name} Google Scholar`}
-            className={socialLinkClass}
-          >
-            <GraduationCap className="size-4" strokeWidth={1.5} />
-          </a>
-          {member.websiteUrl && (
-            <a
-              href={member.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${member.name} 개인 홈페이지`}
-              className={socialLinkClass}
-            >
-              <Globe className="size-4" strokeWidth={1.5} />
-            </a>
-          )}
-          <a
-            href={`mailto:${member.email}`}
-            aria-label={`${member.name}에게 이메일 보내기`}
-            className={socialLinkClass}
-          >
-            <Mail className="size-4" strokeWidth={1.5} />
-          </a>
-        </CardFooter>
+        {(member.scholarUrl || member.websiteUrl || member.email) && (
+          <CardFooter className="justify-start gap-2">
+            {member.scholarUrl && (
+              <a
+                href={member.scholarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${member.name} Google Scholar`}
+                className={socialLinkClass}
+              >
+                <GraduationCap className="size-4" strokeWidth={1.5} />
+              </a>
+            )}
+            {member.websiteUrl && (
+              <a
+                href={member.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${member.name} 개인 홈페이지`}
+                className={socialLinkClass}
+              >
+                <Globe className="size-4" strokeWidth={1.5} />
+              </a>
+            )}
+            {member.email && (
+              <a
+                href={`mailto:${member.email}`}
+                aria-label={`${member.name}에게 이메일 보내기`}
+                className={socialLinkClass}
+              >
+                <Mail className="size-4" strokeWidth={1.5} />
+              </a>
+            )}
+          </CardFooter>
+        )}
 
         <DialogContent className={cn("max-h-[85vh] overflow-y-auto sm:max-w-xl")}>
           <DialogHeader>
@@ -152,35 +162,41 @@ export function MemberCard({ member }: { member: Member }) {
               </div>
             )}
 
-            <div className="flex flex-wrap gap-2 border-t border-border pt-4">
-              <a
-                href={member.scholarUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-accent hover:text-accent"
-              >
-                <GraduationCap className="size-3.5" strokeWidth={1.5} />
-                Google Scholar
-              </a>
-              {member.websiteUrl && (
-                <a
-                  href={member.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-accent hover:text-accent"
-                >
-                  <Globe className="size-3.5" strokeWidth={1.5} />
-                  개인 홈페이지
-                </a>
-              )}
-              <a
-                href={`mailto:${member.email}`}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-accent hover:text-accent"
-              >
-                <Mail className="size-3.5" strokeWidth={1.5} />
-                이메일 보내기
-              </a>
-            </div>
+            {(member.scholarUrl || member.websiteUrl || member.email) && (
+              <div className="flex flex-wrap gap-2 border-t border-border pt-4">
+                {member.scholarUrl && (
+                  <a
+                    href={member.scholarUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <GraduationCap className="size-3.5" strokeWidth={1.5} />
+                    Google Scholar
+                  </a>
+                )}
+                {member.websiteUrl && (
+                  <a
+                    href={member.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <Globe className="size-3.5" strokeWidth={1.5} />
+                    개인 홈페이지
+                  </a>
+                )}
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-accent hover:text-accent"
+                  >
+                    <Mail className="size-3.5" strokeWidth={1.5} />
+                    이메일 보내기
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>

@@ -1,4 +1,4 @@
-export type MemberCategory = "faculty" | "researcher" | "staff"
+export type MemberCategory = "leadership" | "faculty" | "researcher" | "staff"
 
 export type Member = {
   id: string
@@ -10,8 +10,8 @@ export type Member = {
   fullBio: string
   publications: string[]
   projects: string[]
-  email: string
-  scholarUrl: string
+  email?: string
+  scholarUrl?: string
   websiteUrl?: string
 }
 
@@ -21,23 +21,15 @@ function scholarSearchUrl(name: string) {
 
 export const members: Member[] = [
   {
-    id: "kim-dohyun",
-    name: "김도현",
-    role: "센터장 / 교수",
-    category: "faculty",
-    interests: ["노동사회학", "생애사연구"],
-    bio: "불안정 노동이 개인의 생애 궤적에 남기는 흔적을 30년 가까이 추적해 온 노동사회학자입니다. 연구센터 사람과 사회의 설립을 이끌었습니다.",
-    fullBio:
-      "김도현 센터장은 노동사회학과 생애사 연구방법론을 전공했으며, 불안정 고용이 개인의 생애 설계와 지역 공동체에 남기는 구조적 흔적을 현장 조사를 통해 밝혀 왔습니다. 2026년 연구센터 사람과 사회를 설립해 학술 연구와 공적 담론을 잇는 다리 역할을 하고 있으며, 여러 정부 위원회에서 노동 정책 자문을 맡고 있습니다.",
-    publications: [
-      "불안정 노동의 생애사적 재구성 (2025)",
-      "지역 축소 시대의 노동 이동 (2023)",
-      "플랫폼 노동과 사회 안전망의 재설계 (2021)",
-    ],
-    projects: ["노동과 삶의 조건 연구 총괄", "정책 자문 네트워크 구축"],
-    email: "dohyun.kim@saramsahoe.org",
-    scholarUrl: scholarSearchUrl("김도현"),
-    websiteUrl: "https://dohyun-kim.example",
+    id: "lee-hwayoung",
+    name: "이화영",
+    role: "대표",
+    category: "leadership",
+    interests: ["여성 리더십", "역량개발"],
+    bio: "연구센터사람과사회의 대표를 맡고 있습니다.",
+    fullBio: "연구센터사람과사회의 대표를 맡고 있습니다.",
+    publications: [],
+    projects: [],
   },
   {
     id: "lee-sua",
