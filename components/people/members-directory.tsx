@@ -8,7 +8,6 @@ import { members, type MemberCategory } from "@/lib/people-content"
 
 const filters: { value: MemberCategory | "all"; label: string }[] = [
   { value: "all", label: "전체 (All)" },
-  { value: "leadership", label: "대표 (Leadership)" },
   { value: "faculty", label: "센터장 / 교수진 (Faculty)" },
   { value: "researcher", label: "연구원 (Researchers)" },
   { value: "staff", label: "연구보조원 (Staff / Students)" },

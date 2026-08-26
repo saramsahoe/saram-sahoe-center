@@ -138,13 +138,24 @@ export async function signIn(input: {
   }
 
   const supabase = await createServerSupabaseClient();
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
     return { error: "이메일 또는 비밀번호가 올바르지 않습니다." };
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_active")
+    .eq("id", data.user.id)
+    .single();
+
+  if (profile && !profile.is_active) {
+    await supabase.auth.signOut();
+    return { error: "비활성화된 계정입니다. 관리자에게 문의해 주세요." };
   }
 
   revalidatePath("/", "layout");

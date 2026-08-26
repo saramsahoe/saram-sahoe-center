@@ -82,7 +82,9 @@ export default function LocationPage() {
                 </span>
               </p>
               <p className="text-[0.8125rem] leading-relaxed text-muted-foreground">
-                {transitInfo.subway.exit} · {transitInfo.subway.walk}
+                {transitInfo.subway.exit
+                  ? `${transitInfo.subway.exit} · ${transitInfo.subway.walk}`
+                  : transitInfo.subway.walk}
               </p>
             </CardContent>
           </Card>
@@ -97,21 +99,27 @@ export default function LocationPage() {
               </div>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
-              {transitInfo.buses.map((bus) => (
-                <div key={bus.stop}>
-                  <p className="text-[0.9375rem] font-medium text-foreground">
-                    {bus.stop}{" "}
-                    <span className="font-mono text-[0.5625rem] tracking-[0.14em] text-muted-foreground uppercase">
-                      {bus.type}
-                    </span>
-                  </p>
-                  <div className="mt-1.5 flex flex-wrap gap-1.5">
-                    {bus.lines.map((line) => (
-                      <Badge key={line}>{line}</Badge>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              {transitInfo.buses.length > 0
+                ? transitInfo.buses.map((bus) => (
+                    <div key={bus.stop}>
+                      <p className="text-[0.9375rem] font-medium text-foreground">
+                        {bus.stop}{" "}
+                        <span className="font-mono text-[0.5625rem] tracking-[0.14em] text-muted-foreground uppercase">
+                          {bus.type}
+                        </span>
+                      </p>
+                      <div className="mt-1.5 flex flex-wrap gap-1.5">
+                        {bus.lines.map((line) => (
+                          <Badge key={line}>{line}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                : (
+                    <p className="text-[0.8125rem] leading-relaxed text-pretty text-muted-foreground">
+                      {transitInfo.busNote}
+                    </p>
+                  )}
             </CardContent>
           </Card>
 

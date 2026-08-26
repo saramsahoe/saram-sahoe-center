@@ -1,7 +1,9 @@
 import type { Metadata } from "next"
 
 import { getPosts } from "@/app/actions/board"
+import { getMyProfile } from "@/app/actions/profile"
 import { BoardView } from "@/components/board/board-view"
+import { UpgradeRequiredNotice } from "@/components/board/upgrade-required-notice"
 import { mockPosts } from "@/lib/board-content"
 import { siteConfig } from "@/lib/navigation"
 
@@ -11,6 +13,11 @@ export const metadata: Metadata = {
 }
 
 export default async function BoardPage() {
+  const profile = await getMyProfile()
+  if (profile?.role === "user") {
+    return <UpgradeRequiredNotice />
+  }
+
   const posts = await getPosts()
 
   return (

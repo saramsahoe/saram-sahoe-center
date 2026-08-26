@@ -1,9 +1,11 @@
-export type MemberCategory = "leadership" | "faculty" | "researcher" | "staff"
+export type MemberCategory = "faculty" | "researcher" | "staff"
 
 export type Member = {
   id: string
   name: string
   role: string
+  /** role이 여러 개일 때 뱃지를 나눠 보여준다. 없으면 role 하나만 표시한다. */
+  roles?: string[]
   category: MemberCategory
   interests: string[]
   bio: string
@@ -31,8 +33,9 @@ export const members: Member[] = [
   {
     id: "lee-hwayoung",
     name: "이화영",
-    role: "대표 / 교수진·초빙교수",
-    category: "leadership",
+    role: "대표",
+    roles: ["대표", "교수진/초빙교수"],
+    category: "faculty",
     interests: ["젠더 관점의 리더십", "정치 및 역량개발", "사이버안보 정책"],
     bio: "숙명여자대학교 기초교양학부 초빙교수이자 사이버안보연구소 부소장으로, 젠더 관점의 리더십과 역량개발을 연구합니다. 연구센터사람과사회의 대표를 맡고 있습니다.",
     fullBio:

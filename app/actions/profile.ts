@@ -11,6 +11,7 @@ type ProfileRow = {
   full_name: string;
   affiliation: string | null;
   role: MemberRole;
+  is_active: boolean;
   created_at: string;
 };
 
@@ -21,6 +22,7 @@ function mapProfile(row: ProfileRow): Profile {
     fullName: row.full_name,
     affiliation: row.affiliation,
     role: row.role,
+    isActive: row.is_active,
     createdAt: row.created_at,
   };
 }
@@ -35,7 +37,7 @@ export async function getMyProfile(): Promise<Profile | null> {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("id, email, full_name, affiliation, role, created_at")
+    .select("id, email, full_name, affiliation, role, is_active, created_at")
     .eq("id", user.id)
     .single();
 

@@ -36,17 +36,16 @@ export function MemberCard({ member }: { member: Member }) {
 
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <CardTitle className="text-base">{member.name}</CardTitle>
-                <Badge
-                  variant={
-                    member.category === "leadership"
-                      ? "accent"
-                      : member.category === "faculty"
-                        ? "accent-soft"
-                        : "outline"
-                  }
-                >
-                  {member.role}
-                </Badge>
+                {(member.roles ?? [member.role]).map((role) => (
+                  <Badge
+                    key={role}
+                    variant={
+                      member.category === "faculty" ? "accent-soft" : "outline"
+                    }
+                  >
+                    {role}
+                  </Badge>
+                ))}
               </div>
 
               <div className="flex flex-wrap gap-1.5">
