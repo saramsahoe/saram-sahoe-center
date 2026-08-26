@@ -33,7 +33,7 @@ export function SiteLogo({
           {siteConfig.name}
         </span>
         <span className="mt-1 truncate font-mono text-[0.5625rem] tracking-[0.18em] text-muted-foreground uppercase">
-          People &amp; Society
+          {siteConfig.nameEn}
         </span>
       </span>
     </Link>

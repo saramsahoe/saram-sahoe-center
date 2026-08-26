@@ -2,13 +2,14 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { siteConfig } from "@/lib/navigation"
 
 export function VisionHero() {
   return (
     <section className="border-b border-border bg-secondary/40">
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <p className="font-mono text-[0.625rem] tracking-[0.22em] text-accent uppercase">
-          Research Center — People &amp; Society
+          {siteConfig.nameEn}
         </p>
 
         {/* Signature element: calligraphy-style vision statement */}
