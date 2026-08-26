@@ -8,11 +8,19 @@ export type Member = {
   interests: string[]
   bio: string
   fullBio: string
+  /** 소속 및 직위 */
+  affiliation?: string
+  /** 학력 */
+  education?: string[]
+  /** 주요 경력 */
+  career?: string[]
   publications: string[]
   projects: string[]
   email?: string
   scholarUrl?: string
   websiteUrl?: string
+  /** 참고 링크 (기사, 저자 소개 등) */
+  links?: { label: string; url: string }[]
 }
 
 function scholarSearchUrl(name: string) {
@@ -23,13 +31,35 @@ export const members: Member[] = [
   {
     id: "lee-hwayoung",
     name: "이화영",
-    role: "대표",
+    role: "대표 / 교수진·초빙교수",
     category: "leadership",
-    interests: ["여성 리더십", "역량개발"],
-    bio: "연구센터사람과사회의 대표를 맡고 있습니다.",
-    fullBio: "연구센터사람과사회의 대표를 맡고 있습니다.",
+    interests: ["젠더 관점의 리더십", "정치 및 역량개발", "사이버안보 정책"],
+    bio: "숙명여자대학교 기초교양학부 초빙교수이자 사이버안보연구소 부소장으로, 젠더 관점의 리더십과 역량개발을 연구합니다. 연구센터사람과사회의 대표를 맡고 있습니다.",
+    fullBio:
+      "이화영 대표는 숙명여자대학교 기초교양학부 초빙교수이자 사이버안보연구소 부소장으로, 젠더 관점의 리더십, 정치 및 역량개발, 사이버안보 정책 등을 연구·강의하고 있습니다. 연구센터사람과사회의 대표를 맡고 있습니다.",
+    affiliation: "숙명여자대학교 기초교양학부 초빙교수, 사이버안보연구소 부소장",
+    education: [
+      "숙명여자대학교 정치외교학과 학사 (1985년 졸업)",
+      "서강대학교 사회복지정책 석사",
+      "숙명여자대학교 정치학 박사",
+    ],
+    career: [
+      "한국여성인권진흥원 초대 원장",
+      "대통령직속 여성부 정책연구위원 및 여성단체 활동가",
+      "정부 공공기관 여성 중간관리자 역량강화 사업 강의 및 연구",
+    ],
     publications: [],
     projects: [],
+    links: [
+      {
+        label: "숙명여대 뉴스",
+        url: "https://news.sookmyung.ac.kr/news/articleView.html?idxno=11326",
+      },
+      {
+        label: "교보문고 저자 소개",
+        url: "https://store.kyobobook.co.kr/person/detail/1000288425",
+      },
+    ],
   },
   {
     id: "lee-sua",
