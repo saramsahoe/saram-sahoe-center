@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function BoardPage() {
   const profile = await getMyProfile()
-  if (profile?.role === "user") {
+  if (!profile || profile.role === "user") {
     return <UpgradeRequiredNotice />
   }
 
