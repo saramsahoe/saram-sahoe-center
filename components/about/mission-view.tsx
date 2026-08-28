@@ -33,7 +33,7 @@ export function MissionView() {
           Greeting
         </span>
         <h2 className="mt-3 font-heading text-xl font-semibold tracking-tight text-balance text-foreground sm:text-2xl">
-          대표 인삿말
+          대표 인사말
         </h2>
 
         <div className="relative mt-8 rounded-xl border border-border bg-card p-6 sm:p-10">

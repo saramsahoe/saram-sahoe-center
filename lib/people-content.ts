@@ -146,7 +146,7 @@ export const members: Member[] = [
     },
     {
         id: "-",
-        name: "공석",
+        name: "(공석)",
         role: "커리어지지위원회 위원장",
         category: "board",
         interests: [],
@@ -185,7 +185,7 @@ export const members: Member[] = [
     },
     {
         id: "-",
-        name: "공석",
+        name: "(공석)",
         role: "창의감성위원회 위원장",
         category: "board",
         interests: [],
