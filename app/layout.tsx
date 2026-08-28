@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono, Nanum_Myeongjo } from "next/font/google"
+import { Geist, Geist_Mono, Gowun_Batang } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -14,10 +14,10 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-/** Korean serif reserved for the calligraphy-style vision statement */
-const fontSerif = Nanum_Myeongjo({
+/** Korean serif reserved for the calligraphy-style vision statement — softer, more refined than Nanum Myeongjo */
+const fontSerif = Gowun_Batang({
   subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  weight: ["400", "700"],
   variable: "--font-serif",
   display: "swap",
 })

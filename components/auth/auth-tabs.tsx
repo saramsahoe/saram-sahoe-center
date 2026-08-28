@@ -6,7 +6,6 @@ import { AccountLookupForm } from "@/components/auth/account-lookup-form"
 import { LoginForm } from "@/components/auth/login-form"
 import { SignupForm } from "@/components/auth/signup-form"
 import type { AuthTab } from "@/components/auth/types"
-import { SiteLogo } from "@/components/site-logo"
 import {
   Card,
   CardContent,
@@ -54,7 +53,6 @@ export function AuthTabs({
 
         <Card className="mt-6">
           <CardHeader className="justify-items-center gap-3 text-center">
-            {tab === "login" && <SiteLogo className="items-center" />}
             <CardTitle className="text-xl">{tabCopy[tab].title}</CardTitle>
             <CardDescription>{tabCopy[tab].description}</CardDescription>
           </CardHeader>

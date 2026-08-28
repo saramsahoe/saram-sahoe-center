@@ -27,7 +27,7 @@ export default async function MyPage() {
       <div className="mx-auto w-full max-w-lg">
         <Card>
           <CardHeader className="justify-items-center gap-3 text-center">
-            <SiteLogo className="items-center" />
+            <SiteLogo variant="full" />
             <CardTitle className="text-xl">내 정보</CardTitle>
             <CardDescription>
               회원 정보를 확인하고 수정할 수 있습니다.

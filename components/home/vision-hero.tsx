@@ -24,13 +24,15 @@ export function VisionHero() {
               <p className="font-serif text-[1.75rem] leading-[1.45] font-bold tracking-tight text-balance text-foreground sm:text-4xl lg:text-[3.25rem] lg:leading-[1.35]">
                 사람은{" "}
                 <em className="relative inline-block not-italic">
-                  <span className="relative z-10 text-accent">아름다운</span>
+                  <span className="relative z-10 text-accent">
+                    아름다운 에너지
+                  </span>
                   <span
                     aria-hidden="true"
                     className="absolute inset-x-0 bottom-1 z-0 h-[0.3em] bg-accent/15"
                   />
                 </em>{" "}
-                에너지 입니다
+                입니다
               </p>
             </blockquote>
             <figcaption className="mt-8 font-mono text-[0.5625rem] tracking-[0.18em] text-muted-foreground uppercase">

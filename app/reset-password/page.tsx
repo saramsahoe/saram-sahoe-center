@@ -20,7 +20,7 @@ export default function ResetPasswordPage() {
       <div className="mx-auto w-full max-w-md">
         <Card>
           <CardHeader className="justify-items-center gap-3 text-center">
-            <SiteLogo className="items-center" />
+            <SiteLogo variant="full" />
             <CardTitle className="text-xl">비밀번호 재설정</CardTitle>
             <CardDescription>
               새로 사용할 비밀번호를 입력해 주세요.

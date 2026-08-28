@@ -6,36 +6,37 @@ import { siteConfig } from "@/lib/navigation"
 
 export function SiteLogo({
   className,
+  variant = "main",
   onNavigate,
 }: {
   className?: string
+  /** main: 가로형 (헤더 등 좁고 넓은 공간), full: 세로형 (카드 헤더 등 여백이 있는 공간) */
+  variant?: "main" | "full"
   onNavigate?: () => void
 }) {
+  const isFull = variant === "full"
+
   return (
     <Link
       href="/"
       onClick={onNavigate}
       aria-label={`${siteConfig.name} 홈으로 이동`}
-      className="group flex items-center gap-3 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      className={cn(
+        "inline-flex rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background",
+        className
+      )}
     >
-      <span className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary">
-        <Image
-          src="/icon.svg"
-          alt=""
-          width={36}
-          height={36}
-          priority
-          className="size-7 object-contain"
-        />
-      </span>
-      <span className={cn("flex min-w-0 flex-col leading-none", className)}>
-        <span className="truncate font-heading text-[0.9375rem] font-semibold tracking-tight text-foreground">
-          {siteConfig.name}
-        </span>
-        <span className="mt-1 truncate font-mono text-[0.5625rem] tracking-[0.18em] text-muted-foreground uppercase">
-          {siteConfig.nameEn}
-        </span>
-      </span>
+      <Image
+        src={isFull ? "/brand/logo-full.png" : "/brand/logo-main.png"}
+        alt=""
+        width={isFull ? 2241 : 1600}
+        height={isFull ? 2176 : 1000}
+        priority
+        className={cn(
+          "w-auto object-contain",
+          isFull ? "h-28 sm:h-32" : "h-9"
+        )}
+      />
     </Link>
   )
 }

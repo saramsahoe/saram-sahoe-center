@@ -1,6 +1,6 @@
-import { Target } from "lucide-react"
+import { Quote, Target } from "lucide-react"
 
-import { missionPurposes } from "@/lib/about-content"
+import { directorGreeting, missionPurposes } from "@/lib/about-content"
 
 export function MissionView() {
   return (
@@ -9,7 +9,7 @@ export function MissionView() {
         Our Purpose
       </span>
       <h2 className="mt-3 font-heading text-xl font-semibold tracking-tight text-balance text-foreground sm:text-2xl">
-        설립 목적
+        목적 및 비전
       </h2>
 
       <ul className="mt-8 flex flex-col gap-4">
@@ -27,6 +27,36 @@ export function MissionView() {
           </li>
         ))}
       </ul>
+
+      <div className="mt-16">
+        <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-accent uppercase">
+          Greeting
+        </span>
+        <h2 className="mt-3 font-heading text-xl font-semibold tracking-tight text-balance text-foreground sm:text-2xl">
+          대표 인삿말
+        </h2>
+
+        <div className="relative mt-8 rounded-xl border border-border bg-card p-6 sm:p-10">
+          <Quote
+            className="size-10 text-accent/25"
+            strokeWidth={1.5}
+            aria-hidden="true"
+          />
+          <div className="mt-4 flex flex-col gap-4">
+            {directorGreeting.paragraphs.map((paragraph, index) => (
+              <p
+                key={index}
+                className="text-left text-[0.9375rem] leading-relaxed text-pretty text-foreground"
+              >
+                {paragraph}
+              </p>
+            ))}
+            <p className="text-right font-heading text-[0.9375rem] font-medium text-foreground">
+              {directorGreeting.signature}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
