@@ -18,14 +18,14 @@ export function SiteLogo({
       aria-label={`${siteConfig.name} 홈으로 이동`}
       className="group flex items-center gap-3 rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
     >
-      <span className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-secondary">
+      <span className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary">
         <Image
-          src="/brand/saram-brushmark.png"
+          src="/icon.svg"
           alt=""
-          width={72}
-          height={72}
+          width={36}
+          height={36}
           priority
-          className="size-9 scale-[1.75] object-contain mix-blend-multiply dark:mix-blend-screen dark:invert"
+          className="size-7 object-contain"
         />
       </span>
       <span className={cn("flex min-w-0 flex-col leading-none", className)}>

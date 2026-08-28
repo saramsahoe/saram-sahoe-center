@@ -5,7 +5,7 @@ import { AboutTabs, type AboutTab } from "@/components/about/about-tabs"
 
 const tabCopy: Record<AboutTab, { label: string; description: string }> = {
   mission: {
-    label: "단체 목적",
+    label: "목적 및 비전",
     description: "연구센터 사람과 사회가 이 일을 하는 이유를 소개합니다.",
   },
   research: {

@@ -9,7 +9,7 @@ import { siteConfig } from "@/lib/navigation"
 
 export const metadata: Metadata = {
   title: "게시판",
-  description: `${siteConfig.name} 공지사항, 보도자료, 연구소식, 세미나 게시판입니다.`,
+  description: `${siteConfig.name} 공지사항, 보도자료, 소식, 세미나 게시판입니다.`,
 }
 
 export default async function BoardPage() {

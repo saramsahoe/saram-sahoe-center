@@ -88,10 +88,11 @@ export async function getAllMembers(): Promise<Profile[] | { error: string }> {
   return (data as ProfileRow[]).map(mapProfile);
 }
 
-/** 회원의 이름/등급을 변경한다. 관리자만 호출 가능. */
+/** 회원의 이름/소속/등급을 변경한다. 관리자만 호출 가능. */
 export async function updateMemberProfile(input: {
   userId: string;
   fullName: string;
+  affiliation: string;
   role: MemberRole;
 }): Promise<AdminActionResult> {
   const { supabase, adminId } = await requireAdminUser();
@@ -103,10 +104,15 @@ export async function updateMemberProfile(input: {
   if (!fullName) {
     return { error: "이름을 입력해 주세요." };
   }
+  const affiliation = input.affiliation.trim();
 
   const { error } = await supabase
     .from("profiles")
-    .update({ full_name: fullName, role: input.role })
+    .update({
+      full_name: fullName,
+      affiliation: affiliation || null,
+      role: input.role,
+    })
     .eq("id", input.userId);
 
   if (error) {

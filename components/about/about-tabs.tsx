@@ -18,7 +18,7 @@ export function AboutTabs({ activeTab }: { activeTab: AboutTab }) {
       onValueChange={(value) => router.push(`/about/${value}`)}
     >
       <TabsList>
-        <TabsTrigger value="mission">단체 목적 (Mission)</TabsTrigger>
+        <TabsTrigger value="mission">목적 및 비전 (Mission)</TabsTrigger>
         <TabsTrigger value="research">사업 및 활동분야 (Programs)</TabsTrigger>
         <TabsTrigger value="history">연혁 (History)</TabsTrigger>
       </TabsList>

@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { siteConfig } from "@/lib/navigation"
 
 export const metadata: Metadata = {
-  title: "사람들",
+  title: "함께하는 사람들",
   description: `${siteConfig.name} 구성원을 소개합니다.`,
 }
 
@@ -19,7 +19,7 @@ export default function PeoplePage() {
             People
           </p>
           <h1 className="mt-4 font-heading text-3xl leading-tight font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
-            사람들
+            함께하는 사람들
           </h1>
           <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground">
             연구센터사람과사회를 함께 만들어가는 대표, 센터장, 교수진, 연구원,

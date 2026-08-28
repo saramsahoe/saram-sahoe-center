@@ -1,4 +1,4 @@
-import { ExternalLink, GraduationCap, Globe, Mail, UserRound } from "lucide-react"
+import { ExternalLink, GraduationCap, Globe, Mail } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -27,14 +27,7 @@ export function MemberCard({ member }: { member: Member }) {
             className="cursor-pointer rounded-t-xl text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <CardHeader>
-              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-xl border border-border bg-muted">
-                <UserRound
-                  className="size-12 text-muted-foreground"
-                  strokeWidth={1.25}
-                />
-              </div>
-
-              <div className="mt-3 flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <CardTitle className="text-base">{member.name}</CardTitle>
                 {(member.roles ?? [member.role]).map((role) => (
                   <Badge
@@ -48,7 +41,7 @@ export function MemberCard({ member }: { member: Member }) {
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-1.5">
+              <div className="mt-2 flex flex-wrap gap-1.5">
                 {member.interests.map((tag) => (
                   <Badge key={tag}>{tag}</Badge>
                 ))}
@@ -101,24 +94,14 @@ export function MemberCard({ member }: { member: Member }) {
 
         <DialogContent className={cn("max-h-[85vh] overflow-y-auto sm:max-w-xl")}>
           <DialogHeader>
-            <div className="flex items-start gap-4">
-              <div className="flex size-16 shrink-0 items-center justify-center rounded-xl border border-border bg-muted">
-                <UserRound
-                  className="size-8 text-muted-foreground"
-                  strokeWidth={1.25}
-                />
-              </div>
-              <div>
-                <DialogTitle>{member.name}</DialogTitle>
-                <DialogDescription>
-                  {member.affiliation ?? member.role}
-                </DialogDescription>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {member.interests.map((tag) => (
-                    <Badge key={tag}>{tag}</Badge>
-                  ))}
-                </div>
-              </div>
+            <DialogTitle>{member.name}</DialogTitle>
+            <DialogDescription>
+              {member.affiliation ?? member.role}
+            </DialogDescription>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {member.interests.map((tag) => (
+                <Badge key={tag}>{tag}</Badge>
+              ))}
             </div>
           </DialogHeader>
 

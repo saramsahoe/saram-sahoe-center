@@ -43,6 +43,7 @@ export function MemberList({
 
   const [editing, setEditing] = useState<Profile | null>(null)
   const [name, setName] = useState("")
+  const [affiliation, setAffiliation] = useState("")
   const [role, setRole] = useState<MemberRole>("user")
   const [email, setEmail] = useState("")
   const [formError, setFormError] = useState<string | null>(null)
@@ -51,6 +52,7 @@ export function MemberList({
   function openEdit(member: Profile) {
     setEditing(member)
     setName(member.fullName)
+    setAffiliation(member.affiliation ?? "")
     setRole(member.role)
     setEmail(member.email)
     setFormError(null)
@@ -64,6 +66,7 @@ export function MemberList({
     const profileResult = await updateMemberProfile({
       userId: editing.id,
       fullName: name,
+      affiliation,
       role,
     })
 
@@ -88,7 +91,13 @@ export function MemberList({
     setMembers((prev) =>
       prev.map((m) =>
         m.id === editing.id
-          ? { ...m, fullName: name.trim(), role, email: email.trim() }
+          ? {
+              ...m,
+              fullName: name.trim(),
+              affiliation: affiliation.trim() || null,
+              role,
+              email: email.trim(),
+            }
           : m
       )
     )
@@ -253,6 +262,16 @@ export function MemberList({
                 id="member-name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+              />
+            </Field>
+
+            <Field>
+              <FieldLabel htmlFor="member-affiliation">소속</FieldLabel>
+              <Input
+                id="member-affiliation"
+                value={affiliation}
+                onChange={(e) => setAffiliation(e.target.value)}
+                placeholder="예: OO대학교 사회학과 교수"
               />
             </Field>
 

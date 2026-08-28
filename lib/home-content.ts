@@ -50,7 +50,7 @@ export type IntroCard = {
 
 export const introCards: IntroCard[] = [
   {
-    title: "단체 목적",
+    title: "목적 및 비전",
     caption: "Mission",
     body: "사람을 수단이 아닌 출발점으로 두는 연구. 우리가 왜 이 일을 하는지 밝힙니다.",
     href: "/about/mission",

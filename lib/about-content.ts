@@ -118,13 +118,13 @@ export const historyTimeline: HistoryYear[] = [
     milestones: [
       {
         title: "연구센터사람과사회 설립 (임의 단체)",
-        description: "2013년 1월, 임의 단체로 연구센터사람과사회를 설립했습니다.",
+        description: "2013년 1월, 임의 단체로 연구센터사람과사회 설립.",
         icon: Landmark,
       },
       {
         title: "서울시 비영리단체 등록 및 인가 취득",
         description:
-          "2014년 8월 28일, 서울시 비영리단체로 정식 등록 및 인가를 취득했습니다.",
+          "2014년 8월 28일, 서울시 비영리단체 정식 등록 및 인가 취득.",
         icon: BadgeCheck,
       },
     ],
@@ -134,18 +134,18 @@ export const historyTimeline: HistoryYear[] = [
     milestones: [
       {
         title: "여성 글로벌역량강화 해외봉사 시스템 구축",
-        description: "2월, 음악교육 봉사를 통해 여성의 글로벌역량강화를 위한 해외봉사 시스템을 구축했습니다.",
+        description: "2월, 음악교육 봉사를 통한 여성 글로벌역량강화 해외봉사 시스템 구축.",
         icon: Globe2,
       },
       {
         title: "서울시 여성발전기금 사업 수행",
         description:
-          "4월~10월, 여성폭력방지기관 종사자 소진방지 및 역량강화 프로그램을 운영했습니다.",
+          "4월~10월, 여성폭력방지기관 종사자 소진방지 및 역량강화 프로그램 운영.",
         icon: HeartHandshake,
       },
       {
         title: "리더 자아성찰 프로그램 구축 및 훈련",
-        description: "11월, 센터의 대표 프로그램인 리더 자아성찰 프로그램을 구축하고 훈련을 시작했습니다.",
+        description: "11월, 센터의 대표 프로그램인 리더 자아성찰 프로그램 구축 및 훈련 시작.",
         icon: Sparkles,
       },
     ],
@@ -156,17 +156,17 @@ export const historyTimeline: HistoryYear[] = [
       {
         title: "강북구청소년상담복지센터 업무협약 체결",
         description:
-          "3월, 꿈나래또요스쿨 재능기부협약과 학교밖 청소년 지원프로그램을 구축했습니다.",
+          "3월, 꿈나래또요스쿨 재능기부협약 체결 및 학교밖 청소년 지원프로그램 구축.",
         icon: Handshake,
       },
       {
         title: "한국양성평등교육진흥원 '전문직여성교육프로그램' 공동개발",
-        description: "12월, 변화를 주도하는 브랜드역량을 주제로 프로그램을 공동개발했습니다.",
+        description: "12월, 변화를 주도하는 브랜드역량을 주제로 프로그램 공동개발.",
         icon: GraduationCap,
       },
       {
         title: "자문위원단(협력이사) 제도 설치",
-        description: "12월, 자문위원단(협력이사) 제도를 신설했습니다.",
+        description: "12월, 자문위원단(협력이사) 제도 신설.",
         icon: FileSignature,
       },
     ],
@@ -176,17 +176,17 @@ export const historyTimeline: HistoryYear[] = [
     milestones: [
       {
         title: "리더 자아성찰 특강",
-        description: "2월 진행했습니다.",
+        description: "2월 진행.",
         icon: Sparkles,
       },
       {
         title: "진로탐색 특강",
-        description: "3월, 강북구청소년상담복지센터와 컨소시엄으로 진행했습니다.",
+        description: "3월, 강북구청소년상담복지센터와 컨소시엄 진행.",
         icon: Compass,
       },
       {
         title: "리더 자아성찰 훈련 — 호흡과 몸의 관찰",
-        description: "11월 진행했습니다.",
+        description: "11월 진행.",
         icon: Sparkles,
       },
     ],
@@ -196,17 +196,17 @@ export const historyTimeline: HistoryYear[] = [
     milestones: [
       {
         title: "리더 자아성찰 훈련 — 내시(內視)와 내조(內照)",
-        description: "5월 진행했습니다.",
+        description: "5월 진행.",
         icon: Sparkles,
       },
       {
         title: "워라밸을 위한 전문가와 함께 하는 토크 콘서트",
-        description: "11월, 리파인컨설팅그룹과 컨소시엄으로 진행했습니다.",
+        description: "11월, 리파인컨설팅그룹과 컨소시엄 진행.",
         icon: Mic,
       },
       {
         title: "생애설계과정 교육프로그램 구축",
-        description: "12월 구축했습니다.",
+        description: "12월 구축.",
         icon: Compass,
       },
     ],
@@ -216,17 +216,17 @@ export const historyTimeline: HistoryYear[] = [
     milestones: [
       {
         title: "일하는 여성 소진방지 프로그램 구축",
-        description: "3월 구축했습니다.",
+        description: "3월 구축.",
         icon: HeartHandshake,
       },
       {
         title: "생애설계 코치 양성교육",
-        description: "9월, 커리어벨류연구소와 컨소시엄으로 진행했습니다.",
+        description: "9월, 커리어벨류연구소와 컨소시엄 진행.",
         icon: GraduationCap,
       },
       {
         title: "오르프 전문강사 역량강화 프로그램",
-        description: "10월, 이든소리연구소와 컨소시엄으로 진행했습니다.",
+        description: "10월, 이든소리연구소와 컨소시엄 진행.",
         icon: Music2,
       },
     ],
@@ -236,7 +236,7 @@ export const historyTimeline: HistoryYear[] = [
     milestones: [
       {
         title: "서초구 여성가족플라자 위탁 운영",
-        description: "2020년~2024년, 서초구 여성가족플라자를 위탁 운영했습니다.",
+        description: "2020년~2024년, 서초구 여성가족플라자 위탁 운영.",
         icon: Building2,
       },
       {
@@ -274,17 +274,17 @@ export const historyTimeline: HistoryYear[] = [
     milestones: [
       {
         title: "리더 자아성찰 훈련 (2023.12)",
-        description: "2023년 12월 진행했습니다.",
+        description: "2023년 12월 진행.",
         icon: Sparkles,
       },
       {
         title: "리더 자아성찰 훈련 (2024.11)",
-        description: "2024년 11월 진행했습니다.",
+        description: "2024년 11월 진행.",
         icon: Sparkles,
       },
       {
         title: "리더 자아성찰 훈련 (2025.12)",
-        description: "2025년 12월 진행했습니다.",
+        description: "2025년 12월 진행.",
         icon: Sparkles,
       },
     ],

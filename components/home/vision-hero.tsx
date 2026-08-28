@@ -55,7 +55,7 @@ export function VisionHero() {
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link href="/about/mission">단체 목적</Link>
+              <Link href="/about/mission">목적 및 비전</Link>
             </Button>
           </div>
         </div>

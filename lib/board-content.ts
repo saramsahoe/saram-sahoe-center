@@ -14,7 +14,7 @@ export const categoryMeta: Record<
 > = {
   notice: { label: "공지사항", badgeVariant: "accent" },
   press: { label: "보도자료", badgeVariant: "accent-soft" },
-  research: { label: "연구소식", badgeVariant: "outline" },
+  research: { label: "소식", badgeVariant: "outline" },
   seminar: { label: "세미나/행사", badgeVariant: "outline" },
 }
 
@@ -23,7 +23,7 @@ export const categoryFilters: { value: PostCategory | "all"; label: string }[] =
     { value: "all", label: "전체" },
     { value: "notice", label: "공지사항" },
     { value: "press", label: "보도자료" },
-    { value: "research", label: "연구소식" },
+    { value: "research", label: "소식" },
     { value: "seminar", label: "세미나/행사" },
   ]
 
