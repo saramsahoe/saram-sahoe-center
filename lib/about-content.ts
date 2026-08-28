@@ -31,8 +31,8 @@ export const directorGreeting = {
     `감사합니다.`,
   ],
   signature: [
-      "연구센터 사람과 사회 대표",
-      "이화영",
+      `"연구센터 사람과 사회 대표`,
+      `이화영"`
   ]
 }
 
