@@ -27,7 +27,7 @@ export function SiteLogo({
       )}
     >
       <Image
-        src={isFull ? "/brand/logo-full.png" : "/brand/logo-main.png"}
+        src={isFull ? "/brand/logo-full.svg" : "/brand/logo-main.svg"}
         alt=""
         width={isFull ? 2241 : 1600}
         height={isFull ? 2176 : 1000}

@@ -52,8 +52,11 @@
 
 :root {
     /* Base: light lavender surfaces, black ink. Interactive elements use the
-       logo's point colors (red/blue). */
-    --background: oklch(0.965 0.02 295);
+       logo's point colors (red/blue). Page background is a #CDBFF2 → #A79BE6
+       gradient, applied directly on body below; this solid value is the
+       fallback/representative color for anything using bg-background as a
+       flat color (e.g. the sticky header's translucent backdrop). */
+    --background: #cdbff2;
     --foreground: oklch(0.145 0 0);
     --card: oklch(0.985 0.012 295);
     --card-foreground: oklch(0.145 0 0);
@@ -134,7 +137,10 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: var(--background);
+    background-image: linear-gradient(180deg, #cdbff2 0%, #a79be6 100%);
+    background-attachment: fixed;
     }
   html {
     @apply font-sans;
