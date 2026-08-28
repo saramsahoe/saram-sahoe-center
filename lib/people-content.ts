@@ -1,4 +1,4 @@
-export type MemberCategory = "faculty" | "researcher" | "staff"
+export type MemberCategory = "faculty" | "board" | "advisory" | "president" | "office"
 
 export type Member = {
   id: string
@@ -12,8 +12,8 @@ export type Member = {
   fullBio: string
   /** 소속 및 직위 */
   affiliation?: string
-  /** 학력 */
-  education?: string[]
+  /** 주요 활동 분야 */
+  activity?: string[]
   /** 주요 경력 */
   career?: string[]
   publications: string[]
@@ -41,10 +41,10 @@ export const members: Member[] = [
     fullBio:
       "이화영 대표는 숙명여자대학교 기초교양학부 초빙교수이자 거버넌스위원회 위원장으로, 젠더 관점의 리더십과 정치 및 역량개발을 연구·강의하고 있습니다. 연구센터사람과사회의 대표를 맡고 있습니다.",
     affiliation: "숙명여자대학교 기초교양학부 초빙교수, 거버넌스위원회 위원장",
-    education: [
-      "숙명여자대학교 정치외교학과 학사 (1985년 졸업)",
-      "서강대학교 사회복지정책 석사",
-      "숙명여자대학교 정치학 박사",
+    activity: [
+      "민간 섹터에서 주로 여성, 가족, 청소년 관련 프로그램을 운영하고 현장 실무를 경험",
+      "공공 섹터에서 여성, 가족, 청소년 관련 정책을 연구",
+      "현재는 학문과 현장 경험을 융합, 청년 리더십 역량 증진 교육에 매진",
     ],
     career: [
       "여성가족부 산하 「한국여성인권진흥원」 원장",
@@ -90,7 +90,7 @@ export const members: Member[] = [
     id: "park-jihoon",
     name: "박지훈",
     role: "자문교수",
-    category: "faculty",
+    category: "advisory",
     interests: ["도시사회학", "지역공동체"],
     bio: "축소되는 지역에서 사람들이 서로를 지탱하는 방식을 도시사회학의 관점에서 살펴 온 연구자입니다. 센터의 지역 연구 자문을 맡고 있습니다.",
     fullBio:
@@ -108,7 +108,7 @@ export const members: Member[] = [
     id: "jung-haeun",
     name: "정하은",
     role: "선임연구원",
-    category: "researcher",
+    category: "faculty",
     interests: ["돌봄노동", "질적연구"],
     bio: "고령 1인 가구의 생활사를 구술로 기록하는 장기 조사를 이끌고 있습니다. 질적 연구 방법론을 통해 통계 너머의 서사를 담아냅니다.",
     fullBio:
@@ -125,7 +125,7 @@ export const members: Member[] = [
     id: "choi-minjun",
     name: "최민준",
     role: "연구원",
-    category: "researcher",
+    category: "faculty",
     interests: ["노동정책", "통계분석"],
     bio: "노동 통계 뒤에 가려진 불안정 고용의 패턴을 계량적으로 분석합니다. 정책 평가 연구에도 참여하고 있습니다.",
     fullBio:
@@ -142,7 +142,7 @@ export const members: Member[] = [
     id: "oh-seyoung",
     name: "오세영",
     role: "연구원",
-    category: "researcher",
+    category: "faculty",
     interests: ["기술사회학", "디지털전환"],
     bio: "자동화와 디지털 전환이 노동과 돌봄의 자리를 어떻게 바꾸는지 인간 중심 관점에서 연구합니다.",
     fullBio:
@@ -156,7 +156,7 @@ export const members: Member[] = [
     id: "kang-taeyun",
     name: "강태윤",
     role: "연구보조원",
-    category: "staff",
+    category: "office",
     interests: ["현장조사", "데이터관리"],
     bio: "현장 조사 일정 조율과 수집 자료 정리를 맡고 있습니다. 대학원에서 사회조사방법론을 공부하고 있습니다.",
     fullBio:
@@ -170,7 +170,7 @@ export const members: Member[] = [
     id: "yoon-jiwon",
     name: "윤지원",
     role: "연구보조원",
-    category: "staff",
+    category: "office",
     interests: ["구술사", "아카이빙"],
     bio: "구술 인터뷰 기록을 아카이빙하고 정리하는 작업을 맡고 있습니다. 기록물 관리에 관심이 많습니다.",
     fullBio:
@@ -184,7 +184,7 @@ export const members: Member[] = [
     id: "bae-soyeon",
     name: "배소연",
     role: "행정간사",
-    category: "staff",
+    category: "office",
     interests: ["연구행정", "세미나기획"],
     bio: "정기 세미나와 공개 포럼 운영, 연구센터의 전반적인 행정 업무를 맡고 있습니다.",
     fullBio:

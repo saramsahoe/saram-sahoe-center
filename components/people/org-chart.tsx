@@ -30,7 +30,7 @@ function OrgNode({
         size === "lg" && "size-28 text-sm",
         size === "md" && "size-20 text-xs",
         size === "sm" && "size-16 px-1 text-[0.625rem] leading-tight",
-        tone === "primary" && "bg-foreground text-background",
+        tone === "primary" && "border border-border bg-secondary text-foreground",
         tone === "accent" && "bg-accent text-accent-foreground",
         tone === "default" && "border border-border bg-muted text-foreground"
       )}

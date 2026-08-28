@@ -128,13 +128,13 @@ export function MemberCard({ member }: { member: Member }) {
               </div>
             )}
 
-            {member.education && member.education.length > 0 && (
+            {member.activity && member.activity.length > 0 && (
               <div>
                 <h3 className="font-mono text-[0.5625rem] tracking-[0.16em] text-muted-foreground uppercase">
-                  학력
+                  주요 활동 분야
                 </h3>
                 <ul className="mt-2 flex flex-col gap-1.5">
-                  {member.education.map((item) => (
+                  {member.activity.map((item) => (
                     <li
                       key={item}
                       className="text-[0.8125rem] leading-relaxed text-pretty text-muted-foreground"

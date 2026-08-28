@@ -9,8 +9,10 @@ import { members, type MemberCategory } from "@/lib/people-content"
 const filters: { value: MemberCategory | "all"; label: string }[] = [
   { value: "all", label: "전체 (All)" },
   { value: "faculty", label: "센터장 / 교수진 (Faculty)" },
-  { value: "researcher", label: "연구원 (Researchers)" },
-  { value: "staff", label: "연구보조원 (Staff / Students)" },
+  { value: "board", label: "이사회 (Board)" },
+  { value: "advisory", label: "자문위원회 (Advisory)" },
+  { value: "president", label: "총장 (President)" },
+  { value: "office", label: "사무국 (Office)" },
 ]
 
 export function MembersDirectory() {
@@ -49,13 +51,19 @@ export function MembersDirectory() {
         ))}
       </div>
 
-      <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {visibleMembers.map((member) => (
-          <li key={member.id}>
-            <MemberCard member={member} />
-          </li>
-        ))}
-      </ul>
+      {visibleMembers.length === 0 ? (
+        <p className="mt-8 py-10 text-center text-sm text-muted-foreground">
+          해당 분류의 구성원이 없습니다.
+        </p>
+      ) : (
+        <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {visibleMembers.map((member) => (
+            <li key={member.id}>
+              <MemberCard member={member} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }

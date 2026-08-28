@@ -69,7 +69,8 @@
     --secondary: oklch(0.92 0.035 295);
     --secondary-foreground: oklch(0.145 0 0);
     --muted: oklch(0.935 0.028 295);
-    --muted-foreground: oklch(0.42 0.03 295);
+    /* 회색 톤 없이 본문 텍스트도 검은색으로 통일 (포인트만 accent 빨간색) */
+    --muted-foreground: oklch(0.145 0 0);
     /* Accent: logo point red — the site's point color */
     --accent: oklch(0.577 0.245 27.3);
     --accent-foreground: oklch(0.985 0.012 295);
