@@ -31,7 +31,7 @@ export function UpgradeRequiredNotice() {
 
         <Button
           type="button"
-          className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+          className="w-full bg-button text-button-foreground hover:bg-button/90"
           onClick={() => router.push("/")}
         >
           메인페이지로 이동

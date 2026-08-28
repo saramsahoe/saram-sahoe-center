@@ -120,7 +120,7 @@ export function AccountLookupForm({
           type="submit"
           size="lg"
           disabled={submitting}
-          className="bg-accent text-accent-foreground hover:bg-accent/90"
+          className="bg-button text-button-foreground hover:bg-button/90"
         >
           {submitting
             ? "확인 중..."

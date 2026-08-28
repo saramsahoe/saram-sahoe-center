@@ -138,7 +138,7 @@ export function ContactSection() {
                   type="submit"
                   size="lg"
                   disabled={status === "submitting"}
-                  className="bg-accent text-accent-foreground hover:bg-accent/90"
+                  className="bg-button text-button-foreground hover:bg-button/90"
                 >
                   {status === "submitting" ? "보내는 중..." : "문의 보내기"}
                   <Send data-icon="inline-end" />

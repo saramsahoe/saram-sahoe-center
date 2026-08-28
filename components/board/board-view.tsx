@@ -152,7 +152,7 @@ export function BoardView({ initialPosts }: { initialPosts: Post[] }) {
         <Button
           type="button"
           onClick={openWriteDialog}
-          className="bg-accent text-accent-foreground hover:bg-accent/90"
+          className="bg-button text-button-foreground hover:bg-button/90"
         >
           <PenSquare data-icon="inline-start" />
           글쓰기 (Write Post)

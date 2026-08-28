@@ -61,7 +61,7 @@ export function UserNav() {
         </Button>
         <Button
           size="lg"
-          className="hidden bg-accent text-accent-foreground hover:bg-accent/90 sm:inline-flex"
+          className="hidden bg-button text-button-foreground hover:bg-button/90 sm:inline-flex"
           asChild
         >
           <Link href="/signup">회원가입</Link>

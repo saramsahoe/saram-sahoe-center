@@ -48,7 +48,7 @@ export function LocationMap() {
       <div className="mt-4 flex flex-wrap gap-3">
         <Button
           asChild
-          className="bg-accent text-accent-foreground hover:bg-accent/90"
+          className="bg-button text-button-foreground hover:bg-button/90"
         >
           <a href={naverMapUrl} target="_blank" rel="noopener noreferrer">
             네이버 지도에서 열기 (Open in Naver Map)

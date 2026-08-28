@@ -94,7 +94,7 @@ export function MobileNav() {
           <Link
             href="/location"
             onClick={close}
-            className="flex items-center justify-between rounded-md bg-accent px-4 py-3.5 text-accent-foreground transition-opacity hover:opacity-90"
+            className="flex items-center justify-between rounded-md bg-button px-4 py-3.5 text-button-foreground transition-opacity hover:opacity-90"
           >
             <span className="flex items-center gap-2.5">
               <MapPin className="size-4" aria-hidden="true" />

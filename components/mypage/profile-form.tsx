@@ -136,7 +136,7 @@ export function ProfileForm({ profile }: { profile: Profile }) {
           <Button
             type="submit"
             disabled={submitting}
-            className="bg-accent text-accent-foreground hover:bg-accent/90"
+            className="bg-button text-button-foreground hover:bg-button/90"
           >
             {submitting ? "저장 중..." : "수정하기"}
           </Button>

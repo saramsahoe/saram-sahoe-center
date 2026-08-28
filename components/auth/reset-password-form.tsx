@@ -167,7 +167,7 @@ export function ResetPasswordForm() {
           type="submit"
           size="lg"
           disabled={submitting}
-          className="bg-accent text-accent-foreground hover:bg-accent/90"
+          className="bg-button text-button-foreground hover:bg-button/90"
         >
           {submitting ? "변경 중..." : "비밀번호 변경"}
         </Button>

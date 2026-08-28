@@ -322,7 +322,7 @@ export function MemberList({
                 type="button"
                 disabled={formSubmitting}
                 onClick={handleSave}
-                className="bg-accent text-accent-foreground hover:bg-accent/90"
+                className="bg-button text-button-foreground hover:bg-button/90"
               >
                 {formSubmitting ? "저장 중..." : "저장"}
               </Button>

@@ -574,7 +574,7 @@ export function PostFormDialog({
               <Button
                 type="submit"
                 disabled={submitting || attachmentUploading || imageUploading}
-                className="bg-accent text-accent-foreground hover:bg-accent/90"
+                className="bg-button text-button-foreground hover:bg-button/90"
               >
                 {submitting ? "등록 중..." : "등록하기"}
               </Button>

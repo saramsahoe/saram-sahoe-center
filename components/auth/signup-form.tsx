@@ -421,7 +421,7 @@ export function SignupForm() {
           type="submit"
           size="lg"
           disabled={submitting || !emailVerified}
-          className="bg-accent text-accent-foreground hover:bg-accent/90"
+          className="bg-button text-button-foreground hover:bg-button/90"
         >
           {submitting
             ? "가입 처리 중..."

@@ -41,6 +41,9 @@
     --color-card: var(--card);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
+    --color-footer: var(--footer-background);
+    --color-button: var(--button-background);
+    --color-button-foreground: var(--button-foreground);
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -52,28 +55,35 @@
 
 :root {
     /* Base: light lavender surfaces, black ink. Interactive elements use the
-       logo's point colors (red/blue). Page background is a #CDBFF2 → #A79BE6
-       gradient, applied directly on body below; this solid value is the
+       logo's point colors (red/blue). Page background is a gradient,
+       applied directly on body below; this solid value is the
        fallback/representative color for anything using bg-background as a
-       flat color (e.g. the sticky header's translucent backdrop). */
-    --background: #cdbff2;
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(0.985 0.012 295);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(0.985 0.012 295);
-    --popover-foreground: oklch(0.145 0 0);
+       flat color (e.g. the sticky header's translucent backdrop).
+       --cfg-* variables are injected from lib/theme-config.ts in app/layout.tsx —
+       edit that file to change colors, not this one. */
+    --background: var(--cfg-bg-from);
+    --foreground: var(--cfg-heading-fg);
+    --card: var(--cfg-card-bg);
+    --card-foreground: var(--cfg-heading-fg);
+    --popover: var(--cfg-card-bg);
+    --popover-foreground: var(--cfg-heading-fg);
     /* Primary: black ink, matches default text color */
-    --primary: oklch(0.145 0 0);
-    --primary-foreground: oklch(0.985 0.012 295);
-    /* Secondary: soft lavender surface (footer, muted sections) */
+    --primary: var(--cfg-heading-fg);
+    --primary-foreground: var(--cfg-card-bg);
+    /* Secondary: soft lavender surface (nav active state, section bands, org chart) */
     --secondary: oklch(0.92 0.035 295);
-    --secondary-foreground: oklch(0.145 0 0);
+    --secondary-foreground: var(--cfg-heading-fg);
     --muted: oklch(0.935 0.028 295);
     /* 회색 톤 없이 본문 텍스트도 검은색으로 통일 (포인트만 accent 빨간색) */
-    --muted-foreground: oklch(0.145 0 0);
-    /* Accent: logo point red — the site's point color */
+    --muted-foreground: var(--cfg-content-fg);
+    /* Accent: logo point red — the site's general point color (badges, highlights, focus rings) */
     --accent: oklch(0.577 0.245 27.3);
     --accent-foreground: oklch(0.985 0.012 295);
+    /* Footer — dedicated color, decoupled from --secondary */
+    --footer-background: var(--cfg-footer-bg);
+    /* Button — dedicated color for primary CTA buttons */
+    --button-background: var(--cfg-button-bg);
+    --button-foreground: var(--cfg-button-fg);
     /* Logo point blue, for secondary interactive/click states */
     --info: oklch(0.63 0.16 245);
     --info-foreground: oklch(0.985 0.012 295);

@@ -48,7 +48,7 @@ export function VisionHero() {
           <div className="flex flex-wrap items-center gap-3">
             <Button
               size="lg"
-              className="bg-accent text-accent-foreground hover:bg-accent/90"
+              className="bg-button text-button-foreground hover:bg-button/90"
               asChild
             >
               <Link href="/about/research">
