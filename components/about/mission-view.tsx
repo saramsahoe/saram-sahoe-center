@@ -51,9 +51,16 @@ export function MissionView() {
                 {paragraph}
               </p>
             ))}
-            <p className="text-right font-heading text-[0.9375rem] font-medium text-foreground">
-              {directorGreeting.signature}
-            </p>
+            <div className="flex flex-col text-right">
+              {directorGreeting.signature.map((line, index) => (
+                <p
+                  key={index}
+                  className="font-heading text-[0.9375rem] font-medium text-foreground"
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </div>
