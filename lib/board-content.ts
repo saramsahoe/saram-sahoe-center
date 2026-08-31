@@ -110,9 +110,9 @@ export const ALLOWED_INLINE_IMAGE_MIME_TYPES = [
   "image/gif",
 ]
 
-// 유튜브 시청/공유 링크(watch, youtu.be, shorts, embed)를 임베드 재생 URL로 변환한다.
-// 유튜브가 아니거나 영상 ID를 알 수 없으면 null을 반환해 일반 링크로 렌더링되게 한다.
-export function getYoutubeEmbedUrl(url: string): string | null {
+// 유튜브 시청/공유 링크(watch, youtu.be, shorts, embed)에서 영상 ID를 뽑아낸다.
+// 유튜브가 아니거나 영상 ID를 알 수 없으면 null을 반환한다.
+function extractYoutubeVideoId(url: string): string | null {
   let parsed: URL
   try {
     parsed = new URL(url)
@@ -139,7 +139,45 @@ export function getYoutubeEmbedUrl(url: string): string | null {
   videoId = videoId.split(/[?&]/)[0]
   if (!/^[\w-]{6,}$/.test(videoId)) return null
 
-  return `https://www.youtube.com/embed/${videoId}`
+  return videoId
+}
+
+/** 유튜브 링크를 임베드 재생 URL로 변환한다. 유튜브가 아니면 null. */
+export function getYoutubeEmbedUrl(url: string): string | null {
+  const videoId = extractYoutubeVideoId(url)
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : null
+}
+
+/** 유튜브 링크에서 썸네일 이미지 URL을 얻는다. 갤러리 그리드에서 미리보기로 쓴다. */
+export function getYoutubeThumbnailUrl(url: string): string | null {
+  const videoId = extractYoutubeVideoId(url)
+  return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
+}
+
+export type GalleryMediaItem =
+  | { type: "image"; url: string }
+  | { type: "youtube"; thumbnailUrl: string }
+
+/**
+ * 게시글 본문(마크다운)에서 삽입된 이미지와 유튜브 임베드 링크를 순서대로 뽑아낸다.
+ * 갤러리 카테고리 목록에서 게시글마다 사진/동영상을 나열해 보여주는 데 쓴다.
+ */
+export function extractGalleryMedia(content: string): GalleryMediaItem[] {
+  const items: GalleryMediaItem[] = []
+  const imageRegex = /!\[[^\]]*\]\(([^)\s]+)\)/g
+
+  for (const match of content.matchAll(imageRegex)) {
+    items.push({ type: "image", url: match[1] })
+  }
+
+  const withoutImages = content.replace(imageRegex, "")
+  const urlRegex = /\bhttps?:\/\/[^\s)]+/g
+  for (const match of withoutImages.matchAll(urlRegex)) {
+    const thumbnailUrl = getYoutubeThumbnailUrl(match[0])
+    if (thumbnailUrl) items.push({ type: "youtube", thumbnailUrl })
+  }
+
+  return items
 }
 
 export type Post = {

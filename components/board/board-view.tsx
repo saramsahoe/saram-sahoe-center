@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { PenSquare, Search } from "lucide-react"
 
 import { createPost, incrementPostView, updatePost } from "@/app/actions/board"
+import { GalleryGrid } from "@/components/board/gallery-grid"
 import { Pagination } from "@/components/board/pagination"
 import { PostDetailDialog } from "@/components/board/post-detail-dialog"
 import {
@@ -170,12 +171,22 @@ export function BoardView({ initialPosts }: { initialPosts: Post[] }) {
       </div>
 
       <div className="mt-6">
-        <PostList
-          pinnedPosts={currentPage === 1 ? pinnedPosts : []}
-          posts={pagePosts}
-          startNo={startIndex + 1}
-          onSelect={handleSelectPost}
-        />
+        {category === "gallery" ? (
+          <GalleryGrid
+            posts={[
+              ...(currentPage === 1 ? pinnedPosts : []),
+              ...pagePosts,
+            ]}
+            onSelect={handleSelectPost}
+          />
+        ) : (
+          <PostList
+            pinnedPosts={currentPage === 1 ? pinnedPosts : []}
+            posts={pagePosts}
+            startNo={startIndex + 1}
+            onSelect={handleSelectPost}
+          />
+        )}
       </div>
 
       <Pagination

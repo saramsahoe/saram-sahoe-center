@@ -318,39 +318,59 @@ export function PostFormDialog({
   }
 
   async function handleImageFileChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0]
+    const files = Array.from(event.target.files ?? [])
     event.target.value = ""
-    if (!file) return
+    if (files.length === 0) return
 
-    if (!ALLOWED_INLINE_IMAGE_MIME_TYPES.includes(file.type)) {
-      setAttachmentError("jpg, png, webp, gif 이미지만 삽입할 수 있습니다.")
-      return
+    const errors: string[] = []
+    const oversized = files.filter(
+      (file) =>
+        ALLOWED_INLINE_IMAGE_MIME_TYPES.includes(file.type) &&
+        file.size > MAX_INLINE_IMAGE_BYTES
+    )
+    if (files.some((file) => !ALLOWED_INLINE_IMAGE_MIME_TYPES.includes(file.type))) {
+      errors.push("jpg, png, webp, gif 이미지만 삽입할 수 있습니다.")
     }
-
-    if (file.size > MAX_INLINE_IMAGE_BYTES) {
-      setAttachmentError(
+    if (oversized.length > 0) {
+      errors.push(
         `이미지는 ${formatFileSize(MAX_INLINE_IMAGE_BYTES)} 이하만 삽입할 수 있습니다.`
       )
+    }
+
+    const validFiles = files.filter(
+      (file) =>
+        ALLOWED_INLINE_IMAGE_MIME_TYPES.includes(file.type) &&
+        file.size <= MAX_INLINE_IMAGE_BYTES
+    )
+    if (validFiles.length === 0) {
+      setAttachmentError(errors.join(" / "))
       return
     }
 
     setImageUploading(true)
     setAttachmentError(null)
     const supabase = createClient()
-    const uploadFile = await toWebp(file)
-    const path = `${crypto.randomUUID()}${fileExtension(uploadFile.name)}`
-    const { error: uploadError } = await supabase.storage
-      .from("post-images")
-      .upload(path, uploadFile, { contentType: uploadFile.type })
-    setImageUploading(false)
+    const markdownChunks: string[] = []
 
-    if (uploadError) {
-      setAttachmentError(`이미지 업로드에 실패했습니다: ${uploadError.message}`)
-      return
+    for (const file of validFiles) {
+      const uploadFile = await toWebp(file)
+      const path = `${crypto.randomUUID()}${fileExtension(uploadFile.name)}`
+      const { error: uploadError } = await supabase.storage
+        .from("post-images")
+        .upload(path, uploadFile, { contentType: uploadFile.type })
+
+      if (uploadError) {
+        errors.push(`'${file.name}' 업로드에 실패했습니다: ${uploadError.message}`)
+        continue
+      }
+
+      const { data } = supabase.storage.from("post-images").getPublicUrl(path)
+      markdownChunks.push(`![](${data.publicUrl})`)
     }
 
-    const { data } = supabase.storage.from("post-images").getPublicUrl(path)
-    insertAtCursor(`\n![](${data.publicUrl})\n`)
+    setImageUploading(false)
+    if (errors.length > 0) setAttachmentError(errors.join(" / "))
+    if (markdownChunks.length > 0) insertAtCursor(`\n${markdownChunks.join("\n")}\n`)
   }
 
   function handleBoldClick() {
@@ -532,6 +552,7 @@ export function PostFormDialog({
                 <input
                   ref={imageInputRef}
                   type="file"
+                  multiple
                   accept={ALLOWED_INLINE_IMAGE_MIME_TYPES.join(",")}
                   className="hidden"
                   onChange={handleImageFileChange}
