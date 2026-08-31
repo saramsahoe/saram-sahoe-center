@@ -7,24 +7,24 @@
 export const themeConfig = {
   /** 배경 색상 — 페이지 전체 배경 그라데이션 (위 → 아래) */
   background: {
-    gradientFrom: "#cdbff2",
-    gradientTo: "#a79be6",
+    gradientFrom: "#ffffff",
+    gradientTo: "#afc7a8",
   },
 
   /** 푸터 색상 — 맨 아래 푸터 영역 배경 */
   footer: {
-    background: "#e6e0fa",
+    background: "#3f5b45",
   },
 
   /** 버튼 색상 — 로그인/회원가입/문의하기 등 주요 버튼의 배경·글씨 색 */
   button: {
-    background: "#e7000b",
+    background: "#1c2620",
     text: "#ffffff",
   },
 
   /** 카드색상 — 콘텐츠 카드(Card), 알림창 등 흰 박스형 배경 */
   card: {
-    background: "#faf9ff",
+    background: "#d2fad5ff",
   },
 
   /** 대표 글씨 색상 — 제목과 본문 텍스트의 기본 색 */

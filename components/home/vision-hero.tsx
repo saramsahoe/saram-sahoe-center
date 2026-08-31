@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 
@@ -15,12 +16,21 @@ export function VisionHero() {
         {/* Signature element: calligraphy-style vision statement */}
         <figure className="mt-8">
           <div className="relative overflow-hidden rounded-lg border border-border bg-card px-6 py-12 shadow-sm sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+            {/* Faint watermark — fills the empty space behind the statement */}
+            <Image
+              aria-hidden="true"
+              src="/brand/logo-full.svg"
+              alt=""
+              width={480}
+              height={480}
+              className="pointer-events-none absolute top-1/2 right-0 z-0 h-auto w-[55%] max-w-[26rem] -translate-y-1/2 translate-x-[18%] opacity-[0.06] select-none"
+            />
             {/* Vertical brush rule */}
             <span
               aria-hidden="true"
               className="absolute inset-y-8 left-0 w-[3px] rounded-full bg-accent sm:inset-y-12"
             />
-            <blockquote className="max-w-4xl">
+            <blockquote className="relative z-10 max-w-4xl">
               <p className="font-serif text-[1.75rem] leading-[1.45] font-bold tracking-tight text-balance text-foreground sm:text-4xl lg:text-[3.25rem] lg:leading-[1.35]">
                 사람은{" "}
                 <em className="relative inline-block not-italic">
@@ -35,7 +45,7 @@ export function VisionHero() {
                 입니다
               </p>
             </blockquote>
-            <figcaption className="mt-8 font-mono text-[0.5625rem] tracking-[0.18em] text-muted-foreground uppercase">
+            <figcaption className="relative z-10 mt-8 font-mono text-[0.5625rem] tracking-[0.18em] text-muted-foreground uppercase">
               Our Vision
             </figcaption>
           </div>

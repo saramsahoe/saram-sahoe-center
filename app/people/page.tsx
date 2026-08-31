@@ -22,8 +22,7 @@ export default function PeoplePage() {
             함께하는 사람들
           </h1>
           <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground">
-            연구센터사람과사회를 함께 만들어가는 대표, 센터장, 교수진, 연구원,
-            연구보조원을 소개합니다.
+            연구센터사람과사회를 함께 만들어가는 구성원을 소개합니다.
           </p>
         </div>
       </section>

@@ -10,12 +10,12 @@ export type NewsSlide = {
 
 export const newsSlides: NewsSlide[] = [
   {
-    id: "seminar-2023",
+    id: "seminar-2022",
     category: "Seminar",
-    title: "서울시 성평등 기금 사업, 다시 함께 의기양양",
+    title: "서울시 성평등기금사업 - 다시함께 의기양양, 서로함께 의기양양, 모두함께 의기양양",
     summary:
-      "경력 단절 여성들을 돕기 위한 마음챙김 프로그램의 첫 번째 세션으로, 참가자들이 자신의 감정을 이해하고 스트레스를 관리하는 방법을 배우는 시간을 가졌습니다.",
-    date: "2020",
+      "여성 1인 기업가를 대상으로 각자, 그리고 모두가 힘을 내기 위한 시간을 갖습니다",
+    date: "2020 ~ 2022",
     image: "/news/seminar.png",
     alt: "프로그램 소개 및 특강 안내 사진",
   },
@@ -32,9 +32,9 @@ export const newsSlides: NewsSlide[] = [
   {
     id: "forum-2020",
     category: "Forum",
-    title: "서초여성가족 플라자 전시",
+    title: "서초여성가족위탁 사업",
     summary:
-      "서울특별시 성평등기금 사업의 일환으로 서초여성가족 플라자에서 열린 전시",
+      "서울특별시 성평등기금 사업의 일환으로 서초여성가족 플라자에서 전시 개최",
     date: "2020 ~ 2023",
     image: "/news/forum.png",
     alt: "온라인 ZOOM 세미나 화면에 여러 명의 참가자가 있는 모습",

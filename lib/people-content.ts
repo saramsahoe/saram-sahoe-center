@@ -15,7 +15,6 @@ export type Member = {
   category: MemberCategory
   interests: string[]
   bio: string
-  fullBio: string
   /** 소속 및 직위 */
   affiliation?: string
   /** 주요 활동 분야 */
@@ -42,10 +41,8 @@ export const members: Member[] = [
     role: "대표",
     roles: ["대표", "거버넌스위원회 위원장"],
     category: "committee",
-    interests: ["젠더 관점의 리더십", "정치 및 역량개발"],
+    interests: [],
     bio: "숙명여자대학교 기초교양학부 초빙교수이자 거버넌스위원회 위원장으로, 젠더 관점의 리더십과 역량개발을 연구합니다. 연구센터사람과사회의 대표를 맡고 있습니다.",
-    fullBio:
-      "이화영 대표는 숙명여자대학교 기초교양학부 초빙교수이자 거버넌스위원회 위원장으로, 젠더 관점의 리더십과 정치 및 역량개발을 연구·강의하고 있습니다. 연구센터사람과사회의 대표를 맡고 있습니다.",
     affiliation: "숙명여자대학교 기초교양학부 초빙교수, 거버넌스위원회 위원장",
     activity: [
       "민간 섹터에서 주로 여성, 가족, 청소년 관련 프로그램을 운영하고 현장 실무를 경험",
@@ -86,8 +83,6 @@ export const members: Member[] = [
     category: "committee",
     interests: [],
     bio: "개인과 집단, 나아가 사회적 소통 능력을 개발, 훈련하는 프로그램을 연구 및 기획",
-    fullBio:
-      "이주연 소통역량위원회 위원장은 개인과 집단, 나아가 사회적 소통 능력을 개발, 훈련하는 프로그램을 연구 및 기획하고 있습니다.",
     publications: [
     ],
     projects: [],
@@ -101,8 +96,6 @@ export const members: Member[] = [
     category: "committee",
     interests: [],
     bio: "영상, 음향 등 다양한 매체를 통한 소통 프로그램을 기획, 연구 및 훈련",
-    fullBio:
-      "남복희 미디어위원회 위원장은 영상, 음향 등 다양한 매체를 통한 소통 프로그램을 기획, 연구 및 훈련하고 있습니다.",
     publications: [
     ],
     projects: []
@@ -114,8 +107,6 @@ export const members: Member[] = [
         category: "committee",
         interests: [],
         bio: "어린이, 청소년, 성인, 노인 등 사회의 최소 수혜자와 함께하는 리더십을 실천",
-        fullBio:
-            "박성혜 평등나눔위원회 위원장은 어린이, 청소년, 성인, 노인 등 사회의 최소 수혜자와 함께하는 리더십을 실천하고 있습니다.",
         publications: [
         ],
         projects: []
@@ -127,8 +118,6 @@ export const members: Member[] = [
         category: "committee",
         interests: [],
         bio: "공정한 사회를 꿈꾸는 구성원에게 평등한 분배 교육, 실천 프로그램을 연구",
-        fullBio:
-            "김영숙 분배성장위원회 위원장은 공정한 사회를 꿈꾸는 구성원에게 평등한 분배 교육과 실천 프로그램을 연구하고 있습니다.",
         publications: [
         ],
         projects: []
@@ -140,8 +129,6 @@ export const members: Member[] = [
         category: "committee",
         interests: [],
         bio: "젠더 감수성 증진과 젠더 불평등을 연구하고 대안 프로그램을 통한 실천",
-        fullBio:
-            "정미경 젠더역량위원회 위원장은 젠더 감수성 증진과 젠더 불평등을 연구하고 대안 프로그램을 통한 실천을 하고 있습니다.",
         publications: [
         ],
         projects: []
@@ -153,8 +140,6 @@ export const members: Member[] = [
         category: "committee",
         interests: [],
         bio: "미래사회 새로운 일과 직업에 대한 개념을 이해하고 훈련",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -166,8 +151,6 @@ export const members: Member[] = [
         category: "committee",
         interests: [],
         bio: "아동, 청소년 교육과 성장을 위한 봉사활동과 예술 프로그램을 연구, 실천",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -179,8 +162,6 @@ export const members: Member[] = [
         category: "committee",
         interests: [],
         bio: "인간의 몸을 통해 관계를 구축하고 나아가 세상과 소통할 수 있는 프로그램 훈련",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -192,8 +173,6 @@ export const members: Member[] = [
         category: "committee",
         interests: [],
         bio: "미술을 통한 리더의 자기표현과 소통의 역량을 키울 수 있는 프로그램 기획",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -213,8 +192,6 @@ export const members: Member[] = [
             "「한반도선진화연구원」 대표(현직)"
         ],
         bio: "",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -232,8 +209,6 @@ export const members: Member[] = [
             "인천지검 국선변호사"
         ],
         bio: "",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -251,8 +226,6 @@ export const members: Member[] = [
             "수원과학대학 세무학과 겸임교수"
         ],
         bio: "",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -269,8 +242,6 @@ export const members: Member[] = [
             "농업법인 「훈훈한이웃」 대표"
         ],
         bio: "",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []
@@ -288,8 +259,6 @@ export const members: Member[] = [
             "반려동물 테마파크 추진 총괄 기획"
         ],
         bio: "",
-        fullBio:
-            "",
         publications: [
         ],
         projects: []

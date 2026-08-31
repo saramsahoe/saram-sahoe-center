@@ -107,7 +107,7 @@ export function MemberCard({ member }: { member: Member }) {
 
           <div className="flex flex-col gap-5">
             <p className="text-[0.875rem] leading-relaxed text-pretty text-foreground">
-              {member.fullBio}
+              {member.bio}
             </p>
 
             {member.career && member.career.length > 0 && (
