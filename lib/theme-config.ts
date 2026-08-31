@@ -11,9 +11,10 @@ export const themeConfig = {
     gradientTo: "#afc7a8",
   },
 
-  /** 푸터 색상 — 맨 아래 푸터 영역 배경 */
+  /** 푸터 색상 — 맨 아래 푸터 영역 배경·글씨 */
   footer: {
-    background: "#3f5b45",
+    background: "#7fa687",
+    text: "#ffffff",
   },
 
   /** 버튼 색상 — 로그인/회원가입/문의하기 등 주요 버튼의 배경·글씨 색 */

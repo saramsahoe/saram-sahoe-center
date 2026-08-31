@@ -42,6 +42,7 @@
     --color-foreground: var(--foreground);
     --color-background: var(--background);
     --color-footer: var(--footer-background);
+    --color-footer-foreground: var(--footer-foreground);
     --color-button: var(--button-background);
     --color-button-foreground: var(--button-foreground);
     --radius-sm: calc(var(--radius) * 0.6);
@@ -83,6 +84,7 @@
     --accent-foreground: var(--cfg-accent-fg);
     /* Footer — dedicated color, decoupled from --secondary */
     --footer-background: var(--cfg-footer-bg);
+    --footer-foreground: var(--cfg-footer-fg);
     /* Button — dedicated color for primary CTA buttons */
     --button-background: var(--cfg-button-bg);
     --button-foreground: var(--cfg-button-fg);
