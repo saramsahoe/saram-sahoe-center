@@ -34,9 +34,9 @@ export type Attachment = {
   size: number
 }
 
-export const MAX_ATTACHMENTS_BYTES_PER_POST = 10 * 1024 * 1024 // 10MB
+export const MAX_ATTACHMENTS_BYTES_PER_POST = 100 * 1024 * 1024 // 100MB
 export const MAX_TOTAL_ATTACHMENTS_BYTES = 1024 * 1024 * 1024 // 1GB
-export const MAX_INLINE_IMAGE_BYTES = 5 * 1024 * 1024 // 5MB
+export const MAX_INLINE_IMAGE_BYTES = 100 * 1024 * 1024 // 100MB
 
 // image/svg+xml은 제외했다: SVG는 <script>/이벤트 핸들러를 담을 수 있어 공개 버킷에
 // 그대로 올리면 첨부파일 URL을 직접 열었을 때 저장형 XSS로 이어질 수 있다.
@@ -107,6 +107,38 @@ export const ALLOWED_INLINE_IMAGE_MIME_TYPES = [
   "image/webp",
   "image/gif",
 ]
+
+// 유튜브 시청/공유 링크(watch, youtu.be, shorts, embed)를 임베드 재생 URL로 변환한다.
+// 유튜브가 아니거나 영상 ID를 알 수 없으면 null을 반환해 일반 링크로 렌더링되게 한다.
+export function getYoutubeEmbedUrl(url: string): string | null {
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    return null
+  }
+
+  const host = parsed.hostname.replace(/^www\.|^m\./, "")
+  let videoId: string | null = null
+
+  if (host === "youtu.be") {
+    videoId = parsed.pathname.slice(1).split("/")[0] || null
+  } else if (host === "youtube.com" || host === "music.youtube.com") {
+    if (parsed.pathname === "/watch") {
+      videoId = parsed.searchParams.get("v")
+    } else if (parsed.pathname.startsWith("/embed/")) {
+      videoId = parsed.pathname.slice("/embed/".length)
+    } else if (parsed.pathname.startsWith("/shorts/")) {
+      videoId = parsed.pathname.slice("/shorts/".length)
+    }
+  }
+
+  if (!videoId) return null
+  videoId = videoId.split(/[?&]/)[0]
+  if (!/^[\w-]{6,}$/.test(videoId)) return null
+
+  return `https://www.youtube.com/embed/${videoId}`
+}
 
 export type Post = {
   id: string

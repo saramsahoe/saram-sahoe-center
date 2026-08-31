@@ -131,7 +131,7 @@ export type PostActionResult = {
 function attachmentsError(attachments: AttachmentRecord[]): string | null {
   const total = attachments.reduce((sum, file) => sum + file.size, 0);
   if (total > MAX_ATTACHMENTS_BYTES_PER_POST) {
-    return "첨부파일은 게시글당 최대 10MB까지 업로드할 수 있습니다.";
+    return "첨부파일은 게시글당 최대 100MB까지 업로드할 수 있습니다.";
   }
   if (attachments.some((file) => !isAllowedAttachmentExtension(file.name))) {
     return "허용되지 않는 파일 형식이 포함되어 있습니다.";

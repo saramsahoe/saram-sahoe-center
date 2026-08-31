@@ -1,6 +1,8 @@
 "use client"
 
+import type { ReactNode } from "react"
 import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 import { Download, Eye, Lock, PenSquare, UserRound } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -12,8 +14,34 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { categoryMeta, type Post } from "@/lib/board-content"
+import { categoryMeta, getYoutubeEmbedUrl, type Post } from "@/lib/board-content"
 import { formatFileSize } from "@/lib/utils"
+
+function PostLink({
+  href,
+  children,
+}: {
+  href?: string
+  children?: ReactNode
+}) {
+  const embedUrl = href ? getYoutubeEmbedUrl(href) : null
+  if (embedUrl) {
+    return (
+      <iframe
+        src={embedUrl}
+        title="유튜브 동영상"
+        className="my-3 aspect-video w-full max-w-full rounded-lg border-0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      />
+    )
+  }
+  return (
+    <a href={href} target="_blank" rel="noreferrer">
+      {children}
+    </a>
+  )
+}
 
 export function PostDetailDialog({
   post,
@@ -95,7 +123,12 @@ export function PostDetailDialog({
                 "[&_img]:my-3 [&_img]:max-w-full [&_img]:rounded-lg",
               ].join(" ")}
             >
-              <ReactMarkdown>{post.content}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{ a: PostLink }}
+              >
+                {post.content}
+              </ReactMarkdown>
             </div>
 
             {post.attachments.length > 0 && (

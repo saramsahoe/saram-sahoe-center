@@ -15,6 +15,7 @@ import {
   List,
   Loader2,
   UploadCloud,
+  Video,
   X,
 } from "lucide-react"
 
@@ -45,6 +46,7 @@ import {
   ALLOWED_ATTACHMENT_EXTENSIONS,
   ALLOWED_INLINE_IMAGE_MIME_TYPES,
   categoryFilters,
+  getYoutubeEmbedUrl,
   isAllowedAttachmentExtension,
   MAX_ATTACHMENTS_BYTES_PER_POST,
   MAX_INLINE_IMAGE_BYTES,
@@ -272,6 +274,16 @@ export function PostFormDialog({
     wrapSelection("[", `](${url})`, "링크 텍스트")
   }
 
+  function applyYoutubeEmbed() {
+    const url = window.prompt("유튜브 동영상 URL을 입력하세요", "https://")
+    if (!url) return
+    if (!getYoutubeEmbedUrl(url)) {
+      setAttachmentError("올바른 유튜브 동영상 링크가 아닙니다.")
+      return
+    }
+    insertAtCursor(`\n${url}\n`)
+  }
+
   function handleImageButtonClick() {
     imageInputRef.current?.click()
   }
@@ -434,6 +446,14 @@ export function PostFormDialog({
                   className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   <Link2 className="size-3.5" strokeWidth={1.75} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="유튜브 동영상"
+                  onClick={applyYoutubeEmbed}
+                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  <Video className="size-3.5" strokeWidth={1.75} />
                 </button>
                 <button
                   type="button"

@@ -31,17 +31,19 @@ update storage.buckets set public = true where id = 'post-images';
 
 -- attachments: 파일 형식은 브라우저/OS마다 리포트하는 MIME이 들쭉날쭉한 한글(HWP) 문서
 -- 호환성 때문에 스토리지 레벨에서는 강제하지 않고(앱 코드에서 확장자로 검증),
--- 개별 파일 크기 상한만 스토리지 레벨에서 강제한다.
+-- 개별 파일 크기 상한만 스토리지 레벨에서 강제한다. (lib/board-content.ts의
+-- MAX_ATTACHMENTS_BYTES_PER_POST와 동일하게 100MB로 맞춘다.)
 insert into storage.buckets (id, name, public, file_size_limit)
-values ('attachments', 'attachments', false, 10485760)
+values ('attachments', 'attachments', false, 104857600)
 on conflict (id) do update
   set file_size_limit = excluded.file_size_limit;
 
 -- post-images: 이미지 MIME 타입은 표준화되어 있어 스토리지 레벨에서도 안전하게 강제할 수 있다.
 -- image/svg+xml은 의도적으로 제외한다 (SVG 저장형 XSS 위험, lib/board-content.ts 주석 참고).
+-- (lib/board-content.ts의 MAX_INLINE_IMAGE_BYTES와 동일하게 100MB로 맞춘다.)
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
-  'post-images', 'post-images', true, 5242880,
+  'post-images', 'post-images', true, 104857600,
   array['image/jpeg', 'image/png', 'image/webp', 'image/gif']
 )
 on conflict (id) do update
