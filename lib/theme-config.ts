@@ -7,13 +7,13 @@
 export const themeConfig = {
   /** 배경 색상 — 페이지 전체 배경 그라데이션 (위 → 아래) */
   background: {
-    gradientFrom: "#41fbe5",
-    gradientTo: "#519e60",
+    gradientFrom: "#7ef6d4",
+    gradientTo: "#0aad7f",
   },
 
   /** 푸터 색상 — 맨 아래 푸터 영역 배경·글씨 */
   footer: {
-    background: "#519e60",
+    background: "#0aad7f",
     text: "#ffffff",
   },
 
@@ -42,7 +42,7 @@ export const themeConfig = {
    *  배지, 밑줄, 포커스 링, 조직도 강조 노드 등 사이트 전체의 "포인트" 색.
    *  버튼 색상과는 별개로 관리됩니다. */
   accent: {
-    color: "#3f8a52",
+    color: "#78fa6a",
     /** 포인트 색상 위에 올라가는 글씨 색 (배지, 조직도 노드 등) */
     text: "#ffffff",
   },
