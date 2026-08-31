@@ -23,7 +23,7 @@ export function VisionHero() {
               alt=""
               width={480}
               height={480}
-              className="pointer-events-none absolute top-1/2 right-0 z-0 h-auto w-[55%] max-w-[26rem] -translate-y-1/2 translate-x-[18%] opacity-[0.06] select-none"
+              className="pointer-events-none absolute top-1/2 right-0 z-0 h-auto w-[55%] max-w-[26rem] -translate-y-1/2 translate-x-[18%] opacity-[0.6] select-none"
             />
             {/* Vertical brush rule */}
             <span

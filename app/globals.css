@@ -54,13 +54,12 @@
 }
 
 :root {
-    /* Base: light lavender surfaces, black ink. Interactive elements use the
-       logo's point colors (red/blue). Page background is a gradient,
-       applied directly on body below; this solid value is the
-       fallback/representative color for anything using bg-background as a
-       flat color (e.g. the sticky header's translucent backdrop).
-       --cfg-* variables are injected from lib/theme-config.ts in app/layout.tsx —
-       edit that file to change colors, not this one. */
+    /* All colors below derive from lib/theme-config.ts — edit that file, not
+       this one. app/layout.tsx injects the --cfg-* variables referenced here.
+       Page background is a gradient, applied directly on body below; this
+       solid value is the fallback/representative color for anything using
+       bg-background as a flat color (e.g. the sticky header's translucent
+       backdrop). */
     --background: var(--cfg-bg-from);
     --foreground: var(--cfg-heading-fg);
     --card: var(--cfg-card-bg);
@@ -70,15 +69,18 @@
     /* Primary: black ink, matches default text color */
     --primary: var(--cfg-heading-fg);
     --primary-foreground: var(--cfg-card-bg);
-    /* Secondary: soft lavender surface (nav active state, section bands, org chart) */
-    --secondary: oklch(0.92 0.035 295);
+    /* Secondary/muted/border: neutral surfaces derived from the configured
+       background + card colors, so they auto-harmonize with whatever palette
+       lib/theme-config.ts sets instead of staying a stray hardcoded hue. */
+    --secondary: color-mix(in oklch, var(--cfg-bg-to) 35%, var(--cfg-card-bg));
     --secondary-foreground: var(--cfg-heading-fg);
-    --muted: oklch(0.935 0.028 295);
-    /* 회색 톤 없이 본문 텍스트도 검은색으로 통일 (포인트만 accent 빨간색) */
+    --muted: color-mix(in oklch, var(--cfg-bg-to) 20%, var(--cfg-card-bg));
+    /* 회색 톤 없이 본문 텍스트도 검은색으로 통일 (포인트만 accent) */
     --muted-foreground: var(--cfg-content-fg);
-    /* Accent: logo point red — the site's general point color (badges, highlights, focus rings) */
-    --accent: oklch(0.577 0.245 27.3);
-    --accent-foreground: oklch(0.985 0.012 295);
+    /* Accent: the site's point color — badges, highlights, focus rings, underlines.
+       Configured separately from --button-background in lib/theme-config.ts. */
+    --accent: var(--cfg-accent);
+    --accent-foreground: var(--cfg-accent-fg);
     /* Footer — dedicated color, decoupled from --secondary */
     --footer-background: var(--cfg-footer-bg);
     /* Button — dedicated color for primary CTA buttons */
@@ -87,11 +89,12 @@
     /* Logo point blue, for secondary interactive/click states */
     --info: oklch(0.63 0.16 245);
     --info-foreground: oklch(0.985 0.012 295);
-    --destructive: oklch(0.577 0.245 27.3);
-    --border: oklch(0.87 0.04 295);
-    --input: oklch(0.87 0.04 295);
-    --ring: oklch(0.577 0.245 27.3);
-    --chart-1: oklch(0.577 0.245 27.3);
+    /* Destructive stays a fixed semantic red regardless of theme (delete/error actions) */
+    --destructive: #dc2626;
+    --border: color-mix(in oklch, var(--cfg-bg-to) 55%, black 12%);
+    --input: color-mix(in oklch, var(--cfg-bg-to) 55%, black 12%);
+    --ring: var(--cfg-accent);
+    --chart-1: var(--cfg-accent);
     --chart-2: oklch(0.63 0.16 245);
     --chart-3: oklch(0.446 0.043 257.3);
     --chart-4: oklch(0.554 0.041 257.4);
@@ -150,7 +153,7 @@
   body {
     @apply text-foreground;
     background-color: var(--background);
-    background-image: linear-gradient(180deg, #cdbff2 0%, #a79be6 100%);
+    background-image: linear-gradient(180deg, var(--cfg-bg-from) 0%, var(--cfg-bg-to) 100%);
     background-attachment: fixed;
     }
   html {

@@ -36,4 +36,13 @@ export const themeConfig = {
   content: {
     color: "#0a0a0a",
   },
+
+  /** 포인트 색상 — 강조 텍스트(예: "RESEARCH & EDUCATION..."), 캐치프레이즈 강조 단어,
+   *  배지, 밑줄, 포커스 링, 조직도 강조 노드 등 사이트 전체의 "포인트" 색.
+   *  버튼 색상과는 별개로 관리됩니다. */
+  accent: {
+    color: "#3f8a52",
+    /** 포인트 색상 위에 올라가는 글씨 색 (배지, 조직도 노드 등) */
+    text: "#ffffff",
+  },
 } as const

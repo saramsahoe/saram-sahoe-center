@@ -86,7 +86,7 @@ export default function RootLayout({
         {/* lib/theme-config.ts 값을 CSS 변수로 주입 — 이 파일만 고치면 전체 색상이 바뀐다 */}
         <style
           dangerouslySetInnerHTML={{
-            __html: `:root{--cfg-bg-from:${themeConfig.background.gradientFrom};--cfg-bg-to:${themeConfig.background.gradientTo};--cfg-footer-bg:${themeConfig.footer.background};--cfg-button-bg:${themeConfig.button.background};--cfg-button-fg:${themeConfig.button.text};--cfg-card-bg:${themeConfig.card.background};--cfg-heading-fg:${themeConfig.heading.color};--cfg-content-fg:${themeConfig.content.color};}`,
+            __html: `:root{--cfg-bg-from:${themeConfig.background.gradientFrom};--cfg-bg-to:${themeConfig.background.gradientTo};--cfg-footer-bg:${themeConfig.footer.background};--cfg-button-bg:${themeConfig.button.background};--cfg-button-fg:${themeConfig.button.text};--cfg-card-bg:${themeConfig.card.background};--cfg-heading-fg:${themeConfig.heading.color};--cfg-content-fg:${themeConfig.content.color};--cfg-accent:${themeConfig.accent.color};--cfg-accent-fg:${themeConfig.accent.text};}`,
           }}
         />
       </head>
