@@ -7,13 +7,13 @@
 export const themeConfig = {
   /** 배경 색상 — 페이지 전체 배경 그라데이션 (위 → 아래) */
   background: {
-    gradientFrom: "#1ff9df",
-    gradientTo: "#0cb09d",
+    gradientFrom: "#41fbe5",
+    gradientTo: "#519e60",
   },
 
   /** 푸터 색상 — 맨 아래 푸터 영역 배경·글씨 */
   footer: {
-    background: "#7fa687",
+    background: "#519e60",
     text: "#ffffff",
   },
 
