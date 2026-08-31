@@ -52,7 +52,7 @@ export function NewsCarousel() {
             </span>
 
             <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8">
-              <p className="font-mono text-[0.625rem] tracking-[0.18em] text-white/70 uppercase">
+              <p className="font-mono text-[0.5rem] tracking-[0.16em] text-white/70 uppercase">
                 {slide.date}
               </p>
               <h3 className="mt-2 max-w-2xl font-heading text-lg leading-snug font-semibold text-balance text-white sm:text-2xl">

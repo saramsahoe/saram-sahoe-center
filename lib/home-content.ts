@@ -10,32 +10,32 @@ export type NewsSlide = {
 
 export const newsSlides: NewsSlide[] = [
   {
-    id: "seminar-20xx",
+    id: "seminar-2023",
     category: "Seminar",
-    title: "다시함께 의기양양",
+    title: "서울시 성평등 기금 사업, 다시 함께 의기양양",
     summary:
-      "포스트 코로나 시대, 여성의 임파워먼트 향상을 위한 치유와 회복 프로그램",
-    date: "2000.00.00",
+      "경력 단절 여성들을 돕기 위한 마음챙김 프로그램의 첫 번째 세션으로, 참가자들이 자신의 감정을 이해하고 스트레스를 관리하는 방법을 배우는 시간을 가졌습니다.",
+    date: "2020",
     image: "/news/seminar.png",
     alt: "프로그램 소개 및 특강 안내 사진",
   },
   {
     id: "fieldwork-2015",
     category: "Fieldwork",
-    title: "음악으로 함께 하는 여행 - 필리핀 오지마을 음악봉사 (2015년)",
+    title: "음악으로 함께 하는 여행 - 필리핀 오지마을 음악봉사",
     summary:
       "필리핀 오지마을에서 음악봉사를 진행하며 지역 주민과 함께 음악을 통해 소통하고, 그들의 삶과 문화를 이해하는 시간을 가졌습니다.",
-    date: "2015.00.00",
+    date: "2015",
     image: "/news/fieldwork.png",
     alt: "필리핀 아이들과 연구자들이 함께 교실에 있는 모습",
   },
   {
-    id: "forum-20xx",
+    id: "forum-2020",
     category: "Forum",
-    title: "다시 함께 의기양양, 마음챙김 1일차",
+    title: "서초여성가족 플라자 전시",
     summary:
-      "경력 단절 여성들을 돕기 위한 마음챙김 프로그램의 첫 번째 세션으로, 참가자들이 자신의 감정을 이해하고 스트레스를 관리하는 방법을 배우는 시간을 가졌습니다.",
-    date: "2000.00.00",
+      "서울특별시 성평등기금 사업의 일환으로 서초여성가족 플라자에서 열린 전시",
+    date: "2020 ~ 2023",
     image: "/news/forum.png",
     alt: "온라인 ZOOM 세미나 화면에 여러 명의 참가자가 있는 모습",
   },

@@ -1,12 +1,10 @@
 /**
  * 연구센터 사람과사회 구성원 정보
- * faculty: 교수진 및 초빙교수
- * board: 운영위원회
- * advisory: 자문위원회
- * president: 대표
- * office: 센터 사무국
+ * board: 이사회
+ * committee: 위원회
+ * office: 사무국
  */
-export type MemberCategory = "faculty" | "board" | "advisory" | "president" | "office"
+export type MemberCategory = "board" | "committee" | "office"
 
 export type Member = {
   id: string
@@ -42,8 +40,8 @@ export const members: Member[] = [
     id: "lee-hwayoung",
     name: "이화영",
     role: "대표",
-    roles: ["대표", "교수진/초빙교수", "거버넌스위원회 위원장"],
-    category: "faculty",
+    roles: ["대표", "거버넌스위원회 위원장"],
+    category: "committee",
     interests: ["젠더 관점의 리더십", "정치 및 역량개발"],
     bio: "숙명여자대학교 기초교양학부 초빙교수이자 거버넌스위원회 위원장으로, 젠더 관점의 리더십과 역량개발을 연구합니다. 연구센터사람과사회의 대표를 맡고 있습니다.",
     fullBio:
@@ -75,13 +73,17 @@ export const members: Member[] = [
         label: "교보문고 저자 소개",
         url: "https://store.kyobobook.co.kr/person/detail/1000288425",
       },
+      {
+        label: "번역서",
+        url: "https://www.yes24.com/product/goods/131187551",
+      },
     ],
   },
   {
     id: "lee-juyeon",
     name: "이주연",
     role: "소통역량위원회 위원장",
-    category: "board",
+    category: "committee",
     interests: [],
     bio: "개인과 집단, 나아가 사회적 소통 능력을 개발, 훈련하는 프로그램을 연구 및 기획",
     fullBio:
@@ -96,7 +98,7 @@ export const members: Member[] = [
     id: "nam-bokhee",
     name: "남복희",
     role: "미디어위원회 위원장",
-    category: "board",
+    category: "committee",
     interests: [],
     bio: "영상, 음향 등 다양한 매체를 통한 소통 프로그램을 기획, 연구 및 훈련",
     fullBio:
@@ -109,7 +111,7 @@ export const members: Member[] = [
         id: "park-sunghae",
         name: "박성혜",
         role: "평등나눔위원회 위원장",
-        category: "board",
+        category: "committee",
         interests: [],
         bio: "어린이, 청소년, 성인, 노인 등 사회의 최소 수혜자와 함께하는 리더십을 실천",
         fullBio:
@@ -122,7 +124,7 @@ export const members: Member[] = [
         id: "kim-youngsook",
         name: "김영숙",
         role: "분배성장위원회 위원장",
-        category: "board",
+        category: "committee",
         interests: [],
         bio: "공정한 사회를 꿈꾸는 구성원에게 평등한 분배 교육, 실천 프로그램을 연구",
         fullBio:
@@ -135,7 +137,7 @@ export const members: Member[] = [
         id: "sung-mikyeong",
         name: "정미경",
         role: "젠더역량위원회 위원장",
-        category: "board",
+        category: "committee",
         interests: [],
         bio: "젠더 감수성 증진과 젠더 불평등을 연구하고 대안 프로그램을 통한 실천",
         fullBio:
@@ -148,7 +150,7 @@ export const members: Member[] = [
         id: "-",
         name: "(공석)",
         role: "커리어지지위원회 위원장",
-        category: "board",
+        category: "committee",
         interests: [],
         bio: "미래사회 새로운 일과 직업에 대한 개념을 이해하고 훈련",
         fullBio:
@@ -161,7 +163,7 @@ export const members: Member[] = [
         id: "kim-hyeyoung",
         name: "김혜영",
         role: "꿈성장위원회 위원장",
-        category: "board",
+        category: "committee",
         interests: [],
         bio: "아동, 청소년 교육과 성장을 위한 봉사활동과 예술 프로그램을 연구, 실천",
         fullBio:
@@ -174,7 +176,7 @@ export const members: Member[] = [
         id: "kim-jihyeon",
         name: "김지현",
         role: "소리감성위원회 위원장",
-        category: "board",
+        category: "committee",
         interests: [],
         bio: "인간의 몸을 통해 관계를 구축하고 나아가 세상과 소통할 수 있는 프로그램 훈련",
         fullBio:
@@ -187,7 +189,7 @@ export const members: Member[] = [
         id: "-",
         name: "(공석)",
         role: "창의감성위원회 위원장",
-        category: "board",
+        category: "committee",
         interests: [],
         bio: "미술을 통한 리더의 자기표현과 소통의 역량을 키울 수 있는 프로그램 기획",
         fullBio:
@@ -200,7 +202,7 @@ export const members: Member[] = [
         id: "kim-seungtaek",
         name: "김승택",
         role: "자문위원",
-        category: "advisory",
+        category: "committee",
         interests: [],
         activity: [],
         career: [
@@ -221,7 +223,7 @@ export const members: Member[] = [
         id: "kim-daseop",
         name: "김다섭",
         role: "자문위원",
-        category: "advisory",
+        category: "committee",
         interests: [],
         activity: [],
         career: [
@@ -240,7 +242,7 @@ export const members: Member[] = [
         id: "choo-hyunjae",
         name: "추현재",
         role: "자문위원",
-        category: "advisory",
+        category: "committee",
         interests: [],
         activity: [],
         career: [
@@ -259,7 +261,7 @@ export const members: Member[] = [
         id: "kim-hou",
         name: "김호우",
         role: "자문위원",
-        category: "advisory",
+        category: "committee",
         interests: [],
         activity: [],
         career: [
@@ -277,7 +279,7 @@ export const members: Member[] = [
         id: "sung-yoonmo",
         name: "성윤모",
         role: "자문위원",
-        category: "advisory",
+        category: "committee",
         interests: [],
         activity: [],
         career: [

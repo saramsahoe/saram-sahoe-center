@@ -33,7 +33,7 @@ export function MemberCard({ member }: { member: Member }) {
                   <Badge
                     key={role}
                     variant={
-                      member.category === "faculty" ? "accent-soft" : "outline"
+                      member.category === "committee" ? "accent-soft" : "outline"
                     }
                   >
                     {role}
