@@ -21,6 +21,7 @@ import {
 
 import { getAttachmentsUsage } from "@/app/actions/board"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { PostMarkdown } from "@/components/board/post-markdown"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -67,8 +68,35 @@ export type PostFormValues = {
   attachments: AttachmentRecord[]
 }
 
-function sanitizeFileName(name: string) {
-  return name.replace(/[^\w.\-가-힣 ]/g, "_")
+// Supabase Storage 키는 ASCII 안전 문자만 허용해서, 한글/공백이 든 원본 파일명을
+// 그대로 경로에 넣으면 "Invalid key" 오류가 난다. 확장자만 유지하고 나머지는
+// UUID로 대체한다 — 원본 파일명은 AttachmentRecord.name에 별도로 저장해 표시한다.
+function fileExtension(name: string) {
+  const dot = name.lastIndexOf(".")
+  return dot === -1 ? "" : name.slice(dot).toLowerCase()
+}
+
+// 본문 삽입 이미지는 용량 절감을 위해 webp로 변환해서 올린다. gif는 애니메이션이
+// 깨지므로 변환하지 않고 원본 그대로 둔다.
+async function toWebp(file: File): Promise<File> {
+  if (file.type === "image/gif" || file.type === "image/webp") return file
+
+  const bitmap = await createImageBitmap(file)
+  const canvas = document.createElement("canvas")
+  canvas.width = bitmap.width
+  canvas.height = bitmap.height
+  const ctx = canvas.getContext("2d")
+  if (!ctx) return file
+  ctx.drawImage(bitmap, 0, 0)
+  bitmap.close()
+
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/webp", 0.85)
+  )
+  if (!blob) return file
+
+  const webpName = `${file.name.replace(/\.[^.]+$/, "")}.webp`
+  return new File([blob], webpName, { type: "image/webp" })
 }
 
 // 편집 화면에서 보여주는 첨부파일 목록은 서명(만료) URL 형태(Post.attachments)라서,
@@ -110,6 +138,7 @@ export function PostFormDialog({
       return path ? [{ name: file.name, path, size: file.size }] : []
     })
   )
+  const [previewMode, setPreviewMode] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [attachmentUploading, setAttachmentUploading] = useState(false)
   const [attachmentError, setAttachmentError] = useState<string | null>(null)
@@ -187,7 +216,7 @@ export function PostFormDialog({
     const uploaded: AttachmentRecord[] = []
 
     for (const file of newFiles) {
-      const path = `${crypto.randomUUID()}-${sanitizeFileName(file.name)}`
+      const path = `${crypto.randomUUID()}${fileExtension(file.name)}`
       const { error: uploadError } = await supabase.storage
         .from("attachments")
         .upload(path, file)
@@ -308,10 +337,11 @@ export function PostFormDialog({
     setImageUploading(true)
     setAttachmentError(null)
     const supabase = createClient()
-    const path = `${crypto.randomUUID()}-${sanitizeFileName(file.name)}`
+    const uploadFile = await toWebp(file)
+    const path = `${crypto.randomUUID()}${fileExtension(uploadFile.name)}`
     const { error: uploadError } = await supabase.storage
       .from("post-images")
-      .upload(path, file)
+      .upload(path, uploadFile, { contentType: uploadFile.type })
     setImageUploading(false)
 
     if (uploadError) {
@@ -419,7 +449,8 @@ export function PostFormDialog({
                   type="button"
                   aria-label="굵게"
                   onClick={handleBoldClick}
-                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  disabled={previewMode}
+                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                 >
                   <Bold className="size-3.5" strokeWidth={1.75} />
                 </button>
@@ -427,7 +458,8 @@ export function PostFormDialog({
                   type="button"
                   aria-label="기울임"
                   onClick={handleItalicClick}
-                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  disabled={previewMode}
+                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                 >
                   <Italic className="size-3.5" strokeWidth={1.75} />
                 </button>
@@ -435,7 +467,8 @@ export function PostFormDialog({
                   type="button"
                   aria-label="목록"
                   onClick={applyListPrefix}
-                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  disabled={previewMode}
+                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                 >
                   <List className="size-3.5" strokeWidth={1.75} />
                 </button>
@@ -443,7 +476,8 @@ export function PostFormDialog({
                   type="button"
                   aria-label="링크"
                   onClick={applyLink}
-                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  disabled={previewMode}
+                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                 >
                   <Link2 className="size-3.5" strokeWidth={1.75} />
                 </button>
@@ -451,7 +485,8 @@ export function PostFormDialog({
                   type="button"
                   aria-label="유튜브 동영상"
                   onClick={applyYoutubeEmbed}
-                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  disabled={previewMode}
+                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                 >
                   <Video className="size-3.5" strokeWidth={1.75} />
                 </button>
@@ -459,8 +494,8 @@ export function PostFormDialog({
                   type="button"
                   aria-label="이미지"
                   onClick={handleImageButtonClick}
-                  disabled={imageUploading}
-                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-50"
+                  disabled={imageUploading || previewMode}
+                  className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
                 >
                   {imageUploading ? (
                     <Loader2 className="size-3.5 animate-spin" strokeWidth={1.75} />
@@ -468,9 +503,32 @@ export function PostFormDialog({
                     <ImageIcon className="size-3.5" strokeWidth={1.75} />
                   )}
                 </button>
-                <span className="ml-auto font-mono text-[0.5625rem] tracking-[0.14em] text-muted-foreground uppercase">
-                  Markdown
-                </span>
+                <div className="ml-auto flex items-center gap-1 font-mono text-[0.5625rem] tracking-[0.1em] uppercase">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewMode(false)}
+                    className={cn(
+                      "rounded-md px-2 py-1 transition-colors",
+                      !previewMode
+                        ? "bg-background text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    작성
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewMode(true)}
+                    className={cn(
+                      "rounded-md px-2 py-1 transition-colors",
+                      previewMode
+                        ? "bg-background text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    미리보기
+                  </button>
+                </div>
                 <input
                   ref={imageInputRef}
                   type="file"
@@ -479,15 +537,27 @@ export function PostFormDialog({
                   onChange={handleImageFileChange}
                 />
               </div>
-              <Textarea
-                ref={contentRef}
-                id="post-content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="내용을 입력하세요"
-                required
-                className="min-h-48 rounded-t-none"
-              />
+              {previewMode ? (
+                <div className="min-h-48 rounded-b-lg border border-input px-3 py-2">
+                  {content.trim() ? (
+                    <PostMarkdown content={content} />
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      미리볼 내용이 없습니다.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <Textarea
+                  ref={contentRef}
+                  id="post-content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="내용을 입력하세요"
+                  required
+                  className="min-h-48 rounded-t-none"
+                />
+              )}
             </Field>
 
             {error && (

@@ -6,7 +6,7 @@
  * `supabase.from("posts").select(...)` query without changing consumers.
  */
 
-export type PostCategory = "notice" | "press" | "research" | "seminar"
+export type PostCategory = "notice" | "press" | "research" | "seminar" | "gallery"
 
 export const categoryMeta: Record<
   PostCategory,
@@ -16,6 +16,7 @@ export const categoryMeta: Record<
   press: { label: "보도자료", badgeVariant: "accent-soft" },
   research: { label: "소식", badgeVariant: "outline" },
   seminar: { label: "세미나/행사", badgeVariant: "outline" },
+  gallery: { label: "갤러리", badgeVariant: "outline" },
 }
 
 export const categoryFilters: { value: PostCategory | "all"; label: string }[] =
@@ -25,6 +26,7 @@ export const categoryFilters: { value: PostCategory | "all"; label: string }[] =
     { value: "press", label: "보도자료" },
     { value: "research", label: "소식" },
     { value: "seminar", label: "세미나/행사" },
+    { value: "gallery", label: "갤러리" },
   ]
 
 export type Attachment = {

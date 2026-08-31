@@ -43,6 +43,7 @@ const CATEGORY_TO_DB: Record<PostCategory, string> = {
   press: "보도자료",
   research: "연구소식",
   seminar: "세미나/행사",
+  gallery: "갤러리",
 };
 
 const CATEGORY_FROM_DB: Record<string, PostCategory> = {
@@ -50,6 +51,7 @@ const CATEGORY_FROM_DB: Record<string, PostCategory> = {
   보도자료: "press",
   연구소식: "research",
   "세미나/행사": "seminar",
+  갤러리: "gallery",
 };
 
 function legacyPathFromUrl(url: string | undefined): string | null {
