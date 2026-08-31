@@ -19,9 +19,15 @@ import { categoryFilters, type Post, type PostCategory } from "@/lib/board-conte
 
 const PAGE_SIZE = 8
 
-export function BoardView({ initialPosts }: { initialPosts: Post[] }) {
+export function BoardView({
+  initialPosts,
+  initialCategory = "all",
+}: {
+  initialPosts: Post[]
+  initialCategory?: PostCategory | "all"
+}) {
   const [posts, setPosts] = useState<Post[]>(initialPosts)
-  const [category, setCategory] = useState<PostCategory | "all">("all")
+  const [category, setCategory] = useState<PostCategory | "all">(initialCategory)
   const [query, setQuery] = useState("")
   const [page, setPage] = useState(1)
   const [selectedPost, setSelectedPost] = useState<Post | null>(null)

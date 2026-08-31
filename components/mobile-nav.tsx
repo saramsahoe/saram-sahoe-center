@@ -17,11 +17,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
-import { mainNav, siteConfig } from "@/lib/navigation"
+import { getActiveNavHref, mainNav, siteConfig } from "@/lib/navigation"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
   const pathname = usePathname()
+  const activeHref = getActiveNavHref(pathname, mainNav)
 
   const close = () => setOpen(false)
 
@@ -54,8 +55,7 @@ export function MobileNav() {
           className="flex min-h-0 flex-1 flex-col overflow-y-auto px-3 py-4"
         >
           {mainNav.map((item) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`)
+            const isActive = item.href === activeHref
 
             return (
               <Link

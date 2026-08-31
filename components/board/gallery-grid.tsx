@@ -41,44 +41,54 @@ export function GalleryGrid({
                 : "border-border bg-card hover:border-accent/50"
             )}
           >
-            {preview.length > 0 ? (
-              <div
-                className={cn(
-                  "grid gap-0.5 bg-border",
-                  preview.length === 1 ? "grid-cols-1" : "grid-cols-2"
-                )}
-              >
-                {preview.map((item, index) => (
-                  <div
-                    key={index}
-                    className="relative aspect-square overflow-hidden bg-muted"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={item.type === "image" ? item.url : item.thumbnailUrl}
-                      alt=""
-                      className="size-full object-cover"
-                      loading="lazy"
-                    />
-                    {item.type === "youtube" && (
-                      <PlayCircle
-                        className="absolute inset-0 m-auto size-8 text-white drop-shadow-md"
-                        strokeWidth={1.5}
+            {/* 사진 개수와 상관없이 미리보기 영역 높이를 고정해서, 그리드에서 옆 카드와
+                줄맞춤될 때 아래 여백(카드 배경)이 늘어나 보이지 않게 한다. */}
+            <div className="aspect-[4/3] w-full overflow-hidden bg-muted">
+              {preview.length === 0 ? (
+                <div className="flex size-full items-center justify-center text-muted-foreground">
+                  <ImageIcon className="size-8" strokeWidth={1.5} />
+                </div>
+              ) : (
+                <div
+                  className={cn(
+                    "grid size-full gap-0.5 bg-border",
+                    preview.length === 1 && "grid-cols-1",
+                    preview.length === 2 && "grid-cols-2",
+                    preview.length === 3 && "grid-cols-2 grid-rows-2",
+                    preview.length >= 4 && "grid-cols-2 grid-rows-2"
+                  )}
+                >
+                  {preview.map((item, index) => (
+                    <div
+                      key={index}
+                      className={cn(
+                        "relative overflow-hidden bg-muted",
+                        preview.length === 3 && index === 0 && "row-span-2"
+                      )}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.type === "image" ? item.url : item.thumbnailUrl}
+                        alt=""
+                        className="size-full object-cover"
+                        loading="lazy"
                       />
-                    )}
-                    {index === preview.length - 1 && remaining > 0 && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/55 font-mono text-sm text-white">
-                        +{remaining}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex aspect-video items-center justify-center bg-muted text-muted-foreground">
-                <ImageIcon className="size-8" strokeWidth={1.5} />
-              </div>
-            )}
+                      {item.type === "youtube" && (
+                        <PlayCircle
+                          className="absolute inset-0 m-auto size-8 text-white drop-shadow-md"
+                          strokeWidth={1.5}
+                        />
+                      )}
+                      {index === preview.length - 1 && remaining > 0 && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/55 font-mono text-sm text-white">
+                          +{remaining}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="flex flex-col gap-1 p-3">
               <div className="flex items-center gap-1.5">
                 {post.pinned && (

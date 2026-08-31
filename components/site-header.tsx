@@ -7,10 +7,11 @@ import { UserNav } from "@/components/auth/user-nav"
 import { MobileNav } from "@/components/mobile-nav"
 import { SiteLogo } from "@/components/site-logo"
 import { cn } from "@/lib/utils"
-import { mainNav } from "@/lib/navigation"
+import { getActiveNavHref, mainNav } from "@/lib/navigation"
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const activeHref = getActiveNavHref(pathname, mainNav)
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/85 backdrop-blur-md supports-backdrop-filter:bg-background/70">
@@ -22,8 +23,7 @@ export function SiteHeader() {
           className="ml-6 hidden flex-1 items-center gap-1 lg:flex"
         >
           {mainNav.map((item) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(`${item.href}/`)
+            const isActive = item.href === activeHref
 
             return (
               <Link
