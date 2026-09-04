@@ -6,15 +6,15 @@ import { AboutTabs, type AboutTab } from "@/components/about/about-tabs"
 const tabCopy: Record<AboutTab, { label: string; description: string }> = {
   mission: {
     label: "목적 및 비전",
-    description: "연구센터 사람과 사회가 이 일을 하는 이유를 소개합니다.",
+    description: "사람을 수단이 아닌 출발점으로 두는 활동, 우리가 왜 이 일을 하는지 밝힙니다.",
   },
   research: {
     label: "사업 및 활동분야",
-    description: "노동, 돌봄, 지역 공동체를 축으로 한 사업 및 활동분야를 소개합니다.",
+    description: "나, 우리, 환경 등 세 개의 차원으로 융합적 리더십을 추구합니다.",
   },
   history: {
     label: "연혁",
-    description: "연구센터 사람과 사회가 지금까지 걸어온 길을 소개합니다.",
+    description: "지금까지 걸어온 길을 기록했습니다.",
   },
 }
 
@@ -60,8 +60,7 @@ export default async function AboutTabPage({
             연구센터 사람과 사회를 소개합니다
           </h1>
           <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground">
-            우리가 이 일을 하는 이유, 지금 다루고 있는 연구 주제, 그리고
-            지금까지 걸어온 길을 한 곳에서 확인하세요.
+            우리가 지금까지 걸어온 길을 한 곳에서 확인하세요.
           </p>
         </div>
       </section>

@@ -14,7 +14,7 @@ export const newsSlides: NewsSlide[] = [
     category: "Seminar",
     title: "서울시 성평등기금사업 - 다시함께 의기양양, 서로함께 의기양양, 모두함께 의기양양",
     summary:
-      "여성 1인 기업가를 대상으로 각자, 그리고 모두가 힘을 내기 위한 시간을 갖습니다",
+      "여성 1인 기업가를 대상으로 각자, 그리고 모두가 힘을 내기 위한 시간을 갖습니다.",
     date: "2020 ~ 2022",
     image: "/news/seminar.png",
     alt: "프로그램 소개 및 특강 안내 사진",
@@ -32,10 +32,10 @@ export const newsSlides: NewsSlide[] = [
   {
     id: "forum-2020",
     category: "Forum",
-    title: "서초여성가족위탁 사업",
+    title: "서초여성가족위탁",
     summary:
-      "서울특별시 성평등기금 사업의 일환으로 서초여성가족 플라자에서 전시 개최",
-    date: "2020 ~ 2023",
+      "",
+    date: "2020 ~ 2024",
     image: "/news/forum.png",
     alt: "온라인 ZOOM 세미나 화면에 여러 명의 참가자가 있는 모습",
   },
@@ -52,19 +52,19 @@ export const introCards: IntroCard[] = [
   {
     title: "목적 및 비전",
     caption: "Mission",
-    body: "사람을 수단이 아닌 출발점으로 두는 연구. 우리가 왜 이 일을 하는지 밝힙니다.",
+    body: "사람을 수단이 아닌 출발점으로 두는 활동, 우리가 왜 이 일을 하는지 밝힙니다.",
     href: "/about/mission",
   },
   {
     title: "사업 및 활동분야",
     caption: "Programs",
-    body: "노동, 돌봄, 지역 공동체. 세 개의 축으로 한국 사회의 변화를 추적합니다.",
+    body: "나, 우리, 환경 등 세 개의 차원으로 융합적 리더십을 추구합니다.",
     href: "/about/research",
   },
   {
     title: "연혁",
     caption: "History",
-    body: "작은 독서모임에서 독립 연구기관까지, 지금까지 걸어온 길을 기록했습니다.",
+    body: "지금까지 걸어온 길을 기록했습니다.",
     href: "/about/history",
   },
 ]

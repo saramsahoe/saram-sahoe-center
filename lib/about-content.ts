@@ -172,11 +172,6 @@ export const historyTimeline: HistoryYear[] = [
         icon: Handshake,
       },
       {
-        title: "한국양성평등교육진흥원 '전문직여성교육프로그램' 공동개발",
-        description: "12월, 변화를 주도하는 브랜드역량을 주제로 프로그램 공동개발",
-        icon: GraduationCap,
-      },
-      {
         title: "자문위원단(협력이사) 제도 설치",
         description: "12월, 자문위원단(협력이사) 제도 신설",
         icon: FileSignature,

@@ -14,7 +14,7 @@ export const themeConfig = {
   /** 푸터 색상 — 맨 아래 푸터 영역 배경·글씨 */
   footer: {
     background: "#f0f8f7",
-    text: "#ffffff",
+    text: "#0a0a0a",
   },
 
   /** 버튼 색상 — 로그인/회원가입/문의하기 등 주요 버튼의 배경·글씨 색 */
@@ -42,7 +42,7 @@ export const themeConfig = {
    *  배지, 밑줄, 포커스 링, 조직도 강조 노드 등 사이트 전체의 "포인트" 색.
    *  버튼 색상과는 별개로 관리됩니다. */
   accent: {
-    color: "#11640b",
+    color: "#00325A",
     /** 포인트 색상 위에 올라가는 글씨 색 (배지, 조직도 노드 등) */
     text: "#ffffff",
   },

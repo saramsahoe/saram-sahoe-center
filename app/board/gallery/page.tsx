@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { getPosts } from "@/app/actions/board"
 import { getMyProfile } from "@/app/actions/profile"
 import { BoardView } from "@/components/board/board-view"
+import { PostsLoadError } from "@/components/board/posts-load-error"
 import { UpgradeRequiredNotice } from "@/components/board/upgrade-required-notice"
-import { mockPosts } from "@/lib/board-content"
 import { siteConfig } from "@/lib/navigation"
 
 export const metadata: Metadata = {
@@ -37,7 +37,11 @@ export default async function BoardGalleryPage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <BoardView initialPosts={posts ?? mockPosts} initialCategory="gallery" />
+        {posts ? (
+          <BoardView initialPosts={posts} initialCategory="gallery" />
+        ) : (
+          <PostsLoadError />
+        )}
       </section>
     </>
   )
