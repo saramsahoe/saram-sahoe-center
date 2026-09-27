@@ -25,7 +25,7 @@ export const themeConfig = {
 
   /** 카드색상 — 콘텐츠 카드(Card), 알림창 등 흰 박스형 배경 */
   card: {
-    background: "#84f5e7",
+    background: "#E3F2D8",
   },
 
   /** 대표 글씨 색상 — 제목과 본문 텍스트의 기본 색 */
