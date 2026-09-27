@@ -57,7 +57,7 @@ export function OrgChart() {
       <VConnector />
 
       <div className="flex flex-wrap items-center justify-center gap-8">
-        <OrgNode label="소장" tone="accent" />
+        <OrgNode label="대표" />
         <OrgNode label="사무국" />
       </div>
       <VConnector />
