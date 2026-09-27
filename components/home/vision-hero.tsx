@@ -15,27 +15,26 @@ export function VisionHero() {
 
                 {/* Signature element: calligraphy-style vision statement */}
                 <figure className="mt-8">
-                    {/* 1. 카드 크기 확대: py-12 -> py-20, py-16 -> py-24, py-20 -> py-32 로 위아래 여백을 대폭 늘렸습니다 */}
-                    <div className="relative overflow-hidden rounded-lg border border-border bg-card px-6 py-20 shadow-sm sm:px-12 sm:py-24 lg:px-16 lg:py-32">
+                    {/* 1. 카드 세로 크기 대폭 확대: py 여백을 기존보다 훨씬 크게(py-28, sm:py-36, lg:py-48) 늘려 로고가 세로로 안 잘리게 했습니다. */}
+                    <div className="relative overflow-hidden rounded-lg border border-border bg-card px-6 py-28 shadow-sm sm:px-12 sm:py-36 lg:px-16 lg:py-48">
 
-                        {/* 2. 로고 뚜렷하게: opacity-[0.6] -> opacity-[0.85] (또는 opacity-100)으로 변경하고 크기도 살짝 키웠습니다 */}
+                        {/* 2. 가로 잘림 해결: 우측으로 밀어내던 translate-x-[18%]를 삭제하고, right-4 lg:right-12 를 주어 안전하게 우측 안쪽으로 배치했습니다. */}
                         <Image
                             aria-hidden="true"
                             src="/brand/logo-full.svg"
                             alt=""
                             width={480}
                             height={480}
-                            className="pointer-events-none absolute right-0 top-1/2 z-0 h-auto w-[65%] max-w-[32rem] -translate-y-1/2 translate-x-[18%] opacity-[0.85] select-none"
+                            className="pointer-events-none absolute right-4 top-1/2 z-0 h-auto w-[65%] max-w-[32rem] -translate-y-1/2 lg:right-12 opacity-[0.85] select-none"
                         />
 
-                        {/* Vertical brush rule (왼쪽 세로 선 길이도 카드 크기에 맞게 조금 조정했습니다) */}
+                        {/* Vertical brush rule (카드 높이가 커진 만큼 선의 상하 여백도 살짝 넓혔습니다) */}
                         <span
                             aria-hidden="true"
-                            className="absolute inset-y-12 left-0 w-[3px] rounded-full bg-accent sm:inset-y-16"
+                            className="absolute inset-y-16 left-0 w-[3px] rounded-full bg-accent sm:inset-y-20 lg:inset-y-28"
                         />
 
                         <blockquote className="relative z-10 max-w-4xl">
-                            {/* 3. 텍스트 크기 확대: 카드가 커진 만큼 글씨도 더 크게 조정했습니다 (text-4xl, 5xl, 6xl) */}
                             <p className="text-balance font-serif text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl lg:leading-[1.35]">
                                 사람은{" "}
                                 <em className="relative inline-block not-italic">
