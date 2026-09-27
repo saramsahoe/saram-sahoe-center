@@ -64,12 +64,6 @@ export function PostList({
               >
                 작성일
               </th>
-              <th
-                scope="col"
-                className="w-20 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground uppercase"
-              >
-                조회
-              </th>
               <th scope="col" className="w-12 px-4 py-3" />
             </tr>
           </thead>
@@ -109,9 +103,6 @@ export function PostList({
                 </td>
                 <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                   {post.date}
-                </td>
-                <td className="px-4 py-3 text-center text-muted-foreground">
-                  {post.views.toLocaleString()}
                 </td>
                 <td className="px-4 py-3 text-center">
                   {post.attachments.length > 0 && (
@@ -156,9 +147,6 @@ export function PostList({
                 </td>
                 <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
                   {post.date}
-                </td>
-                <td className="px-4 py-3 text-center text-muted-foreground">
-                  {post.views.toLocaleString()}
                 </td>
                 <td className="px-4 py-3 text-center">
                   {post.attachments.length > 0 && (
@@ -210,8 +198,6 @@ export function PostList({
                 <span>{post.author}</span>
                 <span aria-hidden="true">·</span>
                 <span>{post.date}</span>
-                <span aria-hidden="true">·</span>
-                <span>조회 {post.views.toLocaleString()}</span>
               </div>
             </button>
           </li>

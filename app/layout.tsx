@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     template: "%s | 연구센터 사람과 사회",
   },
   description:
-    "인간 중심의 기술과 가치를 연구하는 연구공동체입니다.",
+    "인간 중심의 기술과 가치를 연구하는 교육 및 연구공동체입니다.",
   keywords: ["연구센터", "사람과 사회", "연구센터사람과사회", "사회과학 연구", "젠더", "휴머니즘", "여성 역량개발", "리더십", "여성과 리더십"],
   openGraph: {
     title: "연구센터 사람과 사회",
-    description: "인간 중심의 기술과 가치를 연구하는 연구공동체",
+    description: "인간 중심의 기술과 가치를 연구하는 교육 및 연구공동체입니다.",
     url: 'https://saramsahoe.org',
     siteName: '연구센터사람과사회',
     locale: "ko_KR",

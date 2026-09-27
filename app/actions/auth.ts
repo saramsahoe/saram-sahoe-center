@@ -177,44 +177,6 @@ export async function getCurrentUser() {
   return user;
 }
 
-export type FindAccountResult = {
-  error: string | null;
-  matches: string[];
-};
-
-/** 이름으로 계정을 찾아 등록된 이메일(=로그인 아이디)을 마스킹해서 화면에 바로 보여준다. */
-export async function findAccountId(name: string): Promise<FindAccountResult> {
-  const trimmed = name.trim();
-  if (!trimmed) {
-    return { error: "이름을 입력해 주세요.", matches: [] };
-  }
-
-  const supabase = await createServerSupabaseClient();
-  const { data: matches, error } = await supabase
-    .from("profiles")
-    .select("email")
-    .eq("full_name", trimmed)
-    .limit(5);
-
-  if (error) {
-    return { error: error.message, matches: [] };
-  }
-
-  return {
-    error: null,
-    matches: (matches ?? []).map((profile) => maskEmail(profile.email)),
-  };
-}
-
-function maskEmail(email: string) {
-  const [local, domain] = email.split("@");
-  if (!domain) return email;
-  const visibleLength = Math.min(2, local.length);
-  const visible = local.slice(0, visibleLength);
-  const masked = "*".repeat(Math.max(local.length - visibleLength, 2));
-  return `${visible}${masked}@${domain}`;
-}
-
 export async function requestPasswordReset(email: string): Promise<AuthResult> {
   const trimmed = email.trim();
   if (!EMAIL_RE.test(trimmed)) {

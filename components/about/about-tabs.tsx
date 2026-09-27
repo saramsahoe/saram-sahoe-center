@@ -6,10 +6,19 @@ import { HistoryView } from "@/components/about/history-view"
 import { MissionView } from "@/components/about/mission-view"
 import { ResearchView } from "@/components/about/research-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import type { HistoryEntry } from "@/lib/history-content"
 
 export type AboutTab = "mission" | "research" | "history"
 
-export function AboutTabs({ activeTab }: { activeTab: AboutTab }) {
+export function AboutTabs({
+  activeTab,
+  historyEntries,
+  isAdmin,
+}: {
+  activeTab: AboutTab
+  historyEntries: HistoryEntry[]
+  isAdmin: boolean
+}) {
   const router = useRouter()
 
   return (
@@ -30,7 +39,7 @@ export function AboutTabs({ activeTab }: { activeTab: AboutTab }) {
         <ResearchView />
       </TabsContent>
       <TabsContent value="history">
-        <HistoryView />
+        <HistoryView initialEntries={historyEntries} isAdmin={isAdmin} />
       </TabsContent>
     </Tabs>
   )

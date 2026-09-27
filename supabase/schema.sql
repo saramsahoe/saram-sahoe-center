@@ -1,6 +1,6 @@
 -- Supabase SQL Editor에서 실행하세요.
 -- posts / inquiries / profiles 테이블은 프로젝트에 이미 존재하는 것을 확인했습니다.
--- (posts: id, category, title, content, author_id, author_name, view_count,
+-- (posts: id, category, title, content, author_id, author_name,
 --         is_pinned, created_at, updated_at
 --  inquiries: id, name, email, affiliation, message, status, created_at
 --  profiles: id, email, full_name, role, created_at)

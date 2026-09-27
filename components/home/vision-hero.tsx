@@ -9,7 +9,7 @@ export function VisionHero() {
   return (
     <section className="border-b border-border bg-secondary/40">
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <p className="font-mono text-[0.625rem] tracking-[0.22em] text-accent uppercase">
+        <p className="font-mono text-[0.9375rem] tracking-[0.22em] text-accent uppercase">
           {siteConfig.nameEn}
         </p>
 
@@ -53,7 +53,7 @@ export function VisionHero() {
 
         <div className="mt-10 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <p className="max-w-2xl font-heading text-base leading-relaxed text-pretty text-muted-foreground sm:text-lg">
-            인간 중심의 기술과 사회적 가치를 탐구하는 연구공동체
+            인간 중심의 기술과 사회적 가치를 탐구하는 교육 및 연구공동체
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Button

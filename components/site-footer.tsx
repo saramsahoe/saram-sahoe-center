@@ -18,7 +18,7 @@ export function SiteFooter() {
               <p className="font-heading text-sm font-semibold tracking-tight text-footer-foreground">
                 {siteConfig.name}
               </p>
-              <p className="font-mono text-[0.5625rem] tracking-[0.16em] text-footer-foreground/70 uppercase">
+              <p className="font-mono text-[0.84375rem] tracking-[0.16em] text-footer-foreground/70 uppercase">
                 {siteConfig.nameEn}
               </p>
             </div>

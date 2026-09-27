@@ -4,7 +4,6 @@ import { getPosts } from "@/app/actions/board"
 import { getMyProfile } from "@/app/actions/profile"
 import { BoardView } from "@/components/board/board-view"
 import { PostsLoadError } from "@/components/board/posts-load-error"
-import { UpgradeRequiredNotice } from "@/components/board/upgrade-required-notice"
 import { siteConfig } from "@/lib/navigation"
 
 export const metadata: Metadata = {
@@ -13,12 +12,8 @@ export const metadata: Metadata = {
 }
 
 export default async function BoardPage() {
-  const profile = await getMyProfile()
-  if (!profile || profile.role === "user") {
-    return <UpgradeRequiredNotice />
-  }
-
-  const posts = await getPosts()
+  const [profile, posts] = await Promise.all([getMyProfile(), getPosts()])
+  const isAdmin = profile?.role === "admin"
 
   return (
     <>
@@ -37,7 +32,11 @@ export default async function BoardPage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        {posts ? <BoardView initialPosts={posts} /> : <PostsLoadError />}
+        {posts ? (
+          <BoardView initialPosts={posts} isAdmin={isAdmin} />
+        ) : (
+          <PostsLoadError />
+        )}
       </section>
     </>
   )

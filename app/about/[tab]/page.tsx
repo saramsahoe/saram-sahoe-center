@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { getHistoryEntries } from "@/app/actions/history"
+import { getMyProfile } from "@/app/actions/profile"
 import { AboutTabs, type AboutTab } from "@/components/about/about-tabs"
 
 const tabCopy: Record<AboutTab, { label: string; description: string }> = {
@@ -49,6 +51,12 @@ export default async function AboutTabPage({
     notFound()
   }
 
+  const [historyEntries, profile] = await Promise.all([
+    getHistoryEntries(),
+    getMyProfile(),
+  ])
+  const isAdmin = profile?.role === "admin"
+
   return (
     <>
       <section className="border-b border-border">
@@ -66,7 +74,11 @@ export default async function AboutTabPage({
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <AboutTabs activeTab={tab as AboutTab} />
+        <AboutTabs
+          activeTab={tab as AboutTab}
+          historyEntries={historyEntries ?? []}
+          isAdmin={isAdmin}
+        />
       </section>
     </>
   )

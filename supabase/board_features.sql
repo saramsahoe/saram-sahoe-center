@@ -90,24 +90,5 @@ $$;
 
 grant execute on function public.get_bucket_usage(text) to anon, authenticated;
 
--- 조회수: 글쓴이 본인이 아닌 경우에만 증가시키고, 갱신된 조회수를 반환한다.
-create or replace function public.increment_post_view(p_post_id uuid, p_viewer_id uuid)
-returns integer
-language plpgsql
-security definer
-set search_path = public
-as $$
-declare
-  v_views integer;
-begin
-  update public.posts
-  set view_count = view_count + 1
-  where id = p_post_id
-    and (p_viewer_id is null or author_id is distinct from p_viewer_id);
-
-  select view_count into v_views from public.posts where id = p_post_id;
-  return v_views;
-end;
-$$;
-
-grant execute on function public.increment_post_view(uuid, uuid) to anon, authenticated;
+-- 조회수 기능은 제거되었다. increment_post_view 함수와 view_count 컬럼 삭제는
+-- supabase/remove_view_count.sql 참고.

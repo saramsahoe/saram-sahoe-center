@@ -196,6 +196,9 @@ export function SignupForm() {
                         : "인증"}
                 </Button>
               </div>
+              <p className="text-xs text-muted-foreground">
+                이메일을 바꿀 수 없으니 신중하게 이메일을 선택해 주세요.
+              </p>
               <FormMessage />
             </FormItem>
           )}

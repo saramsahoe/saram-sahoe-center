@@ -34,7 +34,7 @@ export function SiteLogo({
         priority
         className={cn(
           "w-auto object-contain",
-          isFull ? "h-28 sm:h-32" : "h-14"
+          isFull ? "h-28 sm:h-32" : "h-[5.25rem]"
         )}
       />
     </Link>

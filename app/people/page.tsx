@@ -1,5 +1,8 @@
 import type { Metadata } from "next"
 
+import { getOrgMembers } from "@/app/actions/org-members"
+import { getMyProfile } from "@/app/actions/profile"
+import { PostsLoadError } from "@/components/board/posts-load-error"
 import { MembersDirectory } from "@/components/people/members-directory"
 import { OrgChart } from "@/components/people/org-chart"
 import { Separator } from "@/components/ui/separator"
@@ -10,7 +13,10 @@ export const metadata: Metadata = {
   description: `${siteConfig.name} 구성원을 소개합니다.`,
 }
 
-export default function PeoplePage() {
+export default async function PeoplePage() {
+  const [profile, members] = await Promise.all([getMyProfile(), getOrgMembers()])
+  const isAdmin = profile?.role === "admin"
+
   return (
     <>
       <section className="border-b border-border">
@@ -28,7 +34,11 @@ export default function PeoplePage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <MembersDirectory />
+        {members ? (
+          <MembersDirectory initialMembers={members} isAdmin={isAdmin} />
+        ) : (
+          <PostsLoadError message="구성원 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요." />
+        )}
 
         <Separator className="my-16" />
 

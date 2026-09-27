@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react"
 import { PenSquare, Search } from "lucide-react"
 
-import { createPost, incrementPostView, updatePost } from "@/app/actions/board"
-import { GalleryGrid } from "@/components/board/gallery-grid"
+import { createPost, updatePost } from "@/app/actions/board"
 import { Pagination } from "@/components/board/pagination"
 import { PostDetailDialog } from "@/components/board/post-detail-dialog"
 import {
@@ -22,9 +21,11 @@ const PAGE_SIZE = 8
 export function BoardView({
   initialPosts,
   initialCategory = "all",
+  isAdmin = false,
 }: {
   initialPosts: Post[]
   initialCategory?: PostCategory | "all"
+  isAdmin?: boolean
 }) {
   const [posts, setPosts] = useState<Post[]>(initialPosts)
   const [category, setCategory] = useState<PostCategory | "all">(initialCategory)
@@ -71,20 +72,6 @@ export function BoardView({
   function handleSearch(value: string) {
     setQuery(value)
     setPage(1)
-  }
-
-  async function handleSelectPost(post: Post) {
-    setSelectedPost(post)
-
-    const views = await incrementPostView(post.id)
-    if (views === null) return
-
-    setPosts((prev) =>
-      prev.map((p) => (p.id === post.id ? { ...p, views } : p))
-    )
-    setSelectedPost((prev) =>
-      prev && prev.id === post.id ? { ...prev, views } : prev
-    )
   }
 
   function openWriteDialog() {
@@ -156,14 +143,16 @@ export function BoardView({
           ))}
         </div>
 
-        <Button
-          type="button"
-          onClick={openWriteDialog}
-          className="bg-button text-button-foreground hover:bg-button/90"
-        >
-          <PenSquare data-icon="inline-start" />
-          글쓰기 (Write Post)
-        </Button>
+        {isAdmin && (
+          <Button
+            type="button"
+            onClick={openWriteDialog}
+            className="bg-button text-button-foreground hover:bg-button/90"
+          >
+            <PenSquare data-icon="inline-start" />
+            글쓰기 (Write Post)
+          </Button>
+        )}
       </div>
 
       <div className="relative mt-4 max-w-sm">
@@ -177,22 +166,12 @@ export function BoardView({
       </div>
 
       <div className="mt-6">
-        {category === "gallery" ? (
-          <GalleryGrid
-            posts={[
-              ...(currentPage === 1 ? pinnedPosts : []),
-              ...pagePosts,
-            ]}
-            onSelect={handleSelectPost}
-          />
-        ) : (
-          <PostList
-            pinnedPosts={currentPage === 1 ? pinnedPosts : []}
-            posts={pagePosts}
-            startNo={startIndex + 1}
-            onSelect={handleSelectPost}
-          />
-        )}
+        <PostList
+          pinnedPosts={currentPage === 1 ? pinnedPosts : []}
+          posts={pagePosts}
+          startNo={startIndex + 1}
+          onSelect={setSelectedPost}
+        />
       </div>
 
       <Pagination
@@ -207,6 +186,7 @@ export function BoardView({
           if (!open) setSelectedPost(null)
         }}
         onEdit={openEditDialog}
+        isAdmin={isAdmin}
       />
 
       <PostFormDialog

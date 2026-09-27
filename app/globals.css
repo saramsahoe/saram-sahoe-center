@@ -157,8 +157,16 @@
     background-color: var(--background);
     background-image: linear-gradient(180deg, var(--cfg-bg-from) 0%, var(--cfg-bg-to) 100%);
     background-attachment: fixed;
+    /* 사이트 글씨를 드래그로 선택/복사할 수 없게 한다. input/textarea/contenteditable은
+       아래에서 다시 selectable로 되돌려서 실제 입력 필드 편집은 그대로 동작한다. */
+    -webkit-user-select: none;
+    user-select: none;
     }
   html {
     @apply font-sans;
+    }
+  input, textarea, [contenteditable="true"] {
+    -webkit-user-select: text;
+    user-select: text;
     }
 }

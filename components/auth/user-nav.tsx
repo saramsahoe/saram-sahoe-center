@@ -75,14 +75,14 @@ export function UserNav() {
       {isAdmin && (
         <Link
           href="/admin/members"
-          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          className="text-[1.3125rem] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
         >
           관리자
         </Link>
       )}
       <Link
         href="/mypage"
-        className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+        className="text-[1.3125rem] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
       >
         {displayName} 님
       </Link>

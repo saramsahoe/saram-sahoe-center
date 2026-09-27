@@ -152,7 +152,7 @@ export function LoginForm({
             onClick={() => onSwitchTab("find-id")}
             className="underline-offset-4 transition-colors hover:text-foreground hover:underline"
           >
-            아이디 찾기
+            이메일 찾기
           </button>
           <span aria-hidden="true">|</span>
           <button

@@ -43,7 +43,7 @@ export function MobileNav() {
           <SheetTitle className="font-heading text-base tracking-tight">
             {siteConfig.name}
           </SheetTitle>
-          <SheetDescription className="font-mono text-[0.625rem] tracking-[0.16em] uppercase">
+          <SheetDescription className="font-mono text-[0.9375rem] tracking-[0.16em] uppercase">
             {siteConfig.nameEn}
           </SheetDescription>
         </SheetHeader>
@@ -78,7 +78,7 @@ export function MobileNav() {
                       isActive ? "bg-accent" : "bg-transparent"
                     )}
                   />
-                  <span className="font-heading text-[0.9375rem] font-medium">
+                  <span className="font-heading text-[1.40625rem] font-medium">
                     {item.title}
                   </span>
                 </span>

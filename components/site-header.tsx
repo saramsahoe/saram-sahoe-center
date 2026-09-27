@@ -15,7 +15,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/85 backdrop-blur-md supports-backdrop-filter:bg-background/70">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-24 w-full max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         <SiteLogo />
 
         <nav
@@ -31,7 +31,7 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "relative rounded-sm px-3 py-2 font-heading text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "relative rounded-sm px-3 py-2 font-heading text-[1.3125rem] font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isActive
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
@@ -41,7 +41,7 @@ export function SiteHeader() {
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "absolute inset-x-3 -bottom-[1.3125rem] h-[2px] rounded-full transition-all",
+                    "absolute inset-x-3 -bottom-[1.96875rem] h-[2px] rounded-full transition-all",
                     isActive ? "bg-accent opacity-100" : "opacity-0"
                   )}
                 />

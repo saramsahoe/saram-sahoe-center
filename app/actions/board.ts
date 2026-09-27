@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/app/actions/admin";
 import {
   isAllowedAttachmentExtension,
   MAX_ATTACHMENTS_BYTES_PER_POST,
@@ -25,7 +26,6 @@ type PostRow = {
   title: string;
   content: string;
   author_name: string;
-  view_count: number;
   is_pinned: boolean;
   is_public: boolean;
   attachments: StoredAttachment[] | null;
@@ -33,7 +33,7 @@ type PostRow = {
 };
 
 const POST_COLUMNS =
-  "id, category, title, content, author_name, view_count, is_pinned, is_public, attachments, created_at";
+  "id, category, title, content, author_name, is_pinned, is_public, attachments, created_at";
 
 const ATTACHMENT_SIGNED_URL_TTL_SECONDS = 60 * 60; // 1시간
 
@@ -43,7 +43,6 @@ const CATEGORY_TO_DB: Record<PostCategory, string> = {
   press: "보도자료",
   research: "연구소식",
   seminar: "세미나/행사",
-  gallery: "갤러리",
 };
 
 const CATEGORY_FROM_DB: Record<string, PostCategory> = {
@@ -51,7 +50,6 @@ const CATEGORY_FROM_DB: Record<string, PostCategory> = {
   보도자료: "press",
   연구소식: "research",
   "세미나/행사": "seminar",
-  갤러리: "gallery",
 };
 
 function legacyPathFromUrl(url: string | undefined): string | null {
@@ -95,7 +93,6 @@ async function mapRow(supabase: SupabaseServerClient, row: PostRow): Promise<Pos
     title: row.title,
     author: row.author_name,
     date: row.created_at.slice(0, 10).replaceAll("-", "."),
-    views: row.view_count,
     pinned: row.is_pinned,
     isPublic: row.is_public,
     attachments: await resolveAttachments(supabase, row.attachments ?? []),
@@ -161,6 +158,10 @@ export async function createPost(input: {
     return { error: sizeError };
   }
 
+  if (!(await requireAdmin())) {
+    return { error: "글쓰기는 관리자만 이용할 수 있습니다." };
+  }
+
   const supabase = await createServerSupabaseClient();
   const {
     data: { user },
@@ -221,17 +222,12 @@ export async function updatePost(input: {
     return { error: sizeError };
   }
 
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { error: "로그인이 필요합니다." };
+  if (!(await requireAdmin())) {
+    return { error: "게시글 수정은 관리자만 이용할 수 있습니다." };
   }
 
-  // author_id로 다시 필터링하지 않는다: 본인 글 수정 / 관리자의 임의 글 수정 여부는
-  // posts RLS(posts_author_delete와 별개인 update 정책들)가 판단한다.
+  const supabase = await createServerSupabaseClient();
+
   const { data, error } = await supabase
     .from("posts")
     .update({
@@ -246,7 +242,7 @@ export async function updatePost(input: {
     .single();
 
   if (error) {
-    return { error: "본인이 작성했거나 관리자 권한이 있는 글만 수정할 수 있습니다." };
+    return { error: "관리자 권한이 있는 계정만 게시글을 수정할 수 있습니다." };
   }
 
   revalidatePath("/board");
@@ -254,14 +250,11 @@ export async function updatePost(input: {
 }
 
 export async function deletePost(postId: string): Promise<{ error: string | null }> {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return { error: "로그인이 필요합니다." };
+  if (!(await requireAdmin())) {
+    return { error: "게시글 삭제는 관리자만 이용할 수 있습니다." };
   }
+
+  const supabase = await createServerSupabaseClient();
 
   const { error, count } = await supabase
     .from("posts")
@@ -272,7 +265,7 @@ export async function deletePost(postId: string): Promise<{ error: string | null
     return { error: error.message };
   }
   if (!count) {
-    return { error: "본인이 작성했거나 관리자 권한이 있는 글만 삭제할 수 있습니다." };
+    return { error: "관리자 권한이 있는 계정만 게시글을 삭제할 수 있습니다." };
   }
 
   revalidatePath("/board");
@@ -297,25 +290,4 @@ export async function getAttachmentsUsage(): Promise<AttachmentsUsage | null> {
   }
 
   return { used: Number(data) || 0, limit: MAX_TOTAL_ATTACHMENTS_BYTES };
-}
-
-/** 작성자 본인이 아닌 조회일 때만 서버에서 조회수를 1 증가시키고, 최신 조회수를 반환한다. */
-export async function incrementPostView(postId: string): Promise<number | null> {
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const { data, error } = await supabase.rpc("increment_post_view", {
-    p_post_id: postId,
-    p_viewer_id: user?.id ?? null,
-  });
-
-  if (error) {
-    console.error("[incrementPostView]", error.message);
-    return null;
-  }
-
-  revalidatePath("/board");
-  return data as number;
 }

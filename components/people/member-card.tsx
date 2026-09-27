@@ -1,6 +1,7 @@
-import { ExternalLink, GraduationCap, Globe, Mail } from "lucide-react"
+import { ExternalLink, GraduationCap, Globe, Mail, PenSquare, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
@@ -16,9 +17,49 @@ import type { Member } from "@/lib/people-content"
 const socialLinkClass =
   "flex size-8 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-accent hover:text-accent"
 
-export function MemberCard({ member }: { member: Member }) {
+export function MemberCard({
+  member,
+  isAdmin = false,
+  onEdit,
+  onDelete,
+}: {
+  member: Member
+  isAdmin?: boolean
+  onEdit?: (member: Member) => void
+  onDelete?: (member: Member) => void
+}) {
   return (
-    <Card className="h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+    <Card className="relative h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
+      {isAdmin && (
+        <div className="absolute top-2 right-2 z-10 flex gap-1">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="size-7 bg-background"
+            aria-label={`${member.name} 수정`}
+            onClick={(e) => {
+              e.stopPropagation()
+              onEdit?.(member)
+            }}
+          >
+            <PenSquare className="size-3.5" />
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="size-7 bg-background text-destructive hover:text-destructive"
+            aria-label={`${member.name} 삭제`}
+            onClick={(e) => {
+              e.stopPropagation()
+              onDelete?.(member)
+            }}
+          >
+            <Trash2 className="size-3.5" />
+          </Button>
+        </div>
+      )}
       <Dialog>
         <DialogTrigger asChild>
           <div

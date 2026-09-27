@@ -1,4 +1,4 @@
-export type PostCategory = "notice" | "press" | "research" | "seminar" | "gallery"
+export type PostCategory = "notice" | "press" | "research" | "seminar"
 
 export const categoryMeta: Record<
   PostCategory,
@@ -8,7 +8,6 @@ export const categoryMeta: Record<
   press: { label: "보도자료", badgeVariant: "accent-soft" },
   research: { label: "소식", badgeVariant: "outline" },
   seminar: { label: "세미나/행사", badgeVariant: "outline" },
-  gallery: { label: "갤러리", badgeVariant: "outline" },
 }
 
 export const categoryFilters: { value: PostCategory | "all"; label: string }[] =
@@ -18,7 +17,6 @@ export const categoryFilters: { value: PostCategory | "all"; label: string }[] =
     { value: "press", label: "보도자료" },
     { value: "research", label: "소식" },
     { value: "seminar", label: "세미나/행사" },
-    { value: "gallery", label: "갤러리" },
   ]
 
 export type Attachment = {
@@ -140,45 +138,12 @@ export function getYoutubeEmbedUrl(url: string): string | null {
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null
 }
 
-/** 유튜브 링크에서 썸네일 이미지 URL을 얻는다. 갤러리 그리드에서 미리보기로 쓴다. */
-export function getYoutubeThumbnailUrl(url: string): string | null {
-  const videoId = extractYoutubeVideoId(url)
-  return videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : null
-}
-
-export type GalleryMediaItem =
-  | { type: "image"; url: string }
-  | { type: "youtube"; thumbnailUrl: string }
-
-/**
- * 게시글 본문(마크다운)에서 삽입된 이미지와 유튜브 임베드 링크를 순서대로 뽑아낸다.
- * 갤러리 카테고리 목록에서 게시글마다 사진/동영상을 나열해 보여주는 데 쓴다.
- */
-export function extractGalleryMedia(content: string): GalleryMediaItem[] {
-  const items: GalleryMediaItem[] = []
-  const imageRegex = /!\[[^\]]*\]\(([^)\s]+)\)/g
-
-  for (const match of content.matchAll(imageRegex)) {
-    items.push({ type: "image", url: match[1] })
-  }
-
-  const withoutImages = content.replace(imageRegex, "")
-  const urlRegex = /\bhttps?:\/\/[^\s)]+/g
-  for (const match of withoutImages.matchAll(urlRegex)) {
-    const thumbnailUrl = getYoutubeThumbnailUrl(match[0])
-    if (thumbnailUrl) items.push({ type: "youtube", thumbnailUrl })
-  }
-
-  return items
-}
-
 export type Post = {
   id: string
   category: PostCategory
   title: string
   author: string
   date: string
-  views: number
   pinned: boolean
   isPublic: boolean
   attachments: Attachment[]

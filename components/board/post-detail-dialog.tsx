@@ -1,6 +1,6 @@
 "use client"
 
-import { Download, Eye, Lock, PenSquare, UserRound } from "lucide-react"
+import { Download, Lock, PenSquare, UserRound } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -19,10 +19,12 @@ export function PostDetailDialog({
   post,
   onOpenChange,
   onEdit,
+  isAdmin = false,
 }: {
   post: Post | null
   onOpenChange: (open: boolean) => void
   onEdit: (post: Post) => void
+  isAdmin?: boolean
 }) {
   return (
     <Dialog open={post !== null} onOpenChange={onOpenChange}>
@@ -67,21 +69,19 @@ export function PostDetailDialog({
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Eye className="size-3.5" />
-                  조회 {post.views.toLocaleString()}
-                </span>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onEdit(post)}
-                >
-                  <PenSquare data-icon="inline-start" />
-                  수정
-                </Button>
-              </div>
+              {isAdmin && (
+                <div className="flex items-center gap-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onEdit(post)}
+                  >
+                    <PenSquare data-icon="inline-start" />
+                    수정
+                  </Button>
+                </div>
+              )}
             </div>
 
             <PostMarkdown content={post.content} />

@@ -25,8 +25,8 @@ const tabCopy: Record<AuthTab, { title: string; description: string }> = {
     description: "몇 가지 정보만 입력하면 바로 시작할 수 있어요.",
   },
   "find-id": {
-    title: "아이디 찾기",
-    description: "등록된 이메일로 아이디를 확인하세요.",
+    title: "이메일 찾기",
+    description: "가입하신 이메일이 기억나지 않으신가요?",
   },
   "find-password": {
     title: "비밀번호 찾기",
@@ -47,7 +47,7 @@ export function AuthTabs({
         <TabsList className="flex-wrap justify-center">
           <TabsTrigger value="login">로그인</TabsTrigger>
           <TabsTrigger value="signup">회원가입</TabsTrigger>
-          <TabsTrigger value="find-id">아이디 찾기</TabsTrigger>
+          <TabsTrigger value="find-id">이메일 찾기</TabsTrigger>
           <TabsTrigger value="find-password">비밀번호 찾기</TabsTrigger>
         </TabsList>
 
