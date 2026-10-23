@@ -1,8 +1,70 @@
-// ── 목적 및 비전 (설립 목적) ────────────────────────────────────────
-export const missionPurposes: string[] = [
-  "여성 역량개발 및 강화를 위한 사업",
-  "리더십 개발 및 훈련을 통한 새로운 인재 양성",
-]
+// ── 목적 및 비전 : 인재양성 프레임워크 ─────────────────────────────
+export type FrameworkTheme = "pink" | "blue" | "mint"
+
+/** 배려(pink) · 성찰(blue) · 창조(mint) 세 축으로 고정된 값 */
+export type FrameworkTriple<T> = Record<FrameworkTheme, T>
+
+export const talentFrameworkTarget = {
+  highlights: {
+    pink: "창의성",
+    blue: "자율성",
+    mint: "휴머니즘",
+  },
+  suffix: "이 융합된 인재양성",
+}
+
+export const talentFrameworkCompetencies: FrameworkTriple<string> = {
+  pink: "배려의 역량",
+  blue: "성찰의 역량",
+  mint: "창조적 역량",
+}
+
+export const talentFrameworkEffectiveness: FrameworkTriple<string> = {
+  pink: "역지사지 능력",
+  blue: "성찰적 사고",
+  mint: "전문성 / 창발성 습득",
+}
+
+export type FrameworkDetailCard = {
+  heading: string
+  points: string[]
+}
+
+export const talentFrameworkDetails: FrameworkTriple<FrameworkDetailCard> = {
+  pink: {
+    heading: "통합 예술 활용 훈련",
+    points: [
+      "종합적 예술 매체를 활용한 통합 훈련",
+      "상담, 성격유형 검사 등의 진단 활용",
+    ],
+  },
+  blue: {
+    heading: "초자아심리 · 명상 훈련",
+    points: [
+      "명상, 호흡, 자아 관조 등의 능력 훈련",
+      "기의 순환을 통한 양생 훈련",
+    ],
+  },
+  mint: {
+    heading: "전문성 개발 훈련",
+    points: [
+      "경제, 경영, 과학 등 전문 기술 습득을 통한 환경 변화 적응",
+      "인간 역사의 진보와 이해를 위한 인문학적 이해와 통찰",
+    ],
+  },
+}
+
+export const talentFrameworkPrograms: FrameworkTriple<string> = {
+  pink: "역지사지 프로그램",
+  blue: "성찰 훈련 프로그램",
+  mint: "전문 역량 프로그램",
+}
+
+export const talentFrameworkApproach: FrameworkTriple<string> = {
+  pink: "우리 : 관계적 인간",
+  blue: "나 : 나에 대한 자각",
+  mint: "환경 : 환경의 변화",
+}
 
 export const directorGreeting = {
   paragraphs: [
