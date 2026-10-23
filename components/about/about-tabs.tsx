@@ -1,11 +1,9 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-
 import { HistoryView } from "@/components/about/history-view"
 import { MissionView } from "@/components/about/mission-view"
 import { ResearchView } from "@/components/about/research-view"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
 import type { HistoryEntry } from "@/lib/history-content"
 
 export type AboutTab = "mission" | "research" | "history"
@@ -19,19 +17,8 @@ export function AboutTabs({
   historyEntries: HistoryEntry[]
   isAdmin: boolean
 }) {
-  const router = useRouter()
-
   return (
-    <Tabs
-      value={activeTab}
-      onValueChange={(value) => router.push(`/about/${value}`)}
-    >
-      <TabsList>
-        <TabsTrigger value="mission">목적 및 비전 (Mission)</TabsTrigger>
-        <TabsTrigger value="research">사업 및 활동분야 (Programs)</TabsTrigger>
-        <TabsTrigger value="history">연혁 (History)</TabsTrigger>
-      </TabsList>
-
+    <Tabs value={activeTab}>
       <TabsContent value="mission">
         <MissionView />
       </TabsContent>
