@@ -21,7 +21,7 @@ export function VisionHero() {
                         {/* 2. 가로 잘림 해결: 우측으로 밀어내던 translate-x-[18%]를 삭제하고, right-4 lg:right-12 를 주어 안전하게 우측 안쪽으로 배치했습니다. */}
                         <Image
                             aria-hidden="true"
-                            src="/brand/logo-full.svg"
+                            src="/brand/logo-without-copywriting.svg"
                             alt=""
                             width={480}
                             height={480}
