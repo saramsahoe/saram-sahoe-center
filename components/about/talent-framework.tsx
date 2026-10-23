@@ -207,7 +207,7 @@ export function TalentFramework() {
       <FrameworkRow label="접근 방법" values={talentFrameworkApproach} colored />
 
       <p className="mt-9 text-center text-xs font-semibold tracking-[0.2em] text-[#94a3b8] uppercase">
-        Research Center for Humanity &amp; Society · 인재양성 프레임워크
+        Research & Education Center for Humane &amp; Society · 인재양성 프레임워크
       </p>
     </div>
   )
