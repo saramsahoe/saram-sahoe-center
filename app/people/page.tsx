@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 
+import { getOrgCommittees } from "@/app/actions/org-committees"
 import { getOrgMembers } from "@/app/actions/org-members"
+import { getTitleOptions } from "@/app/actions/org-title-options"
 import { getMyProfile } from "@/app/actions/profile"
 import { PostsLoadError } from "@/components/board/posts-load-error"
 import { MembersDirectory } from "@/components/people/members-directory"
@@ -14,7 +16,12 @@ export const metadata: Metadata = {
 }
 
 export default async function PeoplePage() {
-  const [profile, members] = await Promise.all([getMyProfile(), getOrgMembers()])
+  const [profile, members, committees, titleOptions] = await Promise.all([
+    getMyProfile(),
+    getOrgMembers(),
+    getOrgCommittees(),
+    getTitleOptions(),
+  ])
   const isAdmin = profile?.role === "admin"
 
   return (
@@ -34,8 +41,13 @@ export default async function PeoplePage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        {members ? (
-          <MembersDirectory initialMembers={members} isAdmin={isAdmin} />
+        {members && committees && titleOptions ? (
+          <MembersDirectory
+            initialMembers={members}
+            initialCommittees={committees}
+            initialTitleOptions={titleOptions}
+            isAdmin={isAdmin}
+          />
         ) : (
           <PostsLoadError message="구성원 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요." />
         )}

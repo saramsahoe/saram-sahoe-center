@@ -27,9 +27,9 @@ function OrgNode({
     <div
       className={cn(
         "flex shrink-0 items-center justify-center rounded-full text-center font-heading font-semibold text-balance",
-        size === "lg" && "size-28 text-sm",
-        size === "md" && "size-20 text-xs",
-        size === "sm" && "size-16 px-1 text-[0.625rem] leading-tight",
+        size === "lg" && "size-56 text-[1.75rem]",
+        size === "md" && "size-40 text-[1.5rem]",
+        size === "sm" && "size-32 px-2 text-[1.25rem] leading-tight",
         tone === "primary" && "border border-border bg-secondary text-foreground",
         tone === "accent" && "bg-accent text-accent-foreground",
         tone === "default" && "border border-border bg-muted text-foreground"
@@ -41,28 +41,28 @@ function OrgNode({
 }
 
 function VConnector() {
-  return <div aria-hidden="true" className="h-6 w-px bg-border" />
+  return <div aria-hidden="true" className="h-12 w-px bg-border" />
 }
 
 export function OrgChart() {
   return (
-    <div className="flex flex-col items-center gap-2 overflow-x-auto px-2 py-4">
+    <div className="flex flex-col items-center gap-4 overflow-x-auto px-2 py-4">
       <OrgNode label="이사장" tone="primary" size="lg" />
       <VConnector />
 
-      <div className="flex flex-wrap items-center justify-center gap-8">
+      <div className="flex flex-wrap items-center justify-center gap-16">
         <OrgNode label="감사" />
         <OrgNode label="이사회" />
       </div>
       <VConnector />
 
-      <div className="flex flex-wrap items-center justify-center gap-8">
+      <div className="flex flex-wrap items-center justify-center gap-16">
         <OrgNode label="대표" />
         <OrgNode label="사무국" />
       </div>
       <VConnector />
 
-      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-11">
+      <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
         {committees.map((committee) => (
           <OrgNode key={committee} label={committee} size="sm" />
         ))}

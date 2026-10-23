@@ -6,47 +6,42 @@ import { requireAdmin } from "@/app/actions/admin";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Member, MemberCategory } from "@/lib/people-content";
 
+type SupabaseServerClient = Awaited<ReturnType<typeof createServerSupabaseClient>>;
+
 type OrgMemberRow = {
   id: string;
   name: string;
-  role: string;
-  roles: string[] | null;
   category: MemberCategory;
-  interests: string[] | null;
-  bio: string;
-  affiliation: string | null;
-  activity: string[] | null;
+  roles: string[] | null;
+  chaired_committee_id: string | null;
   career: string[] | null;
-  publications: string[] | null;
-  projects: string[] | null;
-  email: string | null;
-  scholar_url: string | null;
-  website_url: string | null;
   links: { label: string; url: string }[] | null;
   sort_order: number;
 };
 
 const MEMBER_COLUMNS =
-  "id, name, role, roles, category, interests, bio, affiliation, activity, career, publications, projects, email, scholar_url, website_url, links, sort_order";
+  "id, name, category, roles, chaired_committee_id, career, links, sort_order";
 
-function mapRow(row: OrgMemberRow): Member {
+async function mapRow(supabase: SupabaseServerClient, row: OrgMemberRow): Promise<Member> {
+  let chairedCommitteeName: string | null = null;
+  if (row.chaired_committee_id) {
+    const { data } = await supabase
+      .from("org_committees")
+      .select("name")
+      .eq("id", row.chaired_committee_id)
+      .single();
+    chairedCommitteeName = data?.name ?? null;
+  }
+
   return {
     id: row.id,
     name: row.name,
-    role: row.role,
-    roles: row.roles ?? undefined,
     category: row.category,
-    interests: row.interests ?? [],
-    bio: row.bio,
-    affiliation: row.affiliation ?? undefined,
-    activity: row.activity ?? undefined,
-    career: row.career ?? undefined,
-    publications: row.publications ?? [],
-    projects: row.projects ?? [],
-    email: row.email ?? undefined,
-    scholarUrl: row.scholar_url ?? undefined,
-    websiteUrl: row.website_url ?? undefined,
-    links: row.links ?? undefined,
+    titles: row.roles ?? [],
+    chairedCommitteeId: row.chaired_committee_id,
+    chairedCommitteeName,
+    career: row.career ?? [],
+    links: row.links ?? [],
     sortOrder: row.sort_order,
   };
 }
@@ -64,7 +59,7 @@ export async function getOrgMembers(): Promise<Member[] | null> {
     return null;
   }
 
-  return (data as OrgMemberRow[]).map(mapRow);
+  return Promise.all((data as OrgMemberRow[]).map((row) => mapRow(supabase, row)));
 }
 
 export type OrgMemberActionResult = {
@@ -74,19 +69,10 @@ export type OrgMemberActionResult = {
 
 export type OrgMemberInput = {
   name: string;
-  role: string;
-  roles: string[];
   category: MemberCategory;
-  interests: string[];
-  bio: string;
-  affiliation: string;
-  activity: string[];
+  titles: string[];
+  chairedCommitteeId: string | null;
   career: string[];
-  publications: string[];
-  projects: string[];
-  email: string;
-  scholarUrl: string;
-  websiteUrl: string;
   links: { label: string; url: string }[];
 };
 
@@ -113,19 +99,10 @@ export async function createOrgMember(input: OrgMemberInput): Promise<OrgMemberA
     .from("org_members")
     .insert({
       name: input.name.trim(),
-      role: input.role.trim(),
-      roles: input.roles,
       category: input.category,
-      interests: input.interests,
-      bio: input.bio.trim(),
-      affiliation: input.affiliation.trim() || null,
-      activity: input.activity,
+      roles: input.titles,
+      chaired_committee_id: input.titles.includes("위원장") ? input.chairedCommitteeId : null,
       career: input.career,
-      publications: input.publications,
-      projects: input.projects,
-      email: input.email.trim() || null,
-      scholar_url: input.scholarUrl.trim() || null,
-      website_url: input.websiteUrl.trim() || null,
       links: input.links,
       sort_order: nextSortOrder,
     })
@@ -137,7 +114,7 @@ export async function createOrgMember(input: OrgMemberInput): Promise<OrgMemberA
   }
 
   revalidatePath("/people");
-  return { error: null, member: mapRow(data as OrgMemberRow) };
+  return { error: null, member: await mapRow(supabase, data as OrgMemberRow) };
 }
 
 export async function updateOrgMember(
@@ -155,19 +132,10 @@ export async function updateOrgMember(
     .from("org_members")
     .update({
       name: input.name.trim(),
-      role: input.role.trim(),
-      roles: input.roles,
       category: input.category,
-      interests: input.interests,
-      bio: input.bio.trim(),
-      affiliation: input.affiliation.trim() || null,
-      activity: input.activity,
+      roles: input.titles,
+      chaired_committee_id: input.titles.includes("위원장") ? input.chairedCommitteeId : null,
       career: input.career,
-      publications: input.publications,
-      projects: input.projects,
-      email: input.email.trim() || null,
-      scholar_url: input.scholarUrl.trim() || null,
-      website_url: input.websiteUrl.trim() || null,
       links: input.links,
     })
     .eq("id", input.id)
@@ -179,7 +147,7 @@ export async function updateOrgMember(
   }
 
   revalidatePath("/people");
-  return { error: null, member: mapRow(data as OrgMemberRow) };
+  return { error: null, member: await mapRow(supabase, data as OrgMemberRow) };
 }
 
 export async function deleteOrgMember(id: string): Promise<{ error: string | null }> {
