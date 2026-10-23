@@ -99,11 +99,11 @@ export function MembersDirectory({
     setMembers((prev) => prev.filter((m) => m.id !== member.id))
   }
 
-  // 현재 탭(카테고리)에 보이는 목록만 순서를 바꾼다 — "전체" 탭에서는 여러 카테고리가
-  // 뒤섞여 보여서 순서 의미가 모호해지므로 드래그 정렬을 제공하지 않는다.
+  // 현재 탭에 보이는 목록만 순서를 바꾼다. "전체" 탭에서 드래그하면 nextVisible이
+  // 전체 멤버이므로 otherMembers가 비어, 결과적으로 전역 순서 전체를 다시 정의한다.
   async function handleReorder(nextVisible: Member[]) {
-    if (active === "all") return
-    const otherMembers = members.filter((member) => member.category !== active)
+    const visibleIds = new Set(nextVisible.map((member) => member.id))
+    const otherMembers = members.filter((member) => !visibleIds.has(member.id))
     setMembers([...otherMembers, ...nextVisible])
     await reorderOrgMembers(nextVisible.map((member) => member.id))
   }
@@ -150,7 +150,7 @@ export function MembersDirectory({
         <p className="mt-8 py-10 text-center text-sm text-muted-foreground">
           해당 분류의 구성원이 없습니다.
         </p>
-      ) : isAdmin && active !== "all" ? (
+      ) : isAdmin ? (
         <SortableList
           items={visibleMembers}
           onReorder={handleReorder}

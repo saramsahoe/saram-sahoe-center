@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { getPosts } from "@/app/actions/board"
 import { getMyProfile } from "@/app/actions/profile"
 import { BoardView } from "@/components/board/board-view"
+import { MembershipRequiredNotice } from "@/components/membership-required-notice"
 import { PostsLoadError } from "@/components/board/posts-load-error"
 import { siteConfig } from "@/lib/navigation"
 
@@ -12,8 +13,17 @@ export const metadata: Metadata = {
 }
 
 export default async function BoardPage() {
-  const [profile, posts] = await Promise.all([getMyProfile(), getPosts()])
-  const isAdmin = profile?.role === "admin"
+  const profile = await getMyProfile()
+
+  if (!profile) {
+    return <MembershipRequiredNotice variant="login" />
+  }
+  if (profile.role === "user") {
+    return <MembershipRequiredNotice variant="upgrade" />
+  }
+
+  const posts = await getPosts()
+  const isAdmin = profile.role === "admin"
 
   return (
     <>

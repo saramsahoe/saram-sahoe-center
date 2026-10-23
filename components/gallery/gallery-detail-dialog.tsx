@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { PhotoCarousel } from "@/components/gallery/photo-carousel"
 import type { GalleryPost } from "@/lib/gallery-content"
 
 export function GalleryDetailDialog({
@@ -66,17 +67,7 @@ export function GalleryDetailDialog({
             )}
 
             {post.photos.length > 0 ? (
-              <div className="flex flex-col gap-4">
-                {post.photos.map((photo) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    key={photo.path}
-                    src={photo.url}
-                    alt=""
-                    className="w-full rounded-lg"
-                  />
-                ))}
-              </div>
+              <PhotoCarousel photos={post.photos} />
             ) : (
               <p className="py-10 text-center text-sm text-muted-foreground">
                 등록된 사진이 없습니다.

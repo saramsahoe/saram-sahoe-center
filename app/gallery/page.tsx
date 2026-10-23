@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { getGalleryPosts } from "@/app/actions/gallery"
 import { getMyProfile } from "@/app/actions/profile"
 import { GalleryView } from "@/components/gallery/gallery-view"
+import { MembershipRequiredNotice } from "@/components/membership-required-notice"
 import { PostsLoadError } from "@/components/board/posts-load-error"
 import { siteConfig } from "@/lib/navigation"
 
@@ -12,8 +13,17 @@ export const metadata: Metadata = {
 }
 
 export default async function GalleryPage() {
-  const [profile, posts] = await Promise.all([getMyProfile(), getGalleryPosts()])
-  const isAdmin = profile?.role === "admin"
+  const profile = await getMyProfile()
+
+  if (!profile) {
+    return <MembershipRequiredNotice variant="login" />
+  }
+  if (profile.role === "user") {
+    return <MembershipRequiredNotice variant="upgrade" />
+  }
+
+  const posts = await getGalleryPosts()
+  const isAdmin = profile.role === "admin"
 
   return (
     <>
