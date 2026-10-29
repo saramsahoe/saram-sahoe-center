@@ -56,6 +56,14 @@ export function UserNav({ initialProfile }: { initialProfile: Profile | null }) 
 
   const isAdmin = profile.role === "admin"
 
+  function handleSignOut() {
+    startTransition(async () => {
+      await signOut()
+      // signIn과 같은 이유로, 소프트 네비게이션 대신 완전히 새로 불러온다.
+      window.location.assign("/")
+    })
+  }
+
   return (
     <div className="hidden items-center gap-3 sm:flex">
       {isAdmin && (
@@ -76,7 +84,7 @@ export function UserNav({ initialProfile }: { initialProfile: Profile | null }) 
         variant="outline"
         size="lg"
         disabled={pending}
-        onClick={() => startTransition(() => signOut())}
+        onClick={handleSignOut}
       >
         로그아웃
       </Button>

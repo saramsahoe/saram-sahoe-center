@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import { sendEmail } from "@/lib/resend";
 
 export type AuthResult = {
@@ -159,14 +160,16 @@ export async function signIn(input: {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  // 여기서 redirect()로 서버 쪽에서 바로 이동시키면, 클라이언트 라우터 캐시에 남아있던
+  // 로그인 전 "/" 페이지가 재사용되면서 헤더가 로그인 상태로 안 바뀌는 경우가 있었다.
+  // 호출부(로그인 폼)가 성공 응답을 받은 뒤 location.href로 완전히 새로 불러오게 한다.
+  return { error: null };
 }
 
 export async function signOut(): Promise<void> {
   const supabase = await createServerSupabaseClient();
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
-  redirect("/");
 }
 
 export async function getCurrentUser() {
@@ -177,19 +180,113 @@ export async function getCurrentUser() {
   return user;
 }
 
-export async function requestPasswordReset(email: string): Promise<AuthResult> {
+/**
+ * 비밀번호 재설정 인증번호를 메일로 보낸다. 회원가입 이메일 인증과 같은
+ * email_otps 테이블/RPC를 purpose='password_reset'으로 재사용한다.
+ * 계정이 없는 이메일이어도 동일한 성공 메시지를 반환해(이메일 존재 여부 비노출),
+ * 실제 발송만 조용히 건너뛴다.
+ */
+export async function requestPasswordResetCode(email: string): Promise<AuthResult> {
   const trimmed = email.trim();
   if (!EMAIL_RE.test(trimmed)) {
     return { error: "올바른 이메일 형식이 아닙니다." };
   }
 
-  const supabase = await createServerSupabaseClient();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  // profiles는 본인 것만 읽을 수 있게 RLS가 걸려 있어(로그인 전이라 더더욱),
+  // 이메일로 계정 존재 여부를 확인하려면 서비스 롤 클라이언트가 필요하다.
+  const admin = createAdminSupabaseClient();
+  const { data: profile } = await admin
+    .from("profiles")
+    .select("id")
+    .eq("email", trimmed)
+    .maybeSingle();
 
-  // 실제 메일 발송은 Supabase Auth가 담당한다 (Supabase 대시보드의
-  // Authentication > Emails 설정에 따른 발신자/템플릿 사용).
-  const { error } = await supabase.auth.resetPasswordForEmail(trimmed, {
-    redirectTo: `${siteUrl}/reset-password`,
+  if (profile) {
+    const supabase = await createServerSupabaseClient();
+    const { data: code, error } = await supabase.rpc("request_email_otp", {
+      p_email: trimmed,
+      p_purpose: "password_reset",
+    });
+
+    if (!error && code) {
+      await sendEmail({
+        to: trimmed,
+        subject: "[연구센터 사람과 사회] 비밀번호 재설정 인증번호",
+        html: `
+          <p>비밀번호 재설정을 위한 인증번호입니다.</p>
+          <p style="font-size: 24px; font-weight: bold; letter-spacing: 4px;">${code}</p>
+          <p>인증번호는 10분간 유효합니다. 본인이 요청하지 않았다면 이 메일은 무시해 주세요.</p>
+        `,
+      });
+    }
+  }
+
+  return {
+    error: null,
+    message: "입력하신 이메일로 인증번호를 보내드렸습니다. 메일함을 확인해 주세요.",
+  };
+}
+
+export async function verifyPasswordResetCode(
+  email: string,
+  code: string
+): Promise<AuthResult> {
+  const trimmed = email.trim();
+  if (!trimmed || !code.trim()) {
+    return { error: "이메일과 인증번호를 입력해 주세요." };
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { data: verified, error } = await supabase.rpc("verify_email_otp", {
+    p_email: trimmed,
+    p_purpose: "password_reset",
+    p_code: code.trim(),
+  });
+
+  if (error) {
+    return { error: error.message };
+  }
+  if (!verified) {
+    return { error: "인증번호가 올바르지 않거나 만료되었습니다." };
+  }
+
+  return { error: null, message: "인증이 완료되었습니다. 새 비밀번호를 입력해 주세요." };
+}
+
+export async function resetPasswordWithCode(input: {
+  email: string;
+  newPassword: string;
+}): Promise<AuthResult> {
+  const email = input.email.trim();
+  if (input.newPassword.length < 8) {
+    return { error: "비밀번호는 8자 이상이어야 합니다." };
+  }
+
+  // 로그인 세션이 없는 상태이므로, 방금 인증번호 확인을 통과했는지 다시 확인한다
+  // (회원가입 때의 has_verified_email과 동일한 "최근 30분 이내 인증 완료" 체크).
+  const supabase = await createServerSupabaseClient();
+  const { data: recentlyVerified } = await supabase.rpc("has_verified_email", {
+    p_email: email,
+    p_purpose: "password_reset",
+  });
+
+  if (!recentlyVerified) {
+    return { error: "인증번호 확인을 먼저 완료해 주세요." };
+  }
+
+  const admin = createAdminSupabaseClient();
+  const { data: profile } = await admin
+    .from("profiles")
+    .select("id")
+    .eq("email", email)
+    .maybeSingle();
+
+  if (!profile) {
+    return { error: "계정을 찾을 수 없습니다." };
+  }
+
+  const { error } = await admin.auth.admin.updateUserById(profile.id, {
+    password: input.newPassword,
   });
 
   if (error) {
@@ -198,7 +295,7 @@ export async function requestPasswordReset(email: string): Promise<AuthResult> {
 
   return {
     error: null,
-    message: "입력하신 이메일로 비밀번호 재설정 안내를 보내드렸습니다.",
+    message: "비밀번호가 변경되었습니다. 새 비밀번호로 로그인해 주세요.",
   };
 }
 

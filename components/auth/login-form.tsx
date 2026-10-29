@@ -44,10 +44,16 @@ export function LoginForm({
       email: values.email,
       password: values.password,
     })
-    setSubmitting(false)
+
     if (result?.error) {
+      setSubmitting(false)
       setError(result.error)
+      return
     }
+
+    // 클라이언트 라우터로 이동하면 로그인 전에 캐시된 헤더가 잠깐 남아있을 수 있어,
+    // 완전히 새로 불러와서 로그인 상태가 바로 반영되게 한다.
+    window.location.assign("/")
   }
 
   return (
