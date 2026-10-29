@@ -8,8 +8,9 @@ import { MobileNav } from "@/components/mobile-nav"
 import { SiteLogo } from "@/components/site-logo"
 import { cn } from "@/lib/utils"
 import { getActiveNavHref, mainNav } from "@/lib/navigation"
+import type { Profile } from "@/lib/account-content"
 
-export function SiteHeader() {
+export function SiteHeader({ initialProfile }: { initialProfile: Profile | null }) {
   const pathname = usePathname()
   const activeHref = getActiveNavHref(pathname, mainNav)
 
@@ -51,7 +52,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
-          <UserNav />
+          <UserNav initialProfile={initialProfile} />
           <MobileNav />
         </div>
       </div>

@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono, Gowun_Batang } from "next/font/google"
 
 import "./globals.css"
+import { getSiteSettings } from "@/app/actions/site-settings"
+import { getMyProfile } from "@/app/actions/profile"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -23,28 +25,53 @@ const fontSerif = Gowun_Batang({
   display: "swap",
 })
 
-export const metadata: Metadata = {
-  title: {
-    default: "연구센터 사람과 사회",
-    template: "%s | 연구센터 사람과 사회",
-  },
-  description:
-    "인간 중심의 기술과 가치를 연구하는 교육 및 연구공동체입니다.",
-  keywords: ["연구센터", "사람과 사회", "연구센터사람과사회", "사회과학 연구", "젠더", "휴머니즘", "여성 역량개발", "리더십", "여성과 리더십"],
-  openGraph: {
-    title: "연구센터 사람과 사회",
-    description: "인간 중심의 기술과 가치를 연구하는 교육 및 연구공동체입니다.",
-    url: 'https://saramsahoe.org',
-    siteName: '연구센터사람과사회',
-    locale: "ko_KR",
-    type: "website",
-  },
+const FALLBACK_TITLE = "연구센터 사람과 사회"
+const FALLBACK_DESCRIPTION = "인간 중심의 기술과 가치를 연구하는 교육 및 연구공동체입니다."
+const FALLBACK_KEYWORDS = [
+  "연구센터",
+  "사람과 사회",
+  "연구센터사람과사회",
+  "사회과학 연구",
+  "젠더",
+  "휴머니즘",
+  "여성 역량개발",
+  "리더십",
+  "여성과 리더십",
+]
+
+// /admin/settings에서 관리자가 직접 수정하는 site_settings 테이블 값을 사용한다.
+// 조회 실패 시(설정 전 등) 기존 하드코딩 값으로 대체한다.
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings()
+  const title = settings?.seoTitle || FALLBACK_TITLE
+  const description = settings?.seoDescription || FALLBACK_DESCRIPTION
+  const keywords = settings?.seoKeywords
+    ? settings.seoKeywords.split(",").map((keyword) => keyword.trim()).filter(Boolean)
+    : FALLBACK_KEYWORDS
+
+  return {
+    title: {
+      default: title,
+      template: `%s | ${title}`,
+    },
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      url: "https://saramsahoe.org",
+      siteName: "연구센터사람과사회",
+      locale: "ko_KR",
+      type: "website",
+      images: settings?.ogImageUrl ? [settings.ogImageUrl] : undefined,
+    },
     verification: {
-      google: 'gKxUB0heHyFKYlcGvDLupjej1yVns0Y037zui5PCB88',
+      google: "gKxUB0heHyFKYlcGvDLupjej1yVns0Y037zui5PCB88",
       other: {
-          'naver-site-verification': '83ddd2aac39604ef4dffec7225d0b28b2234a73b',
-      }
-    }
+        "naver-site-verification": "83ddd2aac39604ef4dffec7225d0b28b2234a73b",
+      },
+    },
+  }
 }
 
 export const viewport: Viewport = {
@@ -55,11 +82,13 @@ export const viewport: Viewport = {
   userScalable: true,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const profile = await getMyProfile()
+
   return (
     <html
       lang="ko"
@@ -93,7 +122,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <div className="flex min-h-svh flex-col">
-            <SiteHeader />
+            <SiteHeader initialProfile={profile} />
             <main className="flex-1">{children}</main>
             <SiteFooter />
           </div>

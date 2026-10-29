@@ -7,6 +7,8 @@ import {
   TrainFront,
 } from "lucide-react"
 
+import { getSiteSettings } from "@/app/actions/site-settings"
+import { getMyProfile } from "@/app/actions/profile"
 import { CopyAddressButton } from "@/components/location/copy-address-button"
 import { LocationMap } from "@/components/location/location-map"
 import { Badge } from "@/components/ui/badge"
@@ -20,7 +22,13 @@ export const metadata: Metadata = {
   description: `${siteConfig.name} 오시는 길 안내 — ${siteConfig.address}`,
 }
 
-export default function LocationPage() {
+const FALLBACK_NAVER_MAP_URL =
+  "https://map.naver.com/p/entry/place/1690471513?c=15.00,0,0,0,dh&placePath=%2Fhome%3Ffrom%3Dmap%26fromPanelNum%3D1%26additionalHeight%3D76%26timestamp%3D202610292016%26locale%3Dko%26svcName%3Dmap_pcv5"
+
+export default async function LocationPage() {
+  const [settings, profile] = await Promise.all([getSiteSettings(), getMyProfile()])
+  const isAdmin = profile?.role === "admin"
+
   return (
     <>
       <section className="border-b border-border">
@@ -38,7 +46,10 @@ export default function LocationPage() {
       </section>
 
       <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-        <LocationMap />
+        <LocationMap
+          naverMapUrl={settings?.naverMapUrl ?? FALLBACK_NAVER_MAP_URL}
+          isAdmin={isAdmin}
+        />
 
         <Separator className="my-12" />
 

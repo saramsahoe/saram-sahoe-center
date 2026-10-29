@@ -2,53 +2,37 @@
 
 import { useEffect, useState, useTransition } from "react"
 import Link from "next/link"
-import type { User } from "@supabase/supabase-js"
 
 import { getMyProfile } from "@/app/actions/profile"
 import { signOut } from "@/app/actions/auth"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
+import type { Profile } from "@/lib/account-content"
 
-export function UserNav() {
-  const [user, setUser] = useState<User | null>(null)
-  const [displayName, setDisplayName] = useState<string | null>(null)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [loaded, setLoaded] = useState(false)
+export function UserNav({ initialProfile }: { initialProfile: Profile | null }) {
+  // 서버에서 이미 로그인 상태를 확인해 내려주므로, 처음 화면을 그릴 때부터 바로
+  // 맞는 상태(로그인/비로그인)로 보여줄 수 있다 — 클라이언트에서 다시 확인하는
+  // 동안 깜빡이며 로딩 상태를 보여줄 필요가 없다.
+  const [profile, setProfile] = useState<Profile | null>(initialProfile)
   const [pending, startTransition] = useTransition()
 
   useEffect(() => {
     const supabase = createClient()
 
-    async function syncUser(nextUser: User | null) {
-      setUser(nextUser)
-      if (!nextUser) {
-        setDisplayName(null)
-        setIsAdmin(false)
-        return
-      }
-      const profile = await getMyProfile()
-      setDisplayName(profile?.fullName ?? nextUser.email ?? null)
-      setIsAdmin(profile?.role === "admin")
-    }
-
-    supabase.auth.getUser().then(({ data }) => {
-      syncUser(data.user).finally(() => setLoaded(true))
-    })
-
     const { data: subscription } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        syncUser(session?.user ?? null)
+        if (!session?.user) {
+          setProfile(null)
+          return
+        }
+        getMyProfile().then(setProfile)
       }
     )
 
     return () => subscription.subscription.unsubscribe()
   }, [])
 
-  if (!loaded) {
-    return <div className="h-8 w-24" aria-hidden="true" />
-  }
-
-  if (!user) {
+  if (!profile) {
     return (
       <>
         <Button
@@ -70,6 +54,8 @@ export function UserNav() {
     )
   }
 
+  const isAdmin = profile.role === "admin"
+
   return (
     <div className="hidden items-center gap-3 sm:flex">
       {isAdmin && (
@@ -84,7 +70,7 @@ export function UserNav() {
         href="/mypage"
         className="text-[1.3125rem] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
       >
-        {displayName} 님
+        {profile.fullName} 님
       </Link>
       <Button
         variant="outline"
