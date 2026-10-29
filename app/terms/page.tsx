@@ -14,7 +14,7 @@ export default function TermsPage() {
     <>
       <section className="border-b border-border">
         <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
-          <p className="font-mono text-[0.625rem] tracking-[0.22em] text-accent uppercase">
+          <p className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.22em] text-accent uppercase">
             Terms of Service
           </p>
           <h1 className="mt-4 font-heading text-3xl leading-tight font-semibold tracking-tight text-balance text-foreground sm:text-4xl">

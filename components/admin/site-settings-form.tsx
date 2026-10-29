@@ -15,6 +15,15 @@ export function SiteSettingsForm({ initialSettings }: { initialSettings: SiteSet
   const [seoKeywords, setSeoKeywords] = useState(initialSettings.seoKeywords)
   const [ogImageUrl, setOgImageUrl] = useState(initialSettings.ogImageUrl ?? "")
   const [naverMapUrl, setNaverMapUrl] = useState(initialSettings.naverMapUrl)
+  const [naverMapClientId, setNaverMapClientId] = useState(
+    initialSettings.naverMapClientId ?? ""
+  )
+  const [naverMapLat, setNaverMapLat] = useState(
+    initialSettings.naverMapLat?.toString() ?? ""
+  )
+  const [naverMapLng, setNaverMapLng] = useState(
+    initialSettings.naverMapLng?.toString() ?? ""
+  )
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -25,12 +34,23 @@ export function SiteSettingsForm({ initialSettings }: { initialSettings: SiteSet
     setError(null)
     setMessage(null)
 
+    const lat = naverMapLat.trim() ? Number(naverMapLat) : null
+    const lng = naverMapLng.trim() ? Number(naverMapLng) : null
+    if ((lat !== null && Number.isNaN(lat)) || (lng !== null && Number.isNaN(lng))) {
+      setSubmitting(false)
+      setError("위도/경도는 숫자로 입력해 주세요.")
+      return
+    }
+
     const result = await updateSiteSettings({
       seoTitle,
       seoDescription,
       seoKeywords,
       ogImageUrl: ogImageUrl || null,
       naverMapUrl,
+      naverMapClientId: naverMapClientId || null,
+      naverMapLat: lat,
+      naverMapLng: lng,
     })
 
     setSubmitting(false)
@@ -106,7 +126,10 @@ export function SiteSettingsForm({ initialSettings }: { initialSettings: SiteSet
 
         <Field>
           <FieldLabel htmlFor="naver-map-url">
-            오시는 길 — 네이버 지도 URL
+            오시는 길 — 네이버 지도 URL{" "}
+            <span className="font-normal text-muted-foreground">
+              (지도를 클릭하면 이동할 주소. 네이버 지도 &gt; 공유 &gt; 링크 복사)
+            </span>
           </FieldLabel>
           <Input
             id="naver-map-url"
@@ -115,6 +138,48 @@ export function SiteSettingsForm({ initialSettings }: { initialSettings: SiteSet
             required
           />
         </Field>
+
+        <Field>
+          <FieldLabel htmlFor="naver-map-client-id">
+            네이버 지도 동적 임베드 — Client ID{" "}
+            <span className="font-normal text-muted-foreground">
+              (선택. 비워두면 정적 미리보기로 표시됩니다)
+            </span>
+          </FieldLabel>
+          <Input
+            id="naver-map-client-id"
+            value={naverMapClientId}
+            onChange={(e) => setNaverMapClientId(e.target.value)}
+            placeholder="Naver Cloud Platform Maps API Client ID"
+          />
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            Naver Cloud Platform(console.ncloud.com) → AI·NAVER API → Application 등록(Maps)에서
+            발급받은 Client ID를 넣어 주세요. 등록 시 서비스 URL에 이 사이트 도메인도 추가해야 합니다.
+          </p>
+        </Field>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Field>
+            <FieldLabel htmlFor="naver-map-lat">위도 (latitude)</FieldLabel>
+            <Input
+              id="naver-map-lat"
+              value={naverMapLat}
+              onChange={(e) => setNaverMapLat(e.target.value)}
+              placeholder="예: 37.5172"
+              inputMode="decimal"
+            />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="naver-map-lng">경도 (longitude)</FieldLabel>
+            <Input
+              id="naver-map-lng"
+              value={naverMapLng}
+              onChange={(e) => setNaverMapLng(e.target.value)}
+              placeholder="예: 127.0473"
+              inputMode="decimal"
+            />
+          </Field>
+        </div>
 
         {error && (
           <Alert variant="destructive">

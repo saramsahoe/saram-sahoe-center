@@ -46,4 +46,11 @@ export const themeConfig = {
     /** 포인트 색상 위에 올라가는 글씨 색 (배지, 조직도 노드 등) */
     text: "#ffffff",
   },
+
+  /** 타이포그래피 — 글자 크기 설정 */
+  typography: {
+    /** 섹션마다 붙는 영문 캡션 글씨 크기 (예: "Our Vision", "Quick Links", "Get in Touch",
+     *  "Board", "Sitemap" 등). 여기 값 하나만 바꾸면 사이트 전체 영문 캡션이 한번에 바뀝니다. */
+    eyebrowSize: "0.9rem",
+  },
 } as const

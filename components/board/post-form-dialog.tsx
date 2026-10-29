@@ -493,7 +493,7 @@ export function PostFormDialog({
                     <ImageIcon className="size-3.5" strokeWidth={1.75} />
                   )}
                 </button>
-                <div className="ml-auto flex items-center gap-1 font-mono text-[0.5625rem] tracking-[0.1em] uppercase">
+                <div className="ml-auto flex items-center gap-1 font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.1em] uppercase">
                   <button
                     type="button"
                     onClick={() => setPreviewMode(false)}

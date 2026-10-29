@@ -49,7 +49,7 @@ export function VisionHero() {
                                 입니다
                             </p>
                         </blockquote>
-                        <figcaption className="relative z-10 mt-10 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                        <figcaption className="relative z-10 mt-10 font-mono text-[length:var(--cfg-eyebrow-size)] uppercase tracking-[0.18em] text-muted-foreground">
                             Our Vision
                         </figcaption>
                     </div>

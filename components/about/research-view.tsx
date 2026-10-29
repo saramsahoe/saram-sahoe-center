@@ -12,7 +12,7 @@ export function ResearchView() {
   return (
     <div className="flex flex-col gap-16">
       <div className="max-w-2xl">
-        <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-accent uppercase">
+        <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-accent uppercase">
           Our Work
         </span>
         <h2 className="mt-3 font-heading text-xl font-semibold tracking-tight text-balance text-foreground sm:text-2xl">
@@ -37,7 +37,7 @@ export function ResearchView() {
       </div>
 
       <div>
-        <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-accent uppercase">
+        <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-accent uppercase">
           Our Programs
         </span>
         <h2 className="mt-3 font-heading text-xl font-semibold tracking-tight text-balance text-foreground sm:text-2xl">

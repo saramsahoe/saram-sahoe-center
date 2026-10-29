@@ -13,7 +13,7 @@ export function IntroGrid() {
           <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
             센터 소개
           </h2>
-          <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-muted-foreground uppercase">
+          <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-muted-foreground uppercase">
             Quick Links
           </span>
         </div>
@@ -29,7 +29,7 @@ export function IntroGrid() {
               >
                 <Card className="h-full ring-1 ring-foreground/10 transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-md group-hover:ring-accent/30 group-focus-visible:-translate-y-1 group-focus-visible:ring-2 group-focus-visible:ring-ring">
                   <CardHeader>
-                    <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-accent uppercase">
+                    <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-accent uppercase">
                       {card.caption}
                     </span>
                     <CardTitle className="mt-1 flex items-center justify-between gap-2 text-lg">

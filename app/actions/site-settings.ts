@@ -11,6 +11,10 @@ export type SiteSettings = {
   seoKeywords: string;
   ogImageUrl: string | null;
   naverMapUrl: string;
+  /** Naver Cloud Platform Maps JS API Client ID. 비어있으면 정적 미리보기로 대체된다. */
+  naverMapClientId: string | null;
+  naverMapLat: number | null;
+  naverMapLng: number | null;
 };
 
 type SiteSettingsRow = {
@@ -19,9 +23,13 @@ type SiteSettingsRow = {
   seo_keywords: string;
   og_image_url: string | null;
   naver_map_url: string;
+  naver_map_client_id: string | null;
+  naver_map_lat: number | null;
+  naver_map_lng: number | null;
 };
 
-const SETTINGS_COLUMNS = "seo_title, seo_description, seo_keywords, og_image_url, naver_map_url";
+const SETTINGS_COLUMNS =
+  "seo_title, seo_description, seo_keywords, og_image_url, naver_map_url, naver_map_client_id, naver_map_lat, naver_map_lng";
 
 function mapRow(row: SiteSettingsRow): SiteSettings {
   return {
@@ -30,6 +38,9 @@ function mapRow(row: SiteSettingsRow): SiteSettings {
     seoKeywords: row.seo_keywords,
     ogImageUrl: row.og_image_url,
     naverMapUrl: row.naver_map_url,
+    naverMapClientId: row.naver_map_client_id,
+    naverMapLat: row.naver_map_lat,
+    naverMapLng: row.naver_map_lng,
   };
 }
 
@@ -73,6 +84,9 @@ export async function updateSiteSettings(
       seo_keywords: input.seoKeywords.trim(),
       og_image_url: input.ogImageUrl?.trim() || null,
       naver_map_url: input.naverMapUrl.trim(),
+      naver_map_client_id: input.naverMapClientId?.trim() || null,
+      naver_map_lat: input.naverMapLat,
+      naver_map_lng: input.naverMapLng,
       updated_at: new Date().toISOString(),
     })
     .eq("id", true)

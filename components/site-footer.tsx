@@ -61,7 +61,7 @@ export function SiteFooter() {
             aria-label="바닥글 메뉴"
             className="flex flex-col gap-3 md:items-end"
           >
-            <p className="font-mono text-[0.5625rem] tracking-[0.16em] text-footer-foreground/70 uppercase">
+            <p className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-footer-foreground/70 uppercase">
               Sitemap
             </p>
             <ul className="flex flex-wrap gap-x-5 gap-y-2 md:flex-col md:items-end md:gap-y-2.5">

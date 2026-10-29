@@ -35,7 +35,7 @@ export function SiteHeader({ initialProfile }: { initialProfile: Profile | null 
                   "relative rounded-sm px-3 py-2 font-heading text-[1.3125rem] font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isActive
                     ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                    : "text-muted-foreground hover:bg-gradient-to-r hover:from-[#EC6633] hover:to-[#5BC4EE] hover:text-white"
                 )}
               >
                 {item.title}

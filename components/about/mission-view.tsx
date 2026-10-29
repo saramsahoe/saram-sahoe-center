@@ -6,7 +6,7 @@ import { directorGreeting } from "@/lib/about-content"
 export function MissionView() {
   return (
     <div>
-      <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-accent uppercase">
+      <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-accent uppercase">
         Our Purpose
       </span>
       <h2 className="mt-3 font-heading text-xl font-semibold tracking-tight text-balance text-foreground sm:text-2xl">
@@ -18,7 +18,7 @@ export function MissionView() {
       </div>
 
       <div className="mt-16 max-w-2xl">
-        <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-accent uppercase">
+        <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-accent uppercase">
           Greeting
         </span>
         <h2 className="mt-3 font-heading text-xl font-semibold tracking-tight text-balance text-foreground sm:text-2xl">

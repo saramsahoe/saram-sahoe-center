@@ -52,7 +52,7 @@ export function ContactSection() {
           <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
             Contact Us (문의하기)
           </h2>
-          <span className="font-mono text-[0.5625rem] tracking-[0.16em] text-muted-foreground uppercase">
+          <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-muted-foreground uppercase">
             Get in Touch
           </span>
         </div>

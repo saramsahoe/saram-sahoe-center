@@ -29,7 +29,11 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="lg:hidden hover:bg-gradient-to-r hover:from-[#EC6633] hover:to-[#5BC4EE] hover:text-white"
+        >
           <Menu />
           <span className="sr-only">메뉴 열기</span>
         </Button>
@@ -82,7 +86,7 @@ export function MobileNav() {
                     {item.title}
                   </span>
                 </span>
-                <span className="font-mono text-[0.5625rem] tracking-[0.14em] text-muted-foreground uppercase">
+                <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] text-muted-foreground uppercase">
                   {item.caption}
                 </span>
               </Link>
@@ -102,7 +106,7 @@ export function MobileNav() {
                 오시는 길
               </span>
             </span>
-            <span className="font-mono text-[0.5625rem] tracking-[0.14em] uppercase opacity-80">
+            <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] uppercase opacity-80">
               Location
             </span>
           </Link>
