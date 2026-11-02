@@ -169,4 +169,10 @@
     -webkit-user-select: text;
     user-select: text;
     }
+  /* 메인 내비게이션 버튼 호버 색 — 버튼마다 JS에서 계산한 색을 --nav-hover로 주입받는다
+     (components/site-header.tsx, components/mobile-nav.tsx 참고) */
+  .nav-hover-item:hover {
+    background-color: var(--nav-hover);
+    color: #fff;
+    }
 }

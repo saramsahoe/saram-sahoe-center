@@ -2,11 +2,12 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import type { CSSProperties } from "react"
 
 import { UserNav } from "@/components/auth/user-nav"
 import { MobileNav } from "@/components/mobile-nav"
 import { SiteLogo } from "@/components/site-logo"
-import { cn } from "@/lib/utils"
+import { cn, navHoverColorAt } from "@/lib/utils"
 import { getActiveNavHref, mainNav } from "@/lib/navigation"
 import type { Profile } from "@/lib/account-content"
 
@@ -23,7 +24,7 @@ export function SiteHeader({ initialProfile }: { initialProfile: Profile | null 
           aria-label="주요 메뉴"
           className="ml-6 hidden flex-1 items-center gap-1 lg:flex"
         >
-          {mainNav.map((item) => {
+          {mainNav.map((item, index) => {
             const isActive = item.href === activeHref
 
             return (
@@ -31,11 +32,16 @@ export function SiteHeader({ initialProfile }: { initialProfile: Profile | null 
                 key={item.href}
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
+                style={
+                  {
+                    "--nav-hover": navHoverColorAt(index, mainNav.length),
+                  } as CSSProperties
+                }
                 className={cn(
                   "relative rounded-sm px-3 py-2 font-heading text-[1.3125rem] font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring",
                   isActive
                     ? "text-foreground"
-                    : "text-muted-foreground hover:bg-gradient-to-r hover:from-[#EC6633] hover:to-[#5BC4EE] hover:text-white"
+                    : "nav-hover-item text-muted-foreground"
                 )}
               >
                 {item.title}

@@ -16,7 +16,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
+import type { CSSProperties } from "react"
+
+import { cn, navHoverColorAt } from "@/lib/utils"
 import { getActiveNavHref, mainNav, siteConfig } from "@/lib/navigation"
 
 export function MobileNav() {
@@ -32,7 +34,8 @@ export function MobileNav() {
         <Button
           variant="ghost"
           size="icon"
-          className="lg:hidden hover:bg-gradient-to-r hover:from-[#EC6633] hover:to-[#5BC4EE] hover:text-white"
+          style={{ "--nav-hover": navHoverColorAt(1, 2) } as CSSProperties}
+          className="nav-hover-item lg:hidden"
         >
           <Menu />
           <span className="sr-only">메뉴 열기</span>
@@ -58,7 +61,7 @@ export function MobileNav() {
           aria-label="모바일 주요 메뉴"
           className="flex min-h-0 flex-1 flex-col overflow-y-auto px-3 py-4"
         >
-          {mainNav.map((item) => {
+          {mainNav.map((item, index) => {
             const isActive = item.href === activeHref
 
             return (
@@ -67,11 +70,16 @@ export function MobileNav() {
                 href={item.href}
                 onClick={close}
                 aria-current={isActive ? "page" : undefined}
+                style={
+                  {
+                    "--nav-hover": navHoverColorAt(index, mainNav.length),
+                  } as CSSProperties
+                }
                 className={cn(
                   "group flex items-baseline justify-between rounded-md px-3 py-3 transition-colors",
                   isActive
                     ? "bg-secondary text-foreground"
-                    : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
+                    : "nav-hover-item text-muted-foreground"
                 )}
               >
                 <span className="flex items-center gap-2.5">
