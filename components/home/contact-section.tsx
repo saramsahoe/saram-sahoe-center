@@ -50,7 +50,7 @@ export function ContactSection() {
       <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="flex items-baseline justify-between gap-4">
           <h2 className="font-heading text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-            Contact Us (문의하기)
+            문의하기
           </h2>
           <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-muted-foreground">
             Get in Touch

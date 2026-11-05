@@ -36,8 +36,11 @@ export default async function BoardPage() {
             게시판
           </h1>
           <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground">
-            공지사항, 보도자료, 소식, 세미나 및 행사 안내를 확인하세요.
+              공지사항, 보도자료, 소식, 세미나 및 행사 안내를 확인하세요.
           </p>
+            <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground">
+                2026년도 이전 자료에 대한 문의는 contact@saramsahoe.org로 해주시기 바랍니다.
+            </p>
         </div>
       </section>
 
