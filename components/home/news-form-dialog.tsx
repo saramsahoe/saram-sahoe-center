@@ -181,11 +181,17 @@ export function NewsFormDialog({
             </div>
 
             <Field>
-              <FieldLabel htmlFor="news-title">제목</FieldLabel>
-              <Input
+              <FieldLabel htmlFor="news-title">
+                제목{" "}
+                <span className="font-normal text-muted-foreground">
+                  (Enter로 줄바꿈)
+                </span>
+              </FieldLabel>
+              <Textarea
                 id="news-title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                className="min-h-16"
                 required
               />
             </Field>

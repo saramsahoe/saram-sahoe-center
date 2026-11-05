@@ -317,7 +317,7 @@ export function MembersDirectory({
 
       {isAdmin && (
         <MemberFormDialog
-          key={formKey}
+          key={`member-${formKey}`}
           open={formOpen}
           onOpenChange={(open) => {
             setFormOpen(open)
@@ -338,7 +338,7 @@ export function MembersDirectory({
 
       {isAdmin && (
         <CommitteeFormDialog
-          key={committeeFormKey}
+          key={`committee-${committeeFormKey}`}
           open={committeeFormOpen}
           onOpenChange={(open) => {
             setCommitteeFormOpen(open)

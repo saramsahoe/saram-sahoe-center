@@ -18,7 +18,7 @@ export function SiteFooter() {
               <p className="font-heading text-sm font-semibold tracking-tight text-footer-foreground">
                 {siteConfig.name}
               </p>
-              <p className="font-mono text-[0.84375rem] tracking-[0.16em] text-footer-foreground/70 uppercase">
+              <p className="font-mono text-[0.84375rem] tracking-[0.16em] text-footer-foreground/70">
                 {siteConfig.nameEn}
               </p>
             </div>
@@ -61,7 +61,7 @@ export function SiteFooter() {
             aria-label="바닥글 메뉴"
             className="flex flex-col gap-3 md:items-end"
           >
-            <p className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-footer-foreground/70 uppercase">
+            <p className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-footer-foreground/70">
               Sitemap
             </p>
             <ul className="flex flex-wrap gap-x-5 gap-y-2 md:flex-col md:items-end md:gap-y-2.5">
@@ -91,7 +91,7 @@ export function SiteFooter() {
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-footer-foreground/70">
-            &copy; 2026 {siteConfig.name}. All rights reserved.
+            &copy; {siteConfig.name}. All rights reserved.
           </p>
           <ul className="flex items-center gap-5">
             {legalNav.map((item) => (

@@ -47,7 +47,7 @@ export function MobileNav() {
           <SheetTitle className="font-heading text-base tracking-tight">
             {siteConfig.name}
           </SheetTitle>
-          <SheetDescription className="font-mono text-[0.9375rem] tracking-[0.16em] uppercase">
+          <SheetDescription className="font-mono text-[0.9375rem] tracking-[0.16em]">
             {siteConfig.nameEn}
           </SheetDescription>
         </SheetHeader>
@@ -86,7 +86,7 @@ export function MobileNav() {
                     {item.title}
                   </span>
                 </span>
-                <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] text-muted-foreground uppercase">
+                <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] text-muted-foreground">
                   {item.caption}
                 </span>
               </Link>
@@ -106,7 +106,7 @@ export function MobileNav() {
                 오시는 길
               </span>
             </span>
-            <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] uppercase opacity-80">
+            <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] opacity-80">
               Location
             </span>
           </Link>

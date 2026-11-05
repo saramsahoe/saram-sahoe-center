@@ -52,5 +52,27 @@ export const themeConfig = {
     /** 섹션마다 붙는 영문 캡션 글씨 크기 (예: "Our Vision", "Quick Links", "Get in Touch",
      *  "Board", "Sitemap" 등). 여기 값 하나만 바꾸면 사이트 전체 영문 캡션이 한번에 바뀝니다. */
     eyebrowSize: "0.9rem",
+    /** 사이트 전체 글자 크기의 기준값(브라우저 기본값 16px). 이 값만 바꾸면 rem 단위를
+     *  쓰는 사이트 전체 글자 크기가 전부 같은 비율로 커지거나 작아집니다. */
+    baseSize: "16px",
+  },
+
+  /**
+   * 폰트(글씨체) 설정.
+   *
+   * - korean, headline: CDN으로 불러오는 웹폰트라 이름만 바꾸면 바로 적용됩니다
+   *   (app/globals.css의 --font-sans/--font-heading/--font-serif가 이 값을 참조).
+   * - english: Source Sans 3는 next/font로 불러오기 때문에, 폰트 "이름"은 여기서
+   *   관리하지만 실제로 다른 영문 폰트로 교체하려면 app/layout.tsx의 Source_Sans_3
+   *   import도 함께 바꿔야 합니다.
+   */
+  fonts: {
+    /** 한글 기본 폰트 — 본문/제목 전반 (Pretendard) */
+    korean: "Pretendard Variable",
+    /** 영문 기본 폰트 — 라틴 문자 전반. 한글 폰트보다 먼저 와서 영문엔 이 폰트가,
+     *  한글엔 자동으로 korean 폰트가 적용됩니다. */
+    english: "Source Sans 3",
+    /** 대문 캐치프레이즈 전용 한글 서체 (예: "사람은 아름다운 에너지입니다") */
+    headline: "KoPubWorld Dotum",
   },
 } as const

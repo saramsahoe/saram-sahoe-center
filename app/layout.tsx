@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono, Gowun_Batang } from "next/font/google"
+import { Geist_Mono, Source_Sans_3 } from "next/font/google"
 
 import "./globals.css"
 import { getSiteSettings } from "@/app/actions/site-settings"
@@ -10,19 +10,13 @@ import { SiteFooter } from "@/components/site-footer"
 import { cn } from "@/lib/utils"
 import { themeConfig } from "@/lib/theme-config"
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
+/** 영문 기본 폰트 — lib/theme-config.ts의 fonts.english("Source Sans 3")에 대응.
+ *  이 폰트 자체를 바꾸려면 여기 import와 아래 호출을 함께 바꿔야 한다. */
+const fontSansEn = Source_Sans_3({ subsets: ["latin"], variable: "--font-sans-en" })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-})
-
-/** Korean serif reserved for the calligraphy-style vision statement — softer, more refined than Nanum Myeongjo */
-const fontSerif = Gowun_Batang({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-serif",
-  display: "swap",
 })
 
 const FALLBACK_TITLE = "연구센터 사람과 사회"
@@ -96,13 +90,12 @@ export default async function RootLayout({
       className={cn(
         "bg-background antialiased",
         fontMono.variable,
-        fontSerif.variable,
-        "font-sans",
-        geist.variable
+        fontSansEn.variable,
+        "font-sans"
       )}
     >
       <head>
-        {/* Pretendard — optimized Korean + Latin sans-serif */}
+        {/* Pretendard — 한글 기본 폰트 (lib/theme-config.ts의 fonts.korean) */}
         <link
           rel="preconnect"
           href="https://cdn.jsdelivr.net"
@@ -112,10 +105,15 @@ export default async function RootLayout({
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
         />
-        {/* lib/theme-config.ts 값을 CSS 변수로 주입 — 이 파일만 고치면 전체 색상이 바뀐다 */}
+        {/* KoPubWorld 돋움 — 대문 캐치프레이즈 전용 한글 서체 (lib/theme-config.ts의 fonts.headline) */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/font-kopubworld@1.0.3/css/dotum.css"
+        />
+        {/* lib/theme-config.ts 값을 CSS 변수로 주입 — 이 파일만 고치면 전체 색상/크기/폰트가 바뀐다 */}
         <style
           dangerouslySetInnerHTML={{
-            __html: `:root{--cfg-bg-from:${themeConfig.background.gradientFrom};--cfg-bg-to:${themeConfig.background.gradientTo};--cfg-footer-bg:${themeConfig.footer.background};--cfg-footer-fg:${themeConfig.footer.text};--cfg-button-bg:${themeConfig.button.background};--cfg-button-fg:${themeConfig.button.text};--cfg-card-bg:${themeConfig.card.background};--cfg-heading-fg:${themeConfig.heading.color};--cfg-content-fg:${themeConfig.content.color};--cfg-accent:${themeConfig.accent.color};--cfg-accent-fg:${themeConfig.accent.text};--cfg-eyebrow-size:${themeConfig.typography.eyebrowSize};}`,
+            __html: `:root{--cfg-bg-from:${themeConfig.background.gradientFrom};--cfg-bg-to:${themeConfig.background.gradientTo};--cfg-footer-bg:${themeConfig.footer.background};--cfg-footer-fg:${themeConfig.footer.text};--cfg-button-bg:${themeConfig.button.background};--cfg-button-fg:${themeConfig.button.text};--cfg-card-bg:${themeConfig.card.background};--cfg-heading-fg:${themeConfig.heading.color};--cfg-content-fg:${themeConfig.content.color};--cfg-accent:${themeConfig.accent.color};--cfg-accent-fg:${themeConfig.accent.text};--cfg-eyebrow-size:${themeConfig.typography.eyebrowSize};--cfg-base-font-size:${themeConfig.typography.baseSize};--cfg-font-kr:"${themeConfig.fonts.korean}";--cfg-font-headline:"${themeConfig.fonts.headline}";}`,
           }}
         />
       </head>

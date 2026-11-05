@@ -91,7 +91,7 @@ export function LocationMap({
               className="absolute inset-0 opacity-60 transition-opacity group-hover:opacity-80 [background-image:repeating-linear-gradient(90deg,transparent,transparent_79px,var(--border)_79px,var(--border)_80px),repeating-linear-gradient(0deg,transparent,transparent_79px,var(--border)_79px,var(--border)_80px)]"
             />
 
-            <span className="absolute top-4 left-4 inline-flex items-center rounded-sm bg-background/90 px-2 py-0.5 font-mono text-[0.5625rem] tracking-[0.14em] text-muted-foreground uppercase backdrop-blur">
+            <span className="absolute top-4 left-4 inline-flex items-center rounded-sm bg-background/90 px-2 py-0.5 font-mono text-[0.5625rem] tracking-[0.14em] text-muted-foreground backdrop-blur">
               클릭하면 네이버 지도로 이동
             </span>
 

@@ -36,31 +36,31 @@ export function PostList({
             <tr className="border-b border-border bg-muted/40 text-left">
               <th
                 scope="col"
-                className="w-16 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground uppercase"
+                className="w-16 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground"
               >
                 No.
               </th>
               <th
                 scope="col"
-                className="w-28 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground uppercase"
+                className="w-28 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground"
               >
                 분류
               </th>
               <th
                 scope="col"
-                className="px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground uppercase"
+                className="px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground"
               >
                 제목
               </th>
               <th
                 scope="col"
-                className="w-24 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground uppercase"
+                className="w-24 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground"
               >
                 작성자
               </th>
               <th
                 scope="col"
-                className="w-28 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground uppercase"
+                className="w-28 px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground"
               >
                 작성일
               </th>

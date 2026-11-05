@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils"
 
 const committees = [
-  "소통역량위원회",
-  "미디어위원회",
-  "거버넌스위원회",
-  "평등나눔위원회",
-  "분배성장위원회",
-  "젠더역량위원회",
-  "커리어지지위원회",
-  "꿈성장위원회",
-  "소리감성위원회",
-  "창의감성위원회",
+  "소통역량 위원회",
+  "미디어 위원회",
+  "거버넌스 위원회",
+  "평등나눔 위원회",
+  "분배성장 위원회",
+  "젠더역량 위원회",
+  "커리어지지 위원회",
+  "꿈성장 위원회",
+  "소리감성 위원회",
+  "창의감성 위원회",
   "자문위원단",
 ]
 
@@ -26,7 +26,7 @@ function OrgNode({
   return (
     <div
       className={cn(
-        "flex shrink-0 items-center justify-center rounded-full text-center font-heading font-semibold text-balance",
+        "flex shrink-0 items-center justify-center rounded-full text-center font-heading font-semibold text-balance break-keep",
         size === "lg" && "size-56 text-[1.75rem]",
         size === "md" && "size-40 text-[1.5rem]",
         size === "sm" && "size-32 px-2 text-[1.25rem] leading-tight",

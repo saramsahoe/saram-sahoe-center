@@ -98,7 +98,7 @@ export function NewsCarousel({
             소식
           </h2>
           <div className="flex items-center gap-3">
-            <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-muted-foreground uppercase">
+            <span className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-muted-foreground">
               Latest News
             </span>
             {isAdmin && (
@@ -133,7 +133,7 @@ export function NewsCarousel({
                 className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"
               />
 
-              <span className="absolute top-4 left-4 inline-flex items-center rounded-sm bg-accent px-2 py-0.5 font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] text-accent-foreground uppercase sm:top-6 sm:left-6">
+              <span className="absolute top-4 left-4 inline-flex items-center rounded-sm bg-accent px-2 py-0.5 font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.14em] text-accent-foreground sm:top-6 sm:left-6">
                 {slide.category}
               </span>
 
@@ -163,10 +163,10 @@ export function NewsCarousel({
               )}
 
               <div className="absolute inset-x-0 bottom-0 p-4 sm:p-8">
-                <p className="font-mono text-[0.5rem] tracking-[0.16em] text-white/70 uppercase">
+                <p className="font-mono text-[0.5rem] tracking-[0.16em] text-white/70">
                   {slide.date}
                 </p>
-                <h3 className="mt-2 max-w-2xl font-heading text-lg leading-snug font-semibold text-balance text-white sm:text-2xl">
+                <h3 className="mt-2 max-w-3xl font-heading text-lg leading-snug font-semibold whitespace-pre-line text-white sm:text-2xl">
                   {slide.title}
                 </h3>
                 <p className="mt-2 hidden max-w-xl text-sm leading-relaxed text-pretty text-white/80 sm:block">

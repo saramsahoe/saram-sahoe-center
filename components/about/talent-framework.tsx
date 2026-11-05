@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { ArrowLeftRight, ArrowUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import {
@@ -34,7 +35,7 @@ const theme: Record<
   },
   mint: {
     bg: "bg-[#f0fbf9]",
-    border: "border-[#c6f6e5]",
+    border: "border-[#a7f3d0]",
     text: "text-[#059669]",
     bullet: "bg-[#10b981]",
     pill: "bg-[#d1fae5] text-[#059669]",
@@ -43,7 +44,7 @@ const theme: Record<
 
 function SideLabel({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-11 items-center justify-center rounded-xl border border-[#e2e8f0] bg-[#f1f5f9] px-3 text-center text-sm font-bold whitespace-pre text-[#475569] md:h-full">
+    <div className="flex h-11 items-center justify-center rounded-xl border-2 border-[#cbd5e1] bg-[#f1f5f9] px-3 text-center text-sm font-bold whitespace-pre text-[#475569] md:h-full">
       {children}
     </div>
   )
@@ -51,8 +52,8 @@ function SideLabel({ children }: { children: ReactNode }) {
 
 function HArrow() {
   return (
-    <div className="flex items-center justify-center py-1 text-base leading-none font-bold text-[#94a3b8] md:py-0">
-      ⇄
+    <div className="flex items-center justify-center py-1 md:py-0">
+      <ArrowLeftRight className="size-5 text-[#64748b]" strokeWidth={2.75} />
     </div>
   )
 }
@@ -61,12 +62,12 @@ function UpArrows() {
   return (
     <div className="hidden md:grid md:grid-cols-[140px_1fr] md:items-center md:gap-6">
       <div />
-      <div className="grid grid-cols-[1fr_32px_1fr_32px_1fr] text-center text-sm leading-none text-[#94a3b8]">
-        <span>↑</span>
+      <div className="grid grid-cols-[1fr_32px_1fr_32px_1fr] items-center justify-center text-[#64748b]">
+        <ArrowUp className="mx-auto size-5" strokeWidth={2.75} />
         <span />
-        <span>↑</span>
+        <ArrowUp className="mx-auto size-5" strokeWidth={2.75} />
         <span />
-        <span>↑</span>
+        <ArrowUp className="mx-auto size-5" strokeWidth={2.75} />
       </div>
     </div>
   )
@@ -82,10 +83,10 @@ function ColumnBox({
   return (
     <div
       className={cn(
-        "flex h-12 items-center justify-center rounded-xl border px-3 text-center text-sm font-bold",
+        "flex h-12 items-center justify-center rounded-xl border-2 px-3 text-center text-sm font-bold",
         colored
           ? cn(theme[colored].bg, theme[colored].border, theme[colored].text)
-          : "border-[#e2e8f0] bg-white text-[#334155]"
+          : "border-[#cbd5e1] bg-white text-[#334155]"
       )}
     >
       {value}
@@ -125,7 +126,7 @@ export function TalentFramework() {
       {/* 최종 목표 */}
       <div className="grid grid-cols-1 items-center gap-3 md:grid-cols-[140px_1fr] md:gap-6">
         <SideLabel>최종 목표</SideLabel>
-        <div className="flex min-h-[60px] flex-wrap items-center justify-center rounded-2xl border border-[#e2e8f0] bg-gradient-to-r from-[#fff5f5] via-white to-[#f0fbf9] px-4 py-3 text-center text-base font-bold sm:text-lg">
+        <div className="flex min-h-[60px] flex-wrap items-center justify-center rounded-2xl border-2 border-[#cbd5e1] bg-gradient-to-r from-[#fff5f5] via-white to-[#f0fbf9] px-4 py-3 text-center text-base font-bold sm:text-lg">
           <span className="font-extrabold text-[#e11d48]">{target.highlights.pink}</span>
           <span className="mx-1.5 font-semibold text-[#64748b]">·</span>
           <span className="font-extrabold text-[#3b5bdb]">{target.highlights.blue}</span>
@@ -149,7 +150,7 @@ export function TalentFramework() {
       <div className="grid grid-cols-1 items-stretch gap-3 md:grid-cols-[140px_1fr] md:gap-6">
         <SideLabel>{"구 성 내 용"}</SideLabel>
         <div className="grid grid-cols-1 items-stretch gap-3 md:grid-cols-[1fr_32px_1fr_32px_1fr] md:gap-0">
-          <div className={cn("flex min-h-[220px] flex-col gap-4 rounded-2xl border p-4", theme.pink.bg, theme.pink.border)}>
+          <div className={cn("flex min-h-[220px] flex-col gap-4 rounded-2xl border-2 p-4", theme.pink.bg, theme.pink.border)}>
             <div className={cn("flex h-10 items-center justify-center rounded-lg px-2 text-center text-sm font-bold", theme.pink.pill)}>
               {details.pink.heading}
             </div>
@@ -165,7 +166,7 @@ export function TalentFramework() {
 
           <HArrow />
 
-          <div className={cn("flex min-h-[220px] flex-col gap-4 rounded-2xl border p-4", theme.blue.bg, theme.blue.border)}>
+          <div className={cn("flex min-h-[220px] flex-col gap-4 rounded-2xl border-2 p-4", theme.blue.bg, theme.blue.border)}>
             <div className={cn("flex h-10 items-center justify-center rounded-lg px-2 text-center text-sm font-bold", theme.blue.pill)}>
               {details.blue.heading}
             </div>
@@ -181,7 +182,7 @@ export function TalentFramework() {
 
           <HArrow />
 
-          <div className={cn("flex min-h-[220px] flex-col gap-4 rounded-2xl border p-4", theme.mint.bg, theme.mint.border)}>
+          <div className={cn("flex min-h-[220px] flex-col gap-4 rounded-2xl border-2 p-4", theme.mint.bg, theme.mint.border)}>
             <div className={cn("flex h-10 items-center justify-center rounded-lg px-2 text-center text-sm font-bold", theme.mint.pill)}>
               {details.mint.heading}
             </div>
@@ -206,7 +207,7 @@ export function TalentFramework() {
       <div className="my-4" />
       <FrameworkRow label="접근 방법" values={talentFrameworkApproach} colored />
 
-      <p className="mt-9 text-center text-xs font-semibold tracking-[0.2em] text-[#94a3b8] uppercase">
+      <p className="mt-9 text-center text-xs font-semibold tracking-[0.2em] text-[#94a3b8]">
         Research & Education Center for Humane &amp; Society · 인재양성 프레임워크
       </p>
     </div>

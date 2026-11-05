@@ -88,7 +88,7 @@ export function PostDetailDialog({
 
             {post.attachments.length > 0 && (
               <div className="border-t border-border pt-4">
-                <h3 className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-muted-foreground uppercase">
+                <h3 className="font-mono text-[length:var(--cfg-eyebrow-size)] tracking-[0.16em] text-muted-foreground">
                   Attachments
                 </h3>
                 <div className="mt-2 flex flex-wrap gap-2">
