@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { getGalleryPosts } from "@/app/actions/gallery"
 import { getMyProfile } from "@/app/actions/profile"
 import { GalleryView } from "@/components/gallery/gallery-view"
-import { MembershipRequiredNotice } from "@/components/membership-required-notice"
 import { PostsLoadError } from "@/components/board/posts-load-error"
 import { siteConfig } from "@/lib/navigation"
 
@@ -12,18 +11,12 @@ export const metadata: Metadata = {
   description: `${siteConfig.name} 활동 사진과 영상을 모아보는 갤러리입니다.`,
 }
 
+// 갤러리는 전체 공개(비로그인 포함) — gallery_posts RLS도 전체 공개로 되돌렸다
+// (supabase/board_public_gallery_open.sql).
 export default async function GalleryPage() {
   const profile = await getMyProfile()
-
-  if (!profile) {
-    return <MembershipRequiredNotice variant="login" />
-  }
-  if (profile.role === "user") {
-    return <MembershipRequiredNotice variant="upgrade" />
-  }
-
   const posts = await getGalleryPosts()
-  const isAdmin = profile.role === "admin"
+  const isAdmin = profile?.role === "admin"
 
   return (
     <>

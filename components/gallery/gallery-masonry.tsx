@@ -4,6 +4,8 @@ import { ImageIcon } from "lucide-react"
 
 import type { GalleryPost } from "@/lib/gallery-content"
 
+// 더 이상 masonry(컬럼당 세로로 쌓는 방식)가 아니라 일반 행 단위 grid다 —
+// 컴포넌트/파일 이름은 호출부 변경을 줄이기 위해 그대로 두었다.
 export function GalleryMasonry({
   posts,
   onSelect,
@@ -20,7 +22,7 @@ export function GalleryMasonry({
   }
 
   return (
-    <div className="columns-2 gap-4 sm:columns-3 lg:columns-4 [&>*]:mb-4">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
       {posts.map((post) => {
         const cover = post.photos[0]
 
@@ -29,11 +31,11 @@ export function GalleryMasonry({
             key={post.id}
             type="button"
             onClick={() => onSelect(post)}
-            className="block w-full break-inside-avoid overflow-hidden rounded-xl border border-border bg-card text-left transition-colors hover:border-accent/50"
+            className="block w-full overflow-hidden rounded-xl border border-border bg-card text-left transition-colors hover:border-accent/50"
           >
             {cover ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={cover.url} alt="" className="w-full" />
+              <img src={cover.url} alt="" className="aspect-[4/3] w-full object-cover" />
             ) : (
               <div className="flex aspect-[4/3] w-full items-center justify-center bg-muted text-muted-foreground">
                 <ImageIcon className="size-8" strokeWidth={1.5} />

@@ -142,6 +142,7 @@ export async function createPost(input: {
   title: string;
   category: PostCategory;
   content: string;
+  author?: string;
   isPublic: boolean;
   attachments: AttachmentRecord[];
 }): Promise<PostActionResult> {
@@ -177,7 +178,7 @@ export async function createPost(input: {
     .eq("id", user.id)
     .single();
 
-  const authorName = profile?.full_name ?? user.email ?? "익명";
+  const authorName = input.author?.trim() || profile?.full_name || user.email || "익명";
 
   const { data, error } = await supabase
     .from("posts")
@@ -206,15 +207,17 @@ export async function updatePost(input: {
   title: string;
   category: PostCategory;
   content: string;
+  author: string;
   isPublic: boolean;
   attachments: AttachmentRecord[];
 }): Promise<PostActionResult> {
   const title = input.title.trim();
   const content = input.content.trim();
+  const authorName = input.author.trim();
   const attachments = input.attachments ?? [];
 
-  if (!title || !content) {
-    return { error: "제목과 내용을 입력해 주세요." };
+  if (!title || !content || !authorName) {
+    return { error: "제목, 작성자, 내용을 입력해 주세요." };
   }
 
   const sizeError = attachmentsError(attachments);
@@ -234,6 +237,7 @@ export async function updatePost(input: {
       title,
       category: CATEGORY_TO_DB[input.category],
       content,
+      author_name: authorName,
       is_public: input.isPublic,
       attachments,
     })

@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { getPosts } from "@/app/actions/board"
 import { getMyProfile } from "@/app/actions/profile"
 import { BoardView } from "@/components/board/board-view"
-import { MembershipRequiredNotice } from "@/components/membership-required-notice"
 import { PostsLoadError } from "@/components/board/posts-load-error"
 import { siteConfig } from "@/lib/navigation"
 
@@ -12,18 +11,13 @@ export const metadata: Metadata = {
   description: `${siteConfig.name} 공지사항, 보도자료, 소식, 세미나 게시판입니다.`,
 }
 
+// 비회원/일반회원은 공개글만, 정회원은 전체 글을 볼 수 있다 — 이 구분은
+// posts RLS(posts_select_public_or_member, supabase/board_public_gallery_open.sql)가
+// 알아서 걸러주므로, 페이지에서는 더 이상 접근 자체를 막지 않는다.
 export default async function BoardPage() {
   const profile = await getMyProfile()
-
-  if (!profile) {
-    return <MembershipRequiredNotice variant="login" />
-  }
-  if (profile.role === "user") {
-    return <MembershipRequiredNotice variant="upgrade" />
-  }
-
   const posts = await getPosts()
-  const isAdmin = profile.role === "admin"
+  const isAdmin = profile?.role === "admin"
 
   return (
     <>

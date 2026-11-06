@@ -65,6 +65,7 @@ export type PostFormValues = {
   title: string
   category: PostCategory
   content: string
+  author: string
   isPublic: boolean
   attachments: AttachmentRecord[]
 }
@@ -101,6 +102,7 @@ export function PostFormDialog({
     editingPost?.category ?? "notice"
   )
   const [content, setContent] = useState(editingPost?.content ?? "")
+  const [author, setAuthor] = useState(editingPost?.author ?? "")
   const [isPublic, setIsPublic] = useState(editingPost?.isPublic ?? true)
   const [attachments, setAttachments] = useState<AttachmentRecord[]>(() =>
     (editingPost?.attachments ?? []).flatMap((file) => {
@@ -369,6 +371,7 @@ export function PostFormDialog({
       title: title.trim(),
       category,
       content: content.trim(),
+      author: author.trim(),
       isPublic,
       attachments,
     })
@@ -420,6 +423,24 @@ export function PostFormDialog({
                 </Select>
               </Field>
             </div>
+
+            <Field>
+              <FieldLabel htmlFor="post-author">
+                작성자
+                {!editingPost && (
+                  <span className="font-normal text-muted-foreground">
+                    {" "}(비워두면 로그인한 관리자 이름으로 자동 설정됩니다)
+                  </span>
+                )}
+              </FieldLabel>
+              <Input
+                id="post-author"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                placeholder={editingPost ? undefined : "비워두면 자동 설정"}
+                required={!!editingPost}
+              />
+            </Field>
 
             <label className="flex items-center gap-2 text-sm text-foreground">
               <Checkbox
