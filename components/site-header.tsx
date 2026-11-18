@@ -53,7 +53,7 @@ export function SiteHeader({ initialProfile }: { initialProfile: Profile | null 
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
           <UserNav initialProfile={initialProfile} />
-          <MobileNav />
+          <MobileNav initialProfile={initialProfile} />
         </div>
       </div>
     </header>

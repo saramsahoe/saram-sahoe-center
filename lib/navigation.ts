@@ -31,7 +31,7 @@ export function getActiveNavHref(pathname: string, items: NavItem[]): string | n
 }
 
 export const siteConfig = {
-  name: "연구센터 사람과 사회",
+  name: "연구센터사람과사회",
   nameEn: "Research & Education Center for Humane & Society",
   representative: "이화영",
   address: "서울시 강남구 논현로 146길 42",

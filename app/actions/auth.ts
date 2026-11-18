@@ -34,7 +34,7 @@ export async function sendSignupVerificationCode(
 
   const { error: emailError } = await sendEmail({
     to: trimmed,
-    subject: "[연구센터 사람과 사회] 이메일 인증번호",
+    subject: "[연구센터사람과사회] 이메일 인증번호",
     html: `
       <p>회원가입을 위한 인증번호입니다.</p>
       <p style="font-size: 24px; font-weight: bold; letter-spacing: 4px;">${code}</p>
@@ -211,7 +211,7 @@ export async function requestPasswordResetCode(email: string): Promise<AuthResul
     if (!error && code) {
       await sendEmail({
         to: trimmed,
-        subject: "[연구센터 사람과 사회] 비밀번호 재설정 인증번호",
+        subject: "[연구센터사람과사회] 비밀번호 재설정 인증번호",
         html: `
           <p>비밀번호 재설정을 위한 인증번호입니다.</p>
           <p style="font-size: 24px; font-weight: bold; letter-spacing: 4px;">${code}</p>

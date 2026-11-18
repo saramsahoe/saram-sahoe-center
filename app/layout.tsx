@@ -19,7 +19,7 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-const FALLBACK_TITLE = "연구센터 사람과 사회"
+const FALLBACK_TITLE = "연구센터사람과사회"
 const FALLBACK_DESCRIPTION = "인간 중심의 기술과 가치를 연구하는 교육 및 연구공동체입니다."
 const FALLBACK_KEYWORDS = [
   "연구센터",

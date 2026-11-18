@@ -98,7 +98,7 @@ export function LocationMap({
             <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
               <div className="relative mb-2 w-max max-w-[15rem] rounded-lg border border-border bg-card px-3.5 py-2.5 text-center shadow-md transition-transform group-hover:-translate-y-0.5 sm:max-w-xs">
                 <p className="font-heading text-sm font-semibold text-foreground">
-                  연구센터 사람과 사회
+                  연구센터사람과사회
                 </p>
                 <p className="mt-0.5 text-[0.6875rem] leading-snug text-pretty text-muted-foreground">
                   {siteConfig.address}

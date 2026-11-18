@@ -24,7 +24,7 @@ export async function sendEmail(options: {
   replyTo?: string;
 }): Promise<{ error: string | null }> {
   const { error } = await getClient().emails.send({
-    from: `연구센터 사람과 사회 <${DEFAULT_FROM}>`,
+    from: `연구센터사람과사회 <${DEFAULT_FROM}>`,
     to: options.to,
     subject: options.subject,
     html: options.html,

@@ -18,7 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 const tabCopy: Record<AuthTab, { title: string; description: string }> = {
   login: {
     title: "로그인",
-    description: "연구센터 사람과 사회 계정으로 로그인하세요.",
+    description: "연구센터사람과사회 계정으로 로그인하세요.",
   },
   signup: {
     title: "회원가입",

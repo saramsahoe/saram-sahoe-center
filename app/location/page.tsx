@@ -40,7 +40,7 @@ export default async function LocationPage() {
             오시는 길
           </h1>
           <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground">
-            연구센터 사람과 사회를 방문하시는 분들을 위한 위치와 교통 안내입니다.
+            연구센터사람과사회를 방문하시는 분들을 위한 위치와 교통 안내입니다.
           </p>
         </div>
       </section>

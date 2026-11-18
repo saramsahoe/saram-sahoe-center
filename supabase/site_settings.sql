@@ -3,7 +3,7 @@
 -- 수정할 수 있도록 싱글톤(항상 1행) 테이블로 둔다.
 create table if not exists public.site_settings (
   id boolean primary key default true check (id),  -- 싱글톤 패턴: 항상 true 1행만 존재
-  seo_title text not null default '연구센터 사람과 사회',
+  seo_title text not null default '연구센터사람과사회',
   seo_description text not null default '인간 중심의 기술과 가치를 연구하는 교육 및 연구공동체입니다.',
   seo_keywords text not null default '연구센터,사람과 사회,연구센터사람과사회,사회과학 연구,젠더,휴머니즘,여성 역량개발,리더십,여성과 리더십',
   og_image_url text,
