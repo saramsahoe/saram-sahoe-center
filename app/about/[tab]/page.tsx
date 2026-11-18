@@ -65,7 +65,7 @@ export default async function AboutTabPage({
             About Us
           </p>
           <h1 className="mt-4 font-heading text-3xl leading-tight font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
-            연구센터 사람과 사회를 소개합니다
+            연구센터사람과사회를 소개합니다
           </h1>
           <p className="mt-4 max-w-2xl text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground">
             우리가 지금까지 걸어온 길을 한 곳에서 확인하세요.
