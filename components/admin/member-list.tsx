@@ -143,8 +143,8 @@ export function MemberList({
         </Alert>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border">
-        <table className="w-full border-collapse text-sm">
+      <div className="overflow-x-auto rounded-xl border border-border">
+        <table className="w-full min-w-[48rem] border-collapse text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/40 text-left">
               <th className="px-4 py-3 font-mono text-[0.625rem] font-medium tracking-[0.1em] text-muted-foreground">

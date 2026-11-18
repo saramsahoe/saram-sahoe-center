@@ -62,6 +62,7 @@ export function LocationMap({
     }
     setCurrentUrl(draftUrl.trim())
     setEditOpen(false)
+    if (result.warning) window.alert(result.warning)
   }
 
   return (
@@ -131,8 +132,9 @@ export function LocationMap({
           <DialogHeader>
             <DialogTitle>지도 위치 수정</DialogTitle>
             <DialogDescription>
-              네이버 지도에서 공유 &gt; 링크 복사한 URL을 붙여넣어 주세요. 동적 지도의
-              위도/경도, Client ID는 관리자 &gt; 사이트 설정에서 바꿀 수 있습니다.
+              네이버 지도에서 공유 &gt; 링크 복사한 URL을 붙여넣어 주세요. 위도/경도는
+              이 URL에서 자동으로 계산됩니다. 동적 지도 Client ID는 관리자 &gt; 사이트
+              설정에서 바꿀 수 있습니다.
             </DialogDescription>
           </DialogHeader>
 

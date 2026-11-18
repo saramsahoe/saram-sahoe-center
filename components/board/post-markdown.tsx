@@ -39,6 +39,8 @@ export function PostMarkdown({
       className={cn(
         "text-[0.9375rem] leading-relaxed text-pretty text-foreground",
         "[&_p]:mb-3 [&_p:last-child]:mb-0",
+        "[&_h2]:mt-7 [&_h2]:mb-2 [&_h2]:font-heading [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:first:mt-0",
+        "[&_h3]:mt-5 [&_h3]:mb-2 [&_h3]:font-heading [&_h3]:text-base [&_h3]:font-semibold",
         "[&_strong]:font-semibold [&_em]:italic",
         "[&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4",
         "[&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-5",

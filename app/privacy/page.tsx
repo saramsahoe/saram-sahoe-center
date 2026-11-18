@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 
+import { getSiteSettings } from "@/app/actions/site-settings"
+import { PostMarkdown } from "@/components/board/post-markdown"
 import { Separator } from "@/components/ui/separator"
 import { privacySections } from "@/lib/legal-content"
 import { siteConfig } from "@/lib/navigation"
@@ -9,7 +11,18 @@ export const metadata: Metadata = {
   description: `${siteConfig.name} 개인정보처리방침입니다.`,
 }
 
-export default function PrivacyPage() {
+// 관리자 > 사이트 설정에서 수정한 내용(마크다운)을 보여준다. 조회 실패 시에는
+// lib/legal-content.ts의 기존 내용으로 대체한다.
+const FALLBACK_CONTENT = privacySections
+  .map(
+    (section) =>
+      `## ${section.heading}\n\n${section.body.map((line) => `- ${line}`).join("\n")}`
+  )
+  .join("\n\n")
+
+export default async function PrivacyPage() {
+  const settings = await getSiteSettings()
+
   return (
     <>
       <section className="border-b border-border">
@@ -30,24 +43,7 @@ export default function PrivacyPage() {
 
       <section className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="flex flex-col gap-10">
-          {privacySections.map((section) => (
-            <div key={section.heading}>
-              <h2 className="font-heading text-lg font-semibold text-foreground">
-                {section.heading}
-              </h2>
-              <Separator className="mt-3 mb-4" />
-              <ul className="flex flex-col gap-2">
-                {section.body.map((paragraph, index) => (
-                  <li
-                    key={index}
-                    className="text-[0.9375rem] leading-relaxed text-pretty text-muted-foreground"
-                  >
-                    {paragraph}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <PostMarkdown content={settings?.privacyContent || FALLBACK_CONTENT} />
 
           <div>
             <h2 className="font-heading text-lg font-semibold text-foreground">

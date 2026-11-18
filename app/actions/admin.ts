@@ -152,6 +152,19 @@ export async function updateMemberEmail(input: {
     };
   }
 
+  // 다른 회원이 이미 쓰고 있는 이메일이면 미리 막는다 — Supabase가 돌려주는
+  // 원문 에러 대신 명확한 안내를 보여주기 위함.
+  const { data: existing } = await adminClient
+    .from("profiles")
+    .select("id")
+    .eq("email", email)
+    .neq("id", input.userId)
+    .maybeSingle();
+
+  if (existing) {
+    return { error: "이미 사용 중인 이메일입니다." };
+  }
+
   const { error: authError } = await adminClient.auth.admin.updateUserById(
     input.userId,
     { email, email_confirm: true }
