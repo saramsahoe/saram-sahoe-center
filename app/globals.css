@@ -169,6 +169,11 @@
     @apply font-sans;
     /* lib/theme-config.ts의 typography.baseSize — 사이트 전체 rem 글자 크기의 기준값 */
     font-size: var(--cfg-base-font-size);
+    /* 한글은 띄어쓰기(단어) 단위로만 줄바꿈하고, 공백 없는 긴 URL 등은 필요할 때만
+       강제로 줄바꿈한다 — 모바일에서 "사/회"처럼 글자 중간이 잘리는 걸 막는다.
+       이 두 속성은 상속되므로 사이트 전체에 한 번에 적용된다. */
+    word-break: keep-all;
+    overflow-wrap: break-word;
     }
   input, textarea, [contenteditable="true"] {
     -webkit-user-select: text;
